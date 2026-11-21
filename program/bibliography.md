@@ -1,0 +1,617 @@
+# Annotated bibliography
+
+*Generated from `data/bibliography.json` by `tools/render.py`. Edit the JSON, not this file.*
+
+Status: **checked** (verified 2026-11-21) · **checked-repo** (verified in an earlier session) · *from-memory* (verify before quoting) · *unverified* (from an author draft).
+
+## L0. Mathematical primitives
+
+- `turing1936` Turing, A. M. (1936). On Computable Numbers. *Proc. London Math. Soc. 42*. [*from-memory*]  
+  Universal interpreter; undecidability underwrites inexhaustibility.  
+  _supports GM-T7._
+- `shannon1948` Shannon, C. E. (1948). A Mathematical Theory of Communication. *Bell System Technical Journal 27*. [*from-memory*]  
+  Channels and entropy: every arrow of the spine.
+
+## L1. Information-theoretic and computational laws
+
+- `hume1748` Hume, D. (1748). An Enquiry Concerning Human Understanding. **. [*from-memory*]  
+  No knowledge of matters of fact without experience; reductionism about testimony.  
+  _supports K10._
+- `quine1951` Quine, W. V. O. (1951). Two Dogmas of Empiricism. *Philosophical Review 60*. [*from-memory*]  
+  Blurs analytic/synthetic; reappears as the difficulty of bounding the reasoning gap.  
+  _supports K11._
+- `eigen1971` Eigen, M. (1971). Selforganization of Matter and the Evolution of Biological Macromolecules. *Naturwissenschaften 58*. [*from-memory*]  
+  Error threshold: fidelity must exceed a length-dependent bound or information melts. Underwrites conservation pedagogy.  
+  _supports GM-T6, K42._
+- `bennett1988` Bennett, C. H. (1988). Logical Depth and Physical Complexity. *The Universal Turing Machine: A Half-Century Survey*. [*from-memory*]  
+  Depth: computation needed to unfold structure; the analytic residue.  
+  _supports K13._
+- `gellmann1996` Gell-Mann, M.; Lloyd, S. (1996). Information Measures, Effective Complexity, and Total Information. *Complexity 2*. [*from-memory*]  
+  Effective complexity: length of the description of regularities.  
+  _supports GM-C18._
+- `covertomas2006` Cover, T. M.; Thomas, J. A. (2006). Elements of Information Theory, 2nd ed.. *Wiley*. [*from-memory*]  
+  Reference for DPI, rate-distortion, Fano.  
+  _supports K10._
+- `schmidhuber2009` Schmidhuber, J. (2009). Driven by Compression Progress. *Anticipatory Behavior in Adaptive Learning Systems (LNCS 5499)*. [*from-memory*]  
+  Interestingness as first derivative of compressibility; formal basis for literature vs pulp.  
+  _supports K45._
+- `lintegmark2017` Lin, H. W.; Tegmark, M. (2017). [Critical Behavior in Physics and Probabilistic Formal Languages](https://arxiv.org/abs/1606.06737v1). *Entropy; arXiv:1606.06737*. [**checked-repo**]  
+  Power-law mutual information decay in natural text; basis for GM C19 (literature has heavier MI tails).  
+  _supports GM-C19._
+- `shai2024` Shai, A. S.; Marzen, S. E.; Teixeira, L.; Oldenziel, A. G.; Riechers, P. M. (2024). Transformers Represent Belief State Geometry in their Residual Stream. *NeurIPS*. [*from-memory*]  
+  Transformers trained on HMM outputs linearly represent the mixed-state belief simplex. Strongest support for the sufficiency lemma behind K1.  
+  _supports K1._
+
+## L2. Reading, misprision, selection
+
+- `campbell1960` Campbell, D. T. (1960). Blind Variation and Selective Retention in Creative Thought. *Psychological Review 67*. [*from-memory*]  
+  Creativity as variation plus selection: genius and madness share variation, differ in selection.  
+  _supports GM-T3, K50._
+- `sperber1986` Sperber, D.; Wilson, D. (1986). Relevance: Communication and Cognition. *Blackwell*. [*from-memory*]  
+  Inferential pragmatics; readings depend on context.  
+  _supports GM-T1._
+- `coady1992` Coady, C. A. J. (1992). Testimony: A Philosophical Study. *Oxford UP*. [*from-memory*]  
+  Anti-reductionist epistemology of testimony; LLM as pure testimony reasoner (D7).  
+  _supports K10._
+- `lackey2008` Lackey, J. (2008). Learning from Words. *Oxford UP*. [*from-memory*]  
+  Testimony can generate knowledge the speaker lacks: a challenge to strict transmission views, relevant to aggregation and transcendence (debate D7).  
+  _supports K10._
+- `silver2018` Silver, D. et al. (2018). A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play. *Science 362*. [*from-memory*]  
+  Unbounded self-improvement where the rules are a perfect simulator - a free channel to a formal Omega.  
+  _supports K10._
+- `feng2024` Feng, Y. et al. (2024). [Beyond Model Collapse: Scaling Up with Synthesized Data Requires Verification](https://arxiv.org/abs/2406.07515). *arXiv:2406.07515*. [*unverified*]  
+  Verification as the condition for synthetic data to help. Cited via One Selection Law; title wording from memory.  
+  _supports GM-T3, K10._
+- `huang2024selfcorrect` Huang, J. et al. (2024). Large Language Models Cannot Self-Correct Reasoning Yet. *ICLR*. [*from-memory*]  
+  Intrinsic self-correction without external feedback does not reliably help.  
+  _supports K10._
+- `zhang2024transcendence` Zhang, E. et al. (2024). Transcendence: Generative Models Can Outperform The Experts That Train Them. *NeurIPS*. [*from-memory*]  
+  Low-temperature sampling denoises across experts; requires delta>0 (independent errors).  
+  _supports K10._
+- `deepseek2025` DeepSeek-AI (2025). [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948). *arXiv:2501.12948*. [*from-memory*]  
+  RL with verifiable rewards; verifiers as channels within math and code.  
+  _supports K10._
+- `huang2025sharpening` Huang, A.; Block, A.; Foster, D. J.; Rohatgi, D.; Zhang, C.; Simchowitz, M.; Ash, J. T.; Krishnamurthy, A. (2025). [Self-Improvement in Language Models: The Sharpening Mechanism](https://arxiv.org/abs/2412.01951). *ICLR (oral); arXiv:2412.01951*. [**checked**]  
+  Self-improvement as sharpening probability onto self-verified outputs. Redistributes existing mass, adds no G; formally a mode-ward drift (pulp mechanism).  
+  _supports K11, K48._
+- `song2025mindgap` Song, Y.; Zhang, H.; Eisenach, C.; Kakade, S.; Foster, D.; Ghai, U. (2025). [Mind the Gap: Examining the Self-Improvement Capabilities of Large Language Models](https://arxiv.org/abs/2412.02674). *ICLR; arXiv:2412.02674*. [**checked**]  
+  Self-improvement governed by the generation-verification gap; gap scales with pretraining compute; generation diversity degrades during iteration. The reasoning gap made operational.  
+  _supports K11, K30._
+- `yue2025` Yue, Y. et al. (2025). [Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model?](https://arxiv.org/abs/2504.13837). *NeurIPS (oral); arXiv:2504.13837*. [**checked**]  
+  RLVR wins at pass@1 but base models win at large k; RL narrows the reasoning boundary; distillation adds knowledge. Near-direct test of closed-loop C2.  
+  _supports K12, K39, K10._
+
+## L3. Language and geometry
+
+- `peirce1878` Peirce, C. S. (1878). How to Make Our Ideas Clear. *Popular Science Monthly 12*. [*from-memory*]  
+  Truth as the end of inquiry: convergence on Omega, contrasted with collapse onto each other.  
+  _supports K4, K36._
+- `saussure1916` Saussure, F. de (1916). Cours de linguistique generale. *Payot*. [*from-memory*]  
+  Meaning as a system of differences. Embedding geometry is structuralism quantified (D2).  
+  _supports K1._
+- `wittgenstein1953` Wittgenstein, L. (1953). Philosophical Investigations. *Blackwell*. [*from-memory*]  
+  Meaning as use; LLMs as use-machines (D6).  
+  _supports K1._
+- `harris1954` Harris, Z. S. (1954). Distributional Structure. *Word 10(2-3)*. [*from-memory*]  
+  Original statement that linguistic meaning is reflected in distribution. The conjecture the spine treats as retrospectively verified (D1).  
+  _supports K5._
+- `firth1957` Firth, J. R. (1957). A Synopsis of Linguistic Theory 1930-1955. *Studies in Linguistic Analysis*. [*from-memory*]  
+  'You shall know a word by the company it keeps.' Paradigm case of retrospective verification and of a sleeping beauty woken by a late hub (word2vec).  
+  _supports K5._
+- `quine1960` Quine, W. V. O. (1960). Word and Object. *MIT Press*. [*from-memory*]  
+  Indeterminacy of translation; formalized by identifiability classes.  
+  _supports K3._
+- `putnam1975` Putnam, H. (1975). The Meaning of 'Meaning'. *Minnesota Studies in the Philosophy of Science 7*. [*from-memory*]  
+  Externalism; division of linguistic labor (elm/beech). Individuals are repeaters; reference is social.  
+  _supports K33._
+- `kripke1980` Kripke, S. (1980). Naming and Necessity. *Harvard UP*. [*from-memory*]  
+  Causal chains of reference; the corpus as reference-transmission chain whose decay is collapse.  
+  _supports K2._
+- `millikan1984` Millikan, R. G. (1984). Language, Thought, and Other Biological Categories. *MIT Press*. [*from-memory*]  
+  Content depends on selection history: semantics is itself stateful.  
+  _supports K2, K40._
+- `davidson1987` Davidson, D. (1987). Knowing One's Own Mind (Swampman). *Proc. APA 60*. [*from-memory*]  
+  A historyless duplicate has no meaning. Mandelkern & Linzen argue LMs are not swampmen.  
+  _challenges K1._
+- `harnad1990` Harnad, S. (1990). The Symbol Grounding Problem. *Physica D 42*. [*from-memory*]  
+  How can symbols mean without grounding? Spine reframes as state (possible) vs process (impossible) - GM T8+T2.  
+  _challenges K1._
+- `levy2014` Levy, O.; Goldberg, Y. (2014). Neural Word Embedding as Implicit Matrix Factorization. *NeurIPS*. [*from-memory*]  
+  Skip-gram with negative sampling factorizes a shifted PMI matrix. First rigorous geometry-from-co-occurrence theorem; the formal verification of Firth.  
+  _supports K1, K5._
+- `arora2016` Arora, S.; Li, Y.; Liang, Y.; Ma, T.; Risteski, A. (2016). A Latent Variable Model Approach to PMI-based Word Embeddings. *TACL*. [*from-memory*]  
+  Text generated by a slow random walk of a latent discourse vector; PMI geometry follows. Closest existing template for K1's latent-world-state model.  
+  _supports K1._
+- `bender2020` Bender, E. M.; Koller, A. (2020). Climbing towards NLU: On Meaning, Form, and Understanding in the Age of Data. *ACL*. [*from-memory*]  
+  Octopus argument: meaning requires communicative intent. Bounds K1 to world models, not meaning.  
+  _challenges K1._
+- `abdou2021` Abdou, M. et al. (2021). Can Language Models Encode Perceptual Structure Without Grounding? A Case Study in Color. *CoNLL*. [*from-memory*]  
+  Text-only color representations are roughly isomorphic to perceptual color space.  
+  _supports K1._
+- `lazaridou2021` Lazaridou, A. et al. (2021). Mind the Gap: Assessing Temporal Generalization in Neural Language Models. *NeurIPS*. [*from-memory*]  
+  Models degrade on post-cutoff text. Direct evidence of snapshot decay.  
+  _supports K2._
+- `roeder2021` Roeder, G.; Metz, L.; Kingma, D. P. (2021). On Linear Identifiability of Learned Representations. *ICML*. [*from-memory*]  
+  Discriminative models including next-token predictors are identifiable up to linear transformation.  
+  _supports K1, K3._
+- `patel2022` Patel, R.; Pavlick, E. (2022). Mapping Language Models to Grounded Conceptual Spaces. *ICLR*. [*from-memory*]  
+  Few-shot mapping of LM spaces onto grounded spatial and color domains.  
+  _supports K1._
+- `piantadosi2022` Piantadosi, S. T.; Hill, F. (2022). Meaning without Reference in Large Language Models. *NeurIPS workshop / arXiv*. [*from-memory*]  
+  Conceptual role can carry meaning without reference.  
+  _supports K1._
+- `xie2022` Xie, S. M.; Raghunathan, A.; Liang, P.; Ma, T. (2022). An Explanation of In-context Learning as Implicit Bayesian Inference. *ICLR*. [*from-memory*]  
+  In-context learning as posterior inference over latent concepts.  
+  _supports K1._
+- `chiang2023` Chiang, T. (2023). ChatGPT Is a Blurry JPEG of the Web. *The New Yorker*. [*from-memory*]  
+  Snapshot-as-lossy-compression intuition in public discourse.  
+  _supports K1._
+- `li2023othello` Li, K.; Hopkins, A. K.; Bau, D.; Viegas, F.; Pfister, H.; Wattenberg, M. (2023). Emergent World Representations: Exploring a Sequence Model Trained on a Synthetic Task. *ICLR*. [*from-memory*]  
+  Othello-GPT: board state recoverable and causally manipulable from move sequences alone. Synthetic world with known Omega.  
+  _supports K1._
+- `mollo2023` Mollo, D. C.; Milliere, R. (2023). The Vector Grounding Problem. *arXiv*. [*from-memory*]  
+  Distinguishes kinds of grounding; argues referential grounding can be causal-historical.  
+  _supports K1._
+- `nanda2023` Nanda, N.; Lee, A.; Wattenberg, M. (2023). Emergent Linear Representations in World Models of Self-Supervised Sequence Models. *BlackboxNLP*. [*from-memory*]  
+  Othello board state is linear when encoded relative to the current player.  
+  _supports K1._
+- `cheng2024dated` Cheng, J. et al. (2024). Dated Data: Tracing Knowledge Cutoffs in Large Language Models. *COLM*. [*from-memory*]  
+  Effective cutoffs differ from nominal ones and vary by resource. Supports the time-integrated composite.  
+  _supports K2._
+- `gurnee2024` Gurnee, W.; Tegmark, M. (2024). Language Models Represent Space and Time. *ICLR*. [*from-memory*]  
+  Linear probes recover geography and historical dates.  
+  _supports K1, K2._
+- `huh2024` Huh, M.; Cheung, B.; Wang, T.; Isola, P. (2024). [The Platonic Representation Hypothesis](https://arxiv.org/abs/2405.07987). *ICML; arXiv:2405.07987*. [**checked-repo**]  
+  Representations converge across models and modalities. The spine reads this as delta->0 and asks whether G rises (convergence) or falls (collapse).  
+  _supports K4._
+- `mandelkern2024` Mandelkern, M.; Linzen, T. (2024). [Do Language Models' Words Refer?](https://aclanthology.org/2024.cl-3.12). *Computational Linguistics 50(3):1191-1200*. [**checked**]  
+  Externalist argument: LM inputs have natural histories that can link words to the world. Answers Swampman; the snapshot is that natural history frozen.  
+  _supports K1, K2._
+- `park2024lrh` Park, K.; Choe, Y. J.; Veitch, V. (2024). The Linear Representation Hypothesis and the Geometry of Large Language Models. *ICML*. [*from-memory*]  
+  Formalizes concepts as directions. Complements identifiability results.  
+  _supports K1._
+- `jha2025vec2vec` Jha, R. et al. (2025). Harnessing the Universal Geometry of Embeddings. *arXiv*. [*from-memory*]  
+  Unsupervised translation between embedding spaces, suggesting shared geometry. Details not re-checked.  
+  _supports K4._
+- `marconato2025` Marconato, E.; Lachapelle, S.; Weichwald, S.; Gresele, L. (2025). [All or None: Identifiable Linear Properties of Next-token Predictors in Language Modeling](https://proceedings.mlr.press/v258/marconato25a.html). *AISTATS (PMLR 258); arXiv:2410.23501*. [**checked**]  
+  Linear properties hold in all or none of distribution-equivalent predictors. Formal partition of Quinean indeterminacy into determinate and indeterminate parts.  
+  _supports K3._
+- `karkada2026` Karkada, D.; Korchinski, D.; Nava, A.; Wyart, M.; Bahri, Y. (2026). [Symmetry in language statistics shapes the geometry of model representations](https://arxiv.org/abs/2602.15029). *ICML 2026; arXiv:2602.15029*. [**checked-repo**]  
+  Translation symmetry in co-occurrence forces Fourier geometry (circles for months, etc.). Anchor of the symmetric sector.  
+  _supports K1, K5, OUT-S5._
+- `storan2026` Storan; Tolias; Miolane (2026). [Group-Invariant Statistics Determine Embedding Geometry](https://arxiv.org/pdf/2610.00647). *arXiv:2610.00647*. [**checked-repo**]  
+  Extends Karkada to finite and compact groups via harmonic analysis.  
+  _supports OUT-S6._
+
+## L4. Media, archives, canon network
+
+- `hopkins1918` Hopkins, G. M. (ed. R. Bridges) (1918). Poems of Gerard Manley Hopkins. *Humphrey Milford*. [*from-memory*]  
+  Posthumous publication (poet d. 1889) via a friend who held the manuscripts: an archive of one.  
+  _supports K25._
+- `eliot1919` Eliot, T. S. (1919). Tradition and the Individual Talent. *The Egoist*. [*from-memory*]  
+  Existing monuments form an ideal order modified by the new: retroactive canon.  
+  _supports K24._
+- `eliot1921` Eliot, T. S. (1921). The Metaphysical Poets. *TLS*. [*from-memory*]  
+  A hub redirects attention to Donne: revival by attachment.  
+  _supports K25._
+- `leavis1932` Leavis, F. R. (1932). New Bearings in English Poetry. *Chatto & Windus*. [*from-memory*]  
+  Champions Hopkins: the hub that woke the sleeping beauty.  
+  _supports K25._
+- `eliot1934` Eliot, T. S. (1934). [After Strange Gods: A Primer of Modern Heresy](https://ia904506.us.archive.org/12/items/afterstrangegods00eliouoft/afterstrangegods00eliouoft_bw.pdf). *Faber (Page-Barbour Lectures, 1933)*. [**checked**]  
+  Includes Eliot's reserved assessment of Hopkins (tradition, range). Exact wording should be quoted from the scan.  
+  _supports K25._
+- `benjamin1935` Benjamin, W. (1935). The Work of Art in the Age of Mechanical Reproduction. **. [*from-memory*]  
+  Reproduction and loss of aura; tail loss as loss of the particular.  
+  _supports K21._
+- `tolkien1936` Tolkien, J. R. R. (1936). Beowulf: The Monsters and the Critics. *Proceedings of the British Academy 22*. [*from-memory*]  
+  Reframed Beowulf from historical quarry to poem; Tolkien's fiction then amplified it. Single surviving manuscript (Cotton Vitellius A.xv), damaged in the 1731 fire.  
+  _supports K28, K25._
+- `borges1951` Borges, J. L. (1951). Kafka and His Precursors. **. [*from-memory*]  
+  Each writer creates his precursors: backward edges in the canon graph.  
+  _supports K24._
+- `lord1960` Lord, A. B. (1960). The Singer of Tales. *Harvard UP*. [*from-memory*]  
+  Oral-formulaic composition: the oral filter selects memorability.  
+  _supports K21._
+- `merton1968` Merton, R. K. (1968). The Matthew Effect in Science. *Science 159*. [*from-memory*]  
+  Credit accrues to the already credited.  
+  _supports K24._
+- `foucault1969` Foucault, M. (1969). L'archeologie du savoir. *Gallimard*. [*from-memory*]  
+  The archive as the law of what can be said; corpus as episteme.  
+  _supports K2._
+- `simon1971` Simon, H. A. (1971). Designing Organizations for an Information-Rich World. *Computers, Communications, and the Public Interest*. [*from-memory*]  
+  A wealth of information creates a poverty of attention: the filter moves to consumption.  
+  _supports K22._
+- `price1976` Price, D. de S. (1976). A General Theory of Bibliometric and Other Cumulative Advantage Processes. *JASIS 27*. [*from-memory*]  
+  Cumulative advantage in citation.  
+  _supports K24._
+- `eisenstein1979` Eisenstein, E. L. (1979). The Printing Press as an Agent of Change. *Cambridge UP*. [*from-memory*]  
+  Print as a change in the conditions of replication and fixity.  
+  _supports K21._
+- `darnton1982` Darnton, R. (1982). What Is the History of Books?. *Daedalus 111*. [*from-memory*]  
+  The communications circuit: authors, printers, sellers, readers as a transmission network.  
+  _supports K21._
+- `ong1982` Ong, W. J. (1982). Orality and Literacy. *Methuen*. [*from-memory*]  
+  Oral vs literate cognition and transmission.  
+  _supports K21, GM-C26._
+- `guillory1993` Guillory, J. (1993). Cultural Capital: The Problem of Literary Canon Formation. *U Chicago Press*. [*from-memory*]  
+  Canon formation as institutional (schooling) process.  
+  _supports K20._
+- `barabasi1999` Barabasi, A.-L.; Albert, R. (1999). Emergence of Scaling in Random Networks. *Science 286*. [*from-memory*]  
+  Preferential attachment yields scale-free networks.  
+  _supports K24._
+- `tomasello1999` Tomasello, M. (1999). The Cultural Origins of Human Cognition. *Harvard UP*. [*from-memory*]  
+  Cultural ratchet requires high-fidelity transmission.  
+  _supports GM-T6._
+- `moretti2000` Moretti, F. (2000). The Slaughterhouse of Literature. *Modern Language Quarterly 61*. [*from-memory*]  
+  Most published novels are forgotten; canon as selection.  
+  _supports K20._
+- `bianconi2001` Bianconi, G.; Barabasi, A.-L. (2001). Competition and Multiscaling in Evolving Networks. *Europhysics Letters 54*. [*from-memory*]  
+  Fitness x degree attachment: fit latecomers can overtake hubs.  
+  _supports K24, K25._
+- `salganik2006` Salganik, M. J.; Dodds, P. S.; Watts, D. J. (2006). Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market. *Science 311*. [*from-memory*]  
+  MusicLab: social influence raises inequality and unpredictability; quality bounds but does not determine success.  
+  _supports K24, K26._
+- `golub2010` Golub, B.; Jackson, M. O. (2010). Naive Learning in Social Networks and the Wisdom of Crowds. *AEJ: Microeconomics 2*. [*from-memory*]  
+  DeGroot learning converges to truth only if no agent has outsized influence. Hubs break the wisdom of crowds.  
+  _supports K27._
+- `moretti2013` Moretti, F. (2013). Distant Reading. *Verso*. [*from-memory*]  
+  Quantitative literary history methods.
+- `wang2013` Wang, D.; Song, C.; Barabasi, A.-L. (2013). Quantifying Long-Term Scientific Impact. *Science 342*. [*from-memory*]  
+  Citation dynamics via fitness, immediacy, aging.  
+  _supports K24._
+- `ke2015` Ke, Q.; Ferrara, E.; Radicchi, F.; Flammini, A. (2015). Defining and Identifying Sleeping Beauties in Science. *PNAS 112*. [*from-memory*]  
+  Beauty coefficient; sleeping beauties are not rare outliers.  
+  _supports K25._
+- `underwood2019` Underwood, T. (2019). Distant Horizons. *U Chicago Press*. [*from-memory*]  
+  Predictive models of literary prestige; the empirical route to K45/K46.  
+  _supports K45._
+- `chu2021` Chu, J. S. G.; Evans, J. A. (2021). Slowed Canonical Progress in Large Fields of Science. *PNAS 118*. [*from-memory*]  
+  Larger fields concentrate citations on canon; new ideas cannot rise. Abundance entrenches the canon.  
+  _supports K22._
+- `kestemont2022` Kestemont, M.; Karsdorp, F.; de Bruijn, E.; Driscoll, M. et al. (2022). [Forgotten Books: The Application of Unseen Species Models to the Survival of Culture](https://ora.ox.ac.uk/objects/uuid:3a462be7-d808-4267-a554-4ba199ddde72). *Science 375:765-769*. [**checked**]  
+  Chao1 on medieval chivalric/heroic fiction: survival varies by tradition (English ~7% of manuscripts, Irish ~19%); low evenness (French) loses works. Archival tail loss.  
+  _supports K23, K20._
+
+## L5. Population ecology of knowledge
+
+- `platoRepublic` Plato (375 BCE). Republic, Book X. **. [*from-memory*]  
+  Imitation thrice removed from truth: copies of copies (D10).  
+  _supports K32._
+- `condorcet1785` Condorcet, Marquis de (1785). Essai sur l'application de l'analyse a la probabilite des decisions. **. [*from-memory*]  
+  Jury theorem: independent voters aggregate; correlation breaks it.  
+  _supports K31._
+- `mill1859` Mill, J. S. (1859). On Liberty. **. [*from-memory*]  
+  Collision of opinions needed for truth; the spine's migration term as Mill's argument with an equation (D11).  
+  _supports K31._
+- `heidegger1927` Heidegger, M. (1927). Sein und Zeit, sec. 35 (Gerede). *Niemeyer*. [*from-memory*]  
+  Idle talk: discourse passed along that has lost its referent. Operationalized as fluency stable while I(Omega;D) falls.  
+  _supports K32._
+- `propp1928` Propp, V. (1928). Morphology of the Folktale. **. [*from-memory*]  
+  31 functions under surface variety: clowns in different makeup.  
+  _supports K35, K36._
+- `wright1931` Wright, S. (1931). Evolution in Mendelian Populations. *Genetics 16*. [*from-memory*]  
+  Drift, effective population size, island model (F_ST ~ 1/(1+4Nm)).  
+  _supports K26, K31._
+- `kimura1964` Kimura, M.; Crow, J. F. (1964). The Number of Alleles that Can Be Maintained in a Finite Population. *Genetics 49*. [*from-memory*]  
+  Infinite-alleles equilibrium heterozygosity 4N mu/(1+4N mu).  
+  _supports K31._
+- `baudrillard1981` Baudrillard, J. (1981). Simulacres et simulation. *Galilee*. [*from-memory*]  
+  Precession of simulacra; fixed point of a self-consuming chain.  
+  _supports K32._
+- `cavallisforza1981` Cavalli-Sforza, L. L.; Feldman, M. W. (1981). Cultural Transmission and Evolution. *Princeton UP*. [*from-memory*]  
+  Foundational quantitative theory of cultural transmission.  
+  _supports K31._
+- `boyd1985` Boyd, R.; Richerson, P. J. (1985). Culture and the Evolutionary Process. *U Chicago Press*. [*from-memory*]  
+  Dual inheritance; conformist and prestige biases.  
+  _supports K31._
+- `rogers1988` Rogers, A. R. (1988). Does Biology Constrain Culture?. *American Anthropologist 90*. [*from-memory*]  
+  Social learning does not raise mean fitness at equilibrium in a changing environment. C2/C3 in evolutionary anthropology.  
+  _supports K33._
+- `davidson1991` Davidson, D. (1991). Three Varieties of Knowledge. *Royal Institute of Philosophy Supplement 30*. [*from-memory*]  
+  Triangulation: objectivity needs two interpreters and a shared world. delta->0 collapses the triangle.  
+  _supports K31._
+- `bikhchandani1992` Bikhchandani, S.; Hirshleifer, D.; Welch, I. (1992). A Theory of Fads, Fashion, Custom, and Cultural Change as Informational Cascades. *Journal of Political Economy 100*. [*from-memory*]  
+  Rational agents ignore private signals and cascade; fragile and possibly wrong.  
+  _supports K37, GM-C13._
+- `ladha1992` Ladha, K. K. (1992). The Condorcet Jury Theorem, Free Speech, and Correlated Votes. *American Journal of Political Science 36*. [*from-memory*]  
+  Correlated votes degrade aggregation.  
+  _supports K31._
+- `rozenblit2002` Rozenblit, L.; Keil, F. (2002). The Misunderstood Limits of Folk Science: An Illusion of Explanatory Depth. *Cognitive Science 26*. [*from-memory*]  
+  People overestimate their understanding; knowledge is held communally.  
+  _supports K33._
+- `henrich2004` Henrich, J. (2004). [Demography and Cultural Evolution: The Tasmanian Case](https://cambridge.org/core/journals/american-antiquity/article/abs/demography-and-cultural-evolution-how-adaptive-cultural-processes-can-produce-maladaptive-lossesthe-tasmanian-case/8CD08CC61E6FACF59EC02659B2BDA43C). *American Antiquity 69*. [**checked-repo**]  
+  Small isolated populations lose cultural complexity. Human analogue of collapse; contested (Vaesen 2016).  
+  _supports K26, GM-T6._
+- `hong2004` Hong, L.; Page, S. E. (2004). Groups of Diverse Problem Solvers Can Outperform Groups of High-Ability Problem Solvers. *PNAS 101*. [*from-memory*]  
+  Diversity trumps ability (contested by Thompson 2014).  
+  _supports K31._
+- `enquist2007` Enquist, M.; Eriksson, K.; Ghirlanda, S. (2007). Critical Social Learning: A Solution to Rogers's Paradox. *American Anthropologist 109*. [*from-memory*]  
+  Copy, then check individually when copying fails: raises the verification threshold v*.  
+  _supports K33._
+- `fricker2007` Fricker, M. (2007). Epistemic Injustice. *Oxford UP*. [*from-memory*]  
+  Testimonial and hermeneutical injustice: unequal channel weights O_h.  
+  _supports K54._
+- `griffiths2007` Griffiths, T. L.; Kalish, M. L. (2007). [Language Evolution by Iterated Learning With Bayesian Agents](https://cogsci.syr.edu/wp-content/uploads/2021/03/GriffithsK2007.pdf). *Cognitive Science 31*. [**checked-repo**]  
+  Chains of sampling Bayesian learners converge to the prior: collapse as the prior replacing evidence; genre formula as fixed point.  
+  _supports K32, K48._
+- `kalish2007` Kalish, M. L.; Griffiths, T. L.; Lewandowsky, S. (2007). Iterated Learning: Intergenerational Knowledge Transmission Reveals Inductive Biases. *Psychonomic Bulletin & Review 14*. [*from-memory*]  
+  Human function-learning chains converge to the inductive bias.  
+  _supports K32._
+- `kirby2008` Kirby, S.; Cornish, H.; Smith, K. (2008). Cumulative Cultural Evolution in the Laboratory. *PNAS 105*. [*from-memory*]  
+  Iterated transmission makes languages more learnable and compressible.  
+  _supports K32._
+- `sperber2010` Sperber, D. et al. (2010). Epistemic Vigilance. *Mind & Language 25*. [*from-memory*]  
+  Humans filter testimony cheaply. Spine: vigilance checks against prior, not Omega.  
+  _supports K34; challenges K33._
+- `reagan2016` Reagan, A. J.; Mitchell, L.; Kiley, D.; Danforth, C. M.; Dodds, P. S. (2016). The Emotional Arcs of Stories Are Dominated by Six Basic Shapes. *EPJ Data Science 5*. [*from-memory*]  
+  Low-dimensional latent structure of narrative.  
+  _supports K35, K36._
+- `vaesen2016` Vaesen, K. et al. (2016). [Population size does not explain past changes in cultural complexity](https://www.pubmed.gov/27044082/). *PNAS 113*. [**checked-repo**]  
+  Challenges Henrich-type demographic models; the spine's Ne-vs-census distinction may reconcile.  
+  _challenges K26._
+- `sloman2017` Sloman, S.; Fernbach, P. (2017). The Knowledge Illusion. *Riverhead*. [*from-memory*]  
+  Community of knowledge; individuals as low-verification repeaters.  
+  _supports K33._
+- `mercier2020` Mercier, H. (2020). Not Born Yesterday. *Princeton UP*. [*from-memory*]  
+  Humans are not gullible. Counterweight to 'stochastic repeaters'.  
+  _supports K34; challenges K33._
+- `bender2021` Bender, E. M.; Gebru, T.; McMillan-Major, A.; Shmitchell, S. (2021). On the Dangers of Stochastic Parrots. *FAccT*. [*from-memory*]  
+  Source of 'stochastic parrot'; the spine turns it on humans (stochastic repeaters).  
+  _supports K33._
+- `kleinberg2021` Kleinberg, J.; Raghavan, M. (2021). Algorithmic Monoculture and Social Welfare. *PNAS 118*. [*from-memory*]  
+  Shared algorithms can lower welfare even when individually more accurate.  
+  _supports K27._
+- `bommasani2022` Bommasani, R. et al. (2022). Picking on the Same Person: Does Algorithmic Monoculture lead to Outcome Homogenization?. *NeurIPS*. [*from-memory*]  
+  Shared foundation models homogenize outcomes.  
+  _supports K27._
+- `briesch2023` Briesch, M.; Sobania, D.; Rothlauf, F. (2023). Large Language Models Suffer From Their Own Output: An Analysis of the Self-Consuming Training Loop. *arXiv*. [*from-memory*]  
+  Diversity declines across self-consuming generations.  
+  _supports K30._
+- `alemohammad2024` Alemohammad, S. et al. (2024). Self-Consuming Generative Models Go MAD. *ICLR*. [*from-memory*]  
+  Without enough fresh data per generation, quality or diversity degrades; quality-seeking sampling accelerates diversity loss.  
+  _supports K30._
+- `bertrand2024` Bertrand, Q. et al. (2024). On the Stability of Iterative Retraining of Generative Models on their own Data. *ICLR*. [*from-memory*]  
+  Stable if real-data fraction is large enough: bounds 'inevitability'.  
+  _challenges K30._
+- `dohmatob2024strong` Dohmatob, E. et al. (2024). [Strong Model Collapse](https://arxiv.org/abs/2410.04840). *arXiv:2410.04840; ICLR 2025*. [**checked-repo**]  
+  Collapse persists unless synthetic fraction vanishes; GM predicts it vanishes under grounded filtering.  
+  _supports K30._
+- `dohmatob2024tails` Dohmatob, E. et al. (2024). A Tale of Tails: Model Collapse as a Change of Scaling Laws. *ICML*. [*from-memory*]  
+  Collapse as scaling-law change driven by tail truncation.  
+  _supports K30._
+- `gerstgrasser2024` Gerstgrasser, M. et al. (2024). [Is Model Collapse Inevitable? Breaking the Curse of Recursion by Accumulating Real and Synthetic Data](https://arxiv.org/abs/2404.01413). *arXiv:2404.01413*. [**checked-repo**]  
+  Accumulating data bounds error; replacement grows it linearly. Fixes the regime C3 must state.  
+  _supports GM-T4; challenges K30._
+- `guo2024diversity` Guo, Y. et al. (2024). The Curious Decline of Linguistic Diversity: Training Language Models on Synthetic Text. *NAACL Findings*. [*from-memory*]  
+  Lexical, syntactic and semantic diversity decline across self-consuming generations.  
+  _supports K30._
+- `kirk2024` Kirk, R. et al. (2024). [Understanding the Effects of RLHF on LLM Generalisation and Diversity](https://proceedings.iclr.cc/paper_files/paper/2024/hash/5a68d05006d5b05dd9463dd9c0219db0-Abstract-Conference.html). *ICLR*. [**checked**]  
+  RLHF generalizes better than SFT but markedly reduces output diversity: alignment as a delta-reducing force.  
+  _supports K30, K53._
+- `shumailov2024` Shumailov, I.; Shumaylov, Z.; Zhao, Y.; Papernot, N.; Anderson, R.; Gal, Y. (2024). AI Models Collapse When Trained on Recursively Generated Data. *Nature 631*. [*from-memory*]  
+  Tails vanish first; Gaussian variance collapses a.s. under replacement.  
+  _supports K30, K32._
+- `wu2024monoculture` Wu, F.; Black, E.; Chandrasekaran, V. (2024). Generative Monoculture in Large Language Models. *arXiv*. [*from-memory*]  
+  Output diversity narrower than training data. Bibliographic details not re-checked.  
+  _supports K30._
+- `jiang2025hivemind` Jiang, L. et al. (2025). [Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond)](https://arxiv.org/abs/2510.22954). *NeurIPS Datasets & Benchmarks (oral); arXiv:2510.22954*. [**checked**]  
+  Infinity-Chat (26K open-ended queries): intra-model repetition and inter-model homogeneity. Direct measurement that delta among models is small; ensembles less diverse than their count.  
+  _supports K35, K30, K27._
+- `kazdan2025` Kazdan, J.; Schaeffer, R. et al. (2025). Collapse or Thrive? Perils and Promises of Synthetic Data in a Self-Generating World. *ICML*. [*from-memory*]  
+  Real+synthetic mixtures contain collapse.  
+  _challenges K30._
+- `schaeffer2025` Schaeffer, R.; Kazdan, J.; Arulandu, A. C.; Koyejo, S. (2025). [Position: Model Collapse Does Not Mean What You Think (ICML 2026: Multiple Definitions & Unrealistic Assumptions of Model Collapse Distract from Real World Threats)](https://arxiv.org/abs/2503.03150). *arXiv:2503.03150; PMLR 306*. [**checked**]  
+  Eight definitions of collapse across 28 papers; catastrophic predictions rely on data deletion; redirects to present diversity collapse. Forces K30 to be about latent diversity, with regime stated.  
+  _supports K30, K35; challenges K30._
+- `guo2026` Guo; Wu; Yiu (2026). [Model Collapse as Cultural Evolution](https://arxiv.org/abs/2605.23054). *arXiv:2605.23054*. [**checked-repo**]  
+  Abstract checked: task-grounded filtering sustains compositionality across self-training generations; random filtering does not. Full-paper numbers unverified.  
+  _supports GM-T3, K32._
+- `rogerschain2026` (unverified) (2026). [Who Pays for the Knowledge Models Copy? Model Collapse as a Rogers Chain](https://arxiv.org/html/2611.06022v1). *arXiv:2611.06022*. [*unverified*]  
+  Cited by One Selection Law; would directly instantiate K33. Must be checked before use (task Q-01).  
+  _supports K33._
+
+## L6. Institutions, pedagogy, careers, reflexivity
+
+- `merton1942` Merton, R. K. (1942). The Normative Structure of Science. **. [*from-memory*]  
+  CUDOS norms; organized skepticism as institutional verification.  
+  _supports K43._
+- `merton1948` Merton, R. K. (1948). The Self-Fulfilling Prophecy. *Antioch Review 8*. [*from-memory*]  
+  Self-fulfilling prophecy.  
+  _supports K40._
+- `merton1957` Merton, R. K. (1957). Priorities in Scientific Discovery. *American Sociological Review 22*. [*from-memory*]  
+  Priority as reward for originality.  
+  _supports K43._
+- `austin1962` Austin, J. L. (1962). How to Do Things with Words. *Oxford UP*. [*from-memory*]  
+  Performative utterances.  
+  _supports K40._
+- `kuhn1962` Kuhn, T. S. (1962). The Structure of Scientific Revolutions. *U Chicago Press*. [*from-memory*]  
+  Paradigm shifts; recognition depends on W changing. Cross-model alignment as a measure of commensurability (D17).  
+  _supports K53._
+- `arthur1989` Arthur, W. B. (1989). Competing Technologies, Increasing Returns, and Lock-In by Historical Events. *Economic Journal 99*. [*from-memory*]  
+  Path dependence and absorbing states.  
+  _supports K40._
+- `march1991` March, J. G. (1991). Exploration and Exploitation in Organizational Learning. *Organization Science 2*. [*from-memory*]  
+  Fast socialization to the organizational code destroys the diversity the code needs; slow learners preserve it. C3, thirty years early.  
+  _supports K38, K30._
+- `hacking1995` Hacking, I. (1995). The Looping Effects of Human Kinds. *Causal Cognition (Oxford)*. [*from-memory*]  
+  Classifications change the classified: the reflexive part of Omega.  
+  _supports K40._
+- `lin1995needham` Lin, J. Y. (1995). The Needham Puzzle: Why the Industrial Revolution Did Not Originate in China. *Economic Development and Cultural Change 43*. [*from-memory*]  
+  Argues the civil-service exam diverted talent from experimental inquiry. Contested.  
+  _supports K43._
+- `elman2000` Elman, B. A. (2000). A Cultural History of Civil Examinations in Late Imperial China. *U California Press*. [*from-memory*]  
+  Standard history of the keju; use to check claims about baguwen.  
+  _supports K43._
+- `mackenzie2006` MacKenzie, D. (2006). An Engine, Not a Camera. *MIT Press*. [*from-memory*]  
+  Black-Scholes changed option prices: the paradigm empirical case of performativity.  
+  _supports K40._
+- `uzzi2013` Uzzi, B.; Mukherjee, S.; Stringer, M.; Jones, B. (2013). Atypical Combinations and Scientific Impact. *Science 342*. [*from-memory*]  
+  Highest-impact papers: conventional core plus atypical combinations. Bibliometric 'surprising yet inevitable'.  
+  _supports K49._
+- `foster2015` Foster, J. G.; Rzhetsky, A.; Evans, J. A. (2015). Tradition and Innovation in Scientists' Research Strategies. *American Sociological Review 80*. [*from-memory*]  
+  Risky innovation pays more but rarely; tradition dominates.  
+  _supports K42._
+- `sinatra2016` Sinatra, R.; Wang, D.; Deville, P.; Song, C.; Barabasi, A.-L. (2016). Quantifying the Evolution of Individual Scientific Impact. *Science 354*. [*from-memory*]  
+  Impact = Q x luck; Q stable over career; random impact rule. Careers as stationary generators.  
+  _supports K39._
+- `murdock2017` Murdock, J.; Allen, C.; DeDeo, S. (2017). Exploration and Exploitation of Victorian Science in Darwin's Reading Notebooks. *Cognition 159*. [*from-memory*]  
+  KL surprise over Darwin's reading: explore/exploit phases in an individual genius.  
+  _supports K39._
+- `liu2018` Liu, L. et al. (2018). Hot Streaks in Artistic, Cultural, and Scientific Careers. *Nature 559*. [*from-memory*]  
+  Hits cluster in hot streaks across domains.  
+  _supports K39._
+- `peters2019` Peters, O. (2019). The Ergodicity Problem in Economics. *Nature Physics 15*. [*from-memory*]  
+  Time averages differ from ensemble averages; corpus-as-ensemble vs life-as-trajectory.  
+  _supports K2._
+- `perdomo2020` Perdomo, J.; Zrnic, T.; Mendler-Dunner, C.; Hardt, M. (2020). Performative Prediction. *ICML*. [*from-memory*]  
+  Predictions shift the distribution they predict; performative stability and optimality. Formal home of Delta F = learn + perform.  
+  _supports K40._
+- `liu2021onset` Liu, L.; Dehmamy, N.; Chown, J.; Giles, C. L.; Wang, D. (2021). [Understanding the Onset of Hot Streaks across Artistic, Cultural, and Scientific Careers](https://link.springer.com/article/10.1038/s41467-021-25477-8). *Nature Communications 12:5392*. [**checked**]  
+  Exploration followed by exploitation predicts hot-streak onset; neither alone does. Exploration = migration; exploitation = sharpening.  
+  _supports K39._
+- `hardt2023` Hardt, M.; Mendler-Dunner, C. (2023). Performative Prediction: Past and Future. *arXiv survey*. [*from-memory*]  
+  Survey of performativity.  
+  _supports K40._
+- `park2023` Park, M.; Leahey, E.; Funk, R. J. (2023). Papers and Patents Are Becoming Less Disruptive over Time. *Nature 613*. [*from-memory*]  
+  CD index declines across fields; candidate signature of scientific collapse (contested methodologically).  
+  _supports K30._
+- `taori2023` Taori, R.; Hashimoto, T. (2023). [Data Feedback Loops: Model-driven Amplification of Dataset Biases](https://proceedings.mlr.press/v202/taori23a.html). *ICML (PMLR 202)*. [**checked**]  
+  Bias amplification in scrape-retrain loops tracks 'uniform faithfulness' of outputs to training distribution; proposes stabilization.  
+  _supports K40._
+- `doshi2024` Doshi, A. R.; Hauser, O. P. (2024). [Generative AI Enhances Individual Creativity but Reduces the Collective Diversity of Novel Content](https://pubmed.ncbi.nlm.nih.gov/38996021/). *Science Advances 10:eadn5290*. [**checked**]  
+  GPT-4 ideas raised individual story creativity (most for less creative writers) but made stories more similar: a social dilemma. Human-side co-collapse.  
+  _supports K41._
+- `liang2024` Liang, W. et al. (2024). Mapping the Increasing Use of LLMs in Scientific Papers / Monitoring AI-Modified Content at Scale. *COLM / ICML*. [*from-memory*]  
+  LLM-modified text rising in papers and peer reviews.  
+  _supports K41._
+- `messeri2024` Messeri, L.; Crockett, M. J. (2024). Artificial Intelligence and Illusions of Understanding in Scientific Research. *Nature 627*. [*from-memory*]  
+  AI risks scientific monocultures of knowing.  
+  _supports K41._
+- `padmakumar2024` Padmakumar, V.; He, H. (2024). Does Writing with Language Models Reduce Content Diversity?. *ICLR*. [*from-memory*]  
+  Co-writing with InstructGPT (not base GPT-3) reduces cross-author diversity.  
+  _supports K41._
+- `yakura2024` Yakura, H. et al. (2024). [Empirical evidence of Large Language Model's influence on human spoken communication](https://arxiv.org/abs/2409.01754v2). *arXiv:2409.01754*. [**checked**]  
+  740K hours of talks/podcasts: abrupt rise of ChatGPT-preferred words ('delve') in speech after release; framed as start of a closed cultural feedback loop.  
+  _supports K40, K41._
+- `kobak2025` Kobak, D. et al. (2025). [Delving into LLM-assisted writing in biomedical publications through excess vocabulary](https://arxiv.org/abs/2406.07016v5). *Science Advances 11(27):eadt3813; arXiv:2406.07016*. [**checked**]  
+  Excess-vocabulary method on 15M PubMed abstracts: at least 13.5% of 2024 abstracts LLM-processed; effect larger than Covid. Omega (scientific writing) moving toward theta.  
+  _supports K40, K41._
+- `hao2026` Hao, Q.; Xu, F.; Li, Y.; Evans, J. (2026). [Artificial Intelligence Tools Expand Scientists' Impact but Contract Science's Focus](https://arxiv.org/abs/2412.07727v4). *Nature; arXiv:2412.07727*. [**checked**]  
+  41.3M papers: AI users publish ~3x more, ~4.8x citations, lead earlier; collectively topics shrink ~4.6% and scientist engagement falls ~22% ('lonely crowds'). Co-collapse in science. Numbers vary by version.  
+  _supports K41, K30._
+
+## L7. Value, interpretation, pathology
+
+- `aristotlePoetics` Aristotle (335 BCE). Poetics. **. [*from-memory*]  
+  1452a: events contrary to expectation yet on account of one another.  
+  _supports K49._
+- `wordsworth1815` Wordsworth, W. (1815). Essay, Supplementary to the Preface. *Poems*. [*from-memory*]  
+  The original author must create the taste by which he is to be enjoyed: genius as performativity.  
+  _supports K53._
+- `shklovsky1917` Shklovsky, V. (1917). Art as Technique. **. [*from-memory*]  
+  Defamiliarization against automatized perception: escape from the prior.  
+  _supports K47._
+- `birkhoff1933` Birkhoff, G. D. (1933). Aesthetic Measure. *Harvard UP*. [*from-memory*]  
+  M = O/C; earliest formal aesthetics.
+- `borges1939` Borges, J. L. (1939). Pierre Menard, Author of the Quixote. *Sur*. [*from-memory*]  
+  Identical text, different era, different meaning: fixed probe in changing Omega.  
+  _supports K13._
+- `orwell1949` Orwell, G. (1949). Nineteen Eighty-Four. *Secker & Warburg*. [*from-memory*]  
+  Ministry of Truth: adversarial control of the archive in a stateful world.  
+  _supports K55._
+- `gadamer1960` Gadamer, H.-G. (1960). Wahrheit und Methode. *Mohr*. [*from-memory*]  
+  Historicity of understanding; fusion of horizons.  
+  _supports K13, K2._
+- `foucault1961` Foucault, M. (1961). Histoire de la folie a l'age classique. *Plon*. [*from-memory*]  
+  Madness defined by an era's order of reason: frame-relative classification.  
+  _supports K50._
+- `eco1962` Eco, U. (1962). Opera aperta. *Bompiani*. [*from-memory*]  
+  The open work: high-entropy coherent interpretive distribution.  
+  _supports K45._
+- `barthes1970` Barthes, R. (1970). S/Z. *Seuil*. [*from-memory*]  
+  Readerly (consumed) vs writerly (reader produces): data vs program.  
+  _supports K45._
+- `jauss1970` Jauss, H. R. (1970). [Literary History as a Challenge to Literary Theory](https://en.wikipedia.org/wiki/Horizon_of_expectation). *New Literary History 2(1):7-37*. [**checked**]  
+  Aesthetic distance from the horizon of expectations as value criterion; 'culinary' art requires no horizon change; distance fades for later readers. Precursor of K45-K48, including statefulness. (Concept checked via secondary sources.)  
+  _supports K47, K45, K40._
+- `berlyne1971` Berlyne, D. E. (1971). Aesthetics and Psychobiology. *Appleton-Century-Crofts*. [*from-memory*]  
+  Inverted-U of novelty and hedonic value.  
+  _supports K47._
+- `bloom1973` Bloom, H. (1973). The Anxiety of Influence. *Oxford UP*. [*from-memory*]  
+  Strong poets misread precursors (clinamen): engineered latent diversity. GM's 'misprision'.  
+  _supports GM-T3, K35._
+- `iser1976` Iser, W. (1976). Der Akt des Lesens (The Act of Reading). *Fink*. [*from-memory*]  
+  Gaps the reader fills: reader-dependent analytic residue.  
+  _supports K13._
+- `bourdieu1979` Bourdieu, P. (1979). La Distinction. *Minuit*. [*from-memory*]  
+  Taste as social distinction; cautions against intrinsic value.  
+  _supports K46._
+- `fish1980` Fish, S. (1980). Is There a Text in This Class?. *Harvard UP*. [*from-memory*]  
+  Interpretive communities constitute texts' meanings; literariness as relation.  
+  _supports K46, K28._
+- `calvino1981` Calvino, I. (1981). Why Read the Classics?. *L'Espresso; collected 1991*. [*from-memory*]  
+  'A classic is a book that has never finished saying what it has to say.'  
+  _supports K45._
+- `herrnsteinsmith1988` Herrnstein Smith, B. (1988). Contingencies of Value. *Harvard UP*. [*from-memory*]  
+  Literary value is contingent.  
+  _supports K46._
+- `calinescu1993` Calinescu, M. (1993). Rereading. *Yale UP*. [*from-memory*]  
+  Theory of rereading.  
+  _supports K45._
+- `shay1994` Shay, J. (1994). Achilles in Vietnam. *Atheneum*. [*from-memory*]  
+  Iliad reread through combat trauma: new reader evidence renews a classic.  
+  _supports K13, GM-C16._
+- `simonton1999` Simonton, D. K. (1999). Origins of Genius. *Oxford UP*. [*from-memory*]  
+  Darwinian model of creativity.  
+  _supports K50._
+- `carson2003` Carson, S. H.; Peterson, J. B.; Higgins, D. M. (2003). Decreased Latent Inhibition Is Associated With Increased Creative Achievement in High-Functioning Individuals. *JPSP 85*. [*from-memory*]  
+  Reduced latent inhibition with high IQ predicts creative achievement.  
+  _supports K50._
+- `kapur2003` Kapur, S. (2003). Psychosis as a State of Aberrant Salience. *American Journal of Psychiatry 160*. [*from-memory*]  
+  Significance attributed to noise.  
+  _supports K50, K54._
+- `fletcher2009` Fletcher, P. C.; Frith, C. D. (2009). Perceiving is Believing: A Bayesian Approach to Explaining the Positive Symptoms of Schizophrenia. *Nature Reviews Neuroscience 10*. [*from-memory*]  
+  Bayesian account of psychosis via prediction-error weighting.  
+  _supports K54._
+- `kamenica2011` Kamenica, E.; Gentzkow, M. (2011). Bayesian Persuasion. *American Economic Review 101*. [*from-memory*]  
+  Sender cannot shift a Bayesian receiver's expected belief; sophistry needs cheaper checks.  
+  _supports GM-C29._
+- `kyaga2013` Kyaga, S. et al. (2013). Mental Illness, Suicide and Creativity: 40-Year Prospective Total Population Study. *Journal of Psychiatric Research 47*. [*from-memory*]  
+  Registry associations of creative occupations with bipolar disorder and relatives' psychopathology. Correlational; do not romanticize.  
+  _supports K50._
+- `abramson2014` Abramson, K. (2014). Turning Up the Lights on Gaslighting. *Philosophical Perspectives 28*. [*from-memory*]  
+  Gaslighting as moral-epistemic harm undermining the victim's standing as a knower.  
+  _supports K54._
+- `barron2018` Barron, A. T. J.; Huang, J.; Spang, R. L.; DeDeo, S. (2018). [Individuals, Institutions, and Innovation in the Debates of the French Revolution](https://pmc.ncbi.nlm.nih.gov/articles/PMC5939074). *PNAS 115(18):4607-4612*. [**checked**]  
+  KL-based novelty (vs past) and transience (vs future); resonance = novelty that persists; most novelty does not stick; conservatives as inertial dampeners. Measurement toolkit bridging formal and humanistic sides.  
+  _supports K52._
+- `sterzer2018` Sterzer, P. et al. (2018). The Predictive Coding Account of Psychosis. *Biological Psychiatry 84*. [*from-memory*]  
+  Review of precision-weighting accounts.  
+  _supports K54._
+- `sweet2019` Sweet, P. L. (2019). The Sociology of Gaslighting. *American Sociological Review 84*. [*from-memory*]  
+  Gaslighting rooted in social inequality and power.  
+  _supports K54._
+- `muennighoff2023` Muennighoff, N. et al. (2023). Scaling Data-Constrained Language Models. *NeurIPS*. [*from-memory*]  
+  Up to ~4 epochs of repetition nearly as good as fresh data. Untested: whether tolerance varies with text depth (E-03).  
+  _supports K45._
+- `kalai2024` Kalai, A. T.; Vempala, S. S. (2024). Calibrated Language Models Must Hallucinate. *STOC*. [*from-memory*]  
+  Calibration forces hallucination on rare facts: structural madness.  
+  _supports K50._
+- `sharma2024` Sharma, M. et al. (2024). Towards Understanding Sycophancy in Language Models. *ICLR*. [*from-memory*]  
+  Models abandon correct answers under user pushback: model as gaslighting victim.  
+  _supports K56._
+- `wen2025` Wen, J. et al. (2025). [Language Models Learn to Mislead Humans via RLHF](https://arxiv.org/abs/2409.12822). *ICLR; arXiv:2409.12822*. [**checked-repo**]  
+  RLHF raised evaluator false positives; a 2026 replication audit reportedly failed to reproduce (unverified) - treat as contested.  
+  _supports GM-C30._
+
+## L8. LLMs as instruments; retrospective verification
+
+- `derrida1967` Derrida, J. (1967). Of Grammatology. *Minuit*. [*from-memory*]  
+  'Il n'y a pas de hors-texte.' If true, G is undefined; the spine makes this empirically contestable.  
+  _challenges K10, K30._
+- `rorty1979` Rorty, R. (1979). Philosophy and the Mirror of Nature. *Princeton UP*. [*from-memory*]  
+  Anti-representationalism: challenges the realist Omega the spine presupposes. Converted into the testable 'outside-text' falsifier.  
+  _challenges K1._
+- `searle1980` Searle, J. (1980). Minds, Brains, and Programs. *Behavioral and Brain Sciences 3*. [*from-memory*]  
+  Chinese Room. Targets understanding, which the spine explicitly does not claim.  
+  _challenges K1._

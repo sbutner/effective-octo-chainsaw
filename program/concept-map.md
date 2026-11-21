@@ -1,0 +1,657 @@
+# Concept map
+
+*Generated from `data/concepts.json`. Each diagram shows one layer's concepts and every edge touching them.*
+
+## L0. Mathematical primitives
+
+```mermaid
+graph LR
+  archive_control["archive-control (L4)"]
+  channel["channel"]
+  fixed_probe["fixed-probe (L7)"]
+  interpreter_class["interpreter-class"]
+  non_ergodicity["non-ergodicity"]
+  path_dependence["path-dependence"]
+  performativity["performativity (L6)"]
+  reflexive_world["reflexive-world"]
+  stateful_world["stateful-world"]
+  time_integrated_snapshot["time-integrated-snapshot (L3)"]
+  undecidability["undecidability (L1)"]
+  verifier_channel["verifier-channel (L2)"]
+  channel -- instantiates --> verifier_channel
+  time_integrated_snapshot -- depends_on --> stateful_world
+  reflexive_world -- enables --> performativity
+  stateful_world -- enables --> fixed_probe
+  archive_control -- depends_on --> stateful_world
+  non_ergodicity -- refines --> time_integrated_snapshot
+  path_dependence -- instantiates --> stateful_world
+  interpreter_class -- parameterizes --> undecidability
+```
+
+- **channel**: A Markov kernel K: X -> Delta(Y); every relation in the spine (perceive, write, copy, read, train, verify) is one. `K(y|x)`
+- **stateful-world**: The world process Omega_t has memory and is non-stationary; Omega_t != Omega_{t+1}; history matters. `omega_{t+1} ~ P(.|omega_{<=t})`
+- **reflexive-world**: The part of Omega made of agents and their artifacts, which changes in response to models of it. `Omega_{t+1} depends on theta_t`
+- **non-ergodicity**: Ensemble averages (corpus) differ from time averages (a life).
+- **path-dependence**: Early contingent events select absorbing states.
+- **interpreter-class**: Computational power of readers: finite, TC0, universal.
+
+## L1. Information-theoretic and computational laws
+
+```mermaid
+graph LR
+  aesthetic_measure["aesthetic-measure (L7)"]
+  belief_state["belief-state"]
+  compression_progress["compression-progress"]
+  dpi["dpi"]
+  effective_complexity["effective-complexity"]
+  eight_legged_essay["eight-legged-essay (L6)"]
+  empiricism["empiricism (L2)"]
+  fidelity_threshold["fidelity-threshold"]
+  identifiability["identifiability"]
+  indeterminacy["indeterminacy (L3)"]
+  inexhaustibility["inexhaustibility (L7)"]
+  interpreter_class["interpreter-class (L0)"]
+  logical_depth["logical-depth"]
+  long_range_mi["long-range-mi"]
+  media_regime["media-regime (L4)"]
+  misprision["misprision (L2)"]
+  model_collapse["model-collapse (L5)"]
+  outside_text["outside-text (L3)"]
+  performativity["performativity (L6)"]
+  ratchet["ratchet (L5)"]
+  rate_distortion["rate-distortion"]
+  reasoning_gap["reasoning-gap (L2)"]
+  sufficiency["sufficiency"]
+  surprising_yet_inevitable["surprising-yet-inevitable (L7)"]
+  undecidability["undecidability"]
+  verification_fraction["verification-fraction (L5)"]
+  world_model_probe["world-model-probe (L3)"]
+  dpi -- grounds --> reasoning_gap
+  dpi -- grounds --> verification_fraction
+  dpi -- grounds --> model_collapse
+  rate_distortion -- grounds --> misprision
+  sufficiency -- grounds --> belief_state
+  belief_state -- grounds --> world_model_probe
+  identifiability -- formalizes --> indeterminacy
+  outside_text -- challenges --> dpi
+  empiricism -- formalized_by --> dpi
+  fidelity_threshold -- parameterizes --> media_regime
+  ratchet -- requires --> fidelity_threshold
+  performativity -- breaks --> dpi
+  fidelity_threshold -- explains --> eight_legged_essay
+  compression_progress -- formalizes --> inexhaustibility
+  logical_depth -- grounds --> inexhaustibility
+  surprising_yet_inevitable -- formalized_by --> compression_progress
+  aesthetic_measure -- precursor_of --> compression_progress
+  long_range_mi -- operationalizes --> inexhaustibility
+  undecidability -- grounds --> inexhaustibility
+  interpreter_class -- parameterizes --> undecidability
+  effective_complexity -- analogizes --> logical_depth
+```
+
+- **undecidability**: Deductive closure of a corpus is r.e. but not decidable.
+- **dpi**: Data-processing inequality: processing cannot increase information about a source. `X->Y->Z => I(X;Z)<=I(X;Y)`
+- **rate-distortion**: Below the source rate, distortion is positive: misreading is forced. `D(R)>0`
+- **sufficiency**: A statistic retaining all information about a parameter; optimal predictors encode posterior sufficient statistics.
+- **belief-state**: Posterior over hidden states; represented geometrically by optimal predictors (mixed-state simplex).
+- **identifiability**: Representations determined up to an equivalence class by the data distribution.
+- **compression-progress**: Rate of improvement in an observer's compression of data; Schmidhuber's interestingness. `-dK_t(x)/dt`
+- **logical-depth**: Computation time needed to generate x from its shortest description.
+- **effective-complexity**: Length of the description of a thing's regularities.
+- **fidelity-threshold**: Eigen error threshold: maximal persistent content scales as ln(sigma)/epsilon. `K <~ ln sigma / eps`
+- **long-range-mi**: Mutual information between symbols as a function of distance; power-law in natural text.
+
+## L2. Reading, misprision, selection
+
+```mermaid
+graph LR
+  analytic_synthetic["analytic-synthetic"]
+  canon_selection["canon-selection (L4)"]
+  channel["channel (L0)"]
+  clinamen["clinamen (L7)"]
+  context_dependent_reading["context-dependent-reading"]
+  dpi["dpi (L1)"]
+  empiricism["empiricism"]
+  exploration_exploitation["exploration-exploitation (L6)"]
+  gaps["gaps (L7)"]
+  generation_verification_gap["generation-verification-gap"]
+  genius_madness["genius-madness (L7)"]
+  misprision["misprision"]
+  model_collapse["model-collapse (L5)"]
+  prior_replacement["prior-replacement (L5)"]
+  rate_distortion["rate-distortion (L1)"]
+  reasoning_gap["reasoning-gap"]
+  science_institution["science-institution (L6)"]
+  sharpening["sharpening"]
+  source_diversity["source-diversity (L5)"]
+  stochastic_repeater["stochastic-repeater (L5)"]
+  testimony["testimony"]
+  transcendence["transcendence"]
+  variation_selection["variation-selection"]
+  verifier_channel["verifier-channel"]
+  wisdom_of_crowds["wisdom-of-crowds (L5)"]
+  dpi -- grounds --> reasoning_gap
+  channel -- instantiates --> verifier_channel
+  rate_distortion -- grounds --> misprision
+  reasoning_gap -- operationalized_by --> generation_verification_gap
+  sharpening -- closes --> reasoning_gap
+  sharpening -- analogizes --> prior_replacement
+  sharpening -- analogizes --> exploration_exploitation
+  verifier_channel -- prevents --> model_collapse
+  transcendence -- depends_on --> source_diversity
+  transcendence -- analogizes --> wisdom_of_crowds
+  testimony -- instantiates --> stochastic_repeater
+  empiricism -- formalized_by --> dpi
+  analytic_synthetic -- formalized_by --> reasoning_gap
+  variation_selection -- grounds --> genius_madness
+  misprision -- instantiates --> variation_selection
+  clinamen -- instantiates --> misprision
+  science_institution -- instantiates --> verifier_channel
+  gaps -- grounds --> reasoning_gap
+  genius_madness -- depends_on --> verifier_channel
+  canon_selection -- instantiates --> variation_selection
+```
+
+- **reasoning-gap**: F*(D) - F(theta): content implicit in a corpus but not yet extracted; the analytic residue.
+- **generation-verification-gap**: How much better a model verifies than generates; governs self-improvement.
+- **sharpening**: Self-improvement by concentrating probability on self-verified outputs; adds no grounded information.
+- **verifier-channel**: An evidence source E_ver conditionally independent of D given Omega (proof checker, execution, experiment). `I(Omega;E_ver|D)>0`
+- **transcendence**: Aggregated learner beating each source by denoising; requires independent errors.
+- **misprision**: Gap between hearer's reading and speaker's meaning; Bloom's creative misreading; GM's core object.
+- **context-dependent-reading**: Readings depend on hearer context (pragmatics).
+- **variation-selection**: Blind variation and selective retention as engine of knowledge growth.
+- **testimony**: Knowledge from others' words; LLMs as pure testimony reasoners.
+- **empiricism**: Knowledge of matters of fact requires experience.
+- **analytic-synthetic**: Distinction between truths by meaning/deduction and truths about the world.
+
+## L3. Language and geometry
+
+```mermaid
+graph LR
+  belief_state["belief-state (L1)"]
+  causal_reference["causal-reference"]
+  communicative_intent["communicative-intent"]
+  conceptual_role["conceptual-role"]
+  convergence_vs_collapse["convergence-vs-collapse"]
+  distributional_hypothesis["distributional-hypothesis"]
+  dpi["dpi (L1)"]
+  identifiability["identifiability (L1)"]
+  incommensurability["incommensurability (L6)"]
+  indeterminacy["indeterminacy"]
+  latent_world_state["latent-world-state"]
+  linear_representation["linear-representation"]
+  meaning_as_use["meaning-as-use"]
+  non_ergodicity["non-ergodicity (L0)"]
+  outside_text["outside-text"]
+  platonic_representation["platonic-representation"]
+  pmi_geometry["pmi-geometry"]
+  q_model["q-model (L6)"]
+  representationalism["representationalism"]
+  retrospective_verification["retrospective-verification (L8)"]
+  sleeping_beauty["sleeping-beauty (L4)"]
+  stateful_world["stateful-world (L0)"]
+  statistical_geometry["statistical-geometry"]
+  structuralism["structuralism"]
+  symbol_grounding["symbol-grounding"]
+  symmetry_to_geometry["symmetry-to-geometry"]
+  teleosemantics["teleosemantics"]
+  time_integrated_snapshot["time-integrated-snapshot"]
+  world_model_probe["world-model-probe"]
+  belief_state -- grounds --> world_model_probe
+  identifiability -- formalizes --> indeterminacy
+  pmi_geometry -- formalizes --> distributional_hypothesis
+  symmetry_to_geometry -- formalizes --> distributional_hypothesis
+  distributional_hypothesis -- exemplifies --> retrospective_verification
+  distributional_hypothesis -- exemplifies --> sleeping_beauty
+  statistical_geometry -- formalizes --> structuralism
+  latent_world_state -- grounds --> statistical_geometry
+  platonic_representation -- instantiates --> convergence_vs_collapse
+  time_integrated_snapshot -- depends_on --> stateful_world
+  symbol_grounding -- reframed_by --> convergence_vs_collapse
+  causal_reference -- answers --> symbol_grounding
+  teleosemantics -- answers --> symbol_grounding
+  communicative_intent -- challenges --> symbol_grounding
+  outside_text -- challenges --> dpi
+  representationalism -- presupposed_by --> latent_world_state
+  meaning_as_use -- analogizes --> statistical_geometry
+  q_model -- analogizes --> time_integrated_snapshot
+  incommensurability -- measured_by --> platonic_representation
+  non_ergodicity -- refines --> time_integrated_snapshot
+```
+
+- **distributional-hypothesis**: Meaning is reflected in distribution (Harris, Firth).
+- **statistical-geometry**: Geometry of representations induced by co-occurrence statistics.
+- **pmi-geometry**: Embeddings factorize (shifted) pointwise mutual information.
+- **symmetry-to-geometry**: Group-invariant co-occurrence forces representation geometry given by irreps.
+- **latent-world-state**: Text generated by a hidden world-state process.
+- **linear-representation**: Concepts as linear directions in representation space.
+- **world-model-probe**: Decoding latent world variables from model internals (Othello, space-time, color).
+- **platonic-representation**: Convergence of representations across models and modalities.
+- **convergence-vs-collapse**: delta->0 with G rising (convergence on Omega) vs G falling (collapse onto each other).
+- **time-integrated-snapshot**: A model's world is a composite of the corpus's historical states, frozen at training.
+- **symbol-grounding**: How symbols acquire meaning; spine: possible as state, impossible as process.
+- **communicative-intent**: Bender-Koller requirement for meaning; outside the spine's claims.
+- **conceptual-role**: Meaning constituted by inferential role.
+- **causal-reference**: Reference fixed by causal-historical chains (Kripke, Putnam).
+- **teleosemantics**: Content fixed by selection history.
+- **indeterminacy**: Quine: multiple translation manuals fit all behavior; = identifiability class.
+- **meaning-as-use**: Wittgenstein: meaning is use.
+- **structuralism**: Meaning as a system of differences (Saussure).
+- **representationalism**: Knowledge as mirroring reality; contested by pragmatists.
+- **outside-text**: Derrida: no outside-text; if true, G is undefined.
+
+## L4. Media, archives, canon network
+
+```mermaid
+graph LR
+  archive["archive"]
+  archive_control["archive-control"]
+  attention_economy["attention-economy"]
+  canon_entrenchment["canon-entrenchment"]
+  canon_selection["canon-selection"]
+  cultural_market["cultural-market"]
+  distributional_hypothesis["distributional-hypothesis (L3)"]
+  effective_population["effective-population (L5)"]
+  evenness["evenness"]
+  fidelity_threshold["fidelity-threshold (L1)"]
+  fitness_attachment["fitness-attachment"]
+  frame_relativity["frame-relativity (L7)"]
+  gaslighting["gaslighting (L7)"]
+  gatekeeper["gatekeeper"]
+  hub_dominance["hub-dominance"]
+  hub_revival["hub-revival"]
+  media_regime["media-regime"]
+  model_collapse["model-collapse (L5)"]
+  preferential_attachment["preferential-attachment"]
+  replication_filter["replication-filter"]
+  retroactive_canon["retroactive-canon"]
+  sleeping_beauty["sleeping-beauty"]
+  stateful_world["stateful-world (L0)"]
+  tail_loss["tail-loss"]
+  variation_selection["variation-selection (L2)"]
+  wisdom_of_crowds["wisdom-of-crowds (L5)"]
+  distributional_hypothesis -- exemplifies --> sleeping_beauty
+  replication_filter -- determines --> canon_selection
+  media_regime -- parameterizes --> replication_filter
+  fidelity_threshold -- parameterizes --> media_regime
+  evenness -- determines --> tail_loss
+  tail_loss -- instantiates --> model_collapse
+  attention_economy -- succeeds --> replication_filter
+  attention_economy -- causes --> canon_entrenchment
+  preferential_attachment -- causes --> canon_entrenchment
+  preferential_attachment -- lowers --> effective_population
+  fitness_attachment -- enables --> sleeping_beauty
+  retroactive_canon -- enables --> sleeping_beauty
+  hub_revival -- enables --> sleeping_beauty
+  gatekeeper -- analogizes --> hub_dominance
+  hub_dominance -- breaks --> wisdom_of_crowds
+  frame_relativity -- rewires --> retroactive_canon
+  archive_control -- instantiates --> gaslighting
+  archive_control -- depends_on --> stateful_world
+  cultural_market -- instantiates --> preferential_attachment
+  archive -- enables --> sleeping_beauty
+  canon_selection -- instantiates --> variation_selection
+```
+
+- **replication-filter**: Copy iff perceived value exceeds cost; c sets the canon threshold. `v > c`
+- **media-regime**: Oral, manuscript, print, digital, generative: points in (c, phi, n).
+- **evenness**: Distribution of copies across works; low evenness loses works.
+- **tail-loss**: Rare variants lost first under resampling or copy loss.
+- **archive**: Store of forms with provenance; Foucault's law of the sayable.
+- **archive-control**: Adversarial control of the archive.
+- **canon-selection**: Processes by which works enter and persist in the canon.
+- **canon-entrenchment**: Attention concentrating on canonical works as fields grow.
+- **attention-economy**: When information is abundant, attention is the scarce filter.
+- **preferential-attachment**: New links attach in proportion to existing degree (Matthew effect). `P(i) ~ k_i`
+- **fitness-attachment**: Attachment proportional to fitness x degree; latecomers can overtake. `P(i) ~ eta_i k_i`
+- **cultural-market**: Markets for cultural goods with social influence; inequality and unpredictability.
+- **sleeping-beauty**: Work with delayed recognition after dormancy.
+- **retroactive-canon**: Later works re-weight earlier ones (Eliot, Borges): backward edges.
+- **hub-revival**: A high-attention node redirects attention to a dormant work.
+- **gatekeeper**: Node controlling admission to the canon.
+- **hub-dominance**: A node with influence weight bounded away from zero; breaks wisdom of crowds.
+
+## L5. Population ecology of knowledge
+
+```mermaid
+graph LR
+  accumulation_regime["accumulation-regime"]
+  alignment_homogenization["alignment-homogenization"]
+  co_collapse["co-collapse (L6)"]
+  conformist_bias["conformist-bias"]
+  cultural_transmission["cultural-transmission"]
+  disruption["disruption (L6)"]
+  division_of_linguistic_labor["division-of-linguistic-labor"]
+  dpi["dpi (L1)"]
+  effective_population["effective-population"]
+  epistemic_vigilance["epistemic-vigilance"]
+  fidelity_threshold["fidelity-threshold (L1)"]
+  gaslighting["gaslighting (L7)"]
+  genetic_drift["genetic-drift"]
+  hub_dominance["hub-dominance (L4)"]
+  idle_talk["idle-talk"]
+  information_cascade["information-cascade"]
+  iterated_learning["iterated-learning"]
+  latent_diversity["latent-diversity"]
+  migration_balance["migration-balance"]
+  mimesis["mimesis"]
+  model_collapse["model-collapse"]
+  monoculture["monoculture"]
+  preferential_attachment["preferential-attachment (L4)"]
+  prior_replacement["prior-replacement"]
+  pulp["pulp (L7)"]
+  ratchet["ratchet"]
+  rogers_paradox["rogers-paradox"]
+  sampling_bias["sampling-bias"]
+  sharpening["sharpening (L2)"]
+  simulacrum["simulacrum"]
+  slow_learners["slow-learners (L6)"]
+  sophistry["sophistry (L7)"]
+  source_diversity["source-diversity"]
+  stochastic_repeater["stochastic-repeater"]
+  surface_diversity["surface-diversity"]
+  tail_loss["tail-loss (L4)"]
+  testimony["testimony (L2)"]
+  transcendence["transcendence (L2)"]
+  triangulation["triangulation"]
+  verification_fraction["verification-fraction"]
+  verifier_channel["verifier-channel (L2)"]
+  wisdom_of_crowds["wisdom-of-crowds"]
+  dpi -- grounds --> verification_fraction
+  dpi -- grounds --> model_collapse
+  sharpening -- analogizes --> prior_replacement
+  verifier_channel -- prevents --> model_collapse
+  transcendence -- depends_on --> source_diversity
+  transcendence -- analogizes --> wisdom_of_crowds
+  testimony -- instantiates --> stochastic_repeater
+  tail_loss -- instantiates --> model_collapse
+  preferential_attachment -- lowers --> effective_population
+  hub_dominance -- breaks --> wisdom_of_crowds
+  effective_population -- governs --> genetic_drift
+  genetic_drift -- causes --> model_collapse
+  migration_balance -- prevents --> model_collapse
+  source_diversity -- instantiates --> migration_balance
+  latent_diversity -- refines --> source_diversity
+  surface_diversity -- masks --> latent_diversity
+  accumulation_regime -- bounds --> model_collapse
+  sampling_bias -- accelerates --> model_collapse
+  iterated_learning -- causes --> prior_replacement
+  prior_replacement -- explains --> model_collapse
+  prior_replacement -- produces --> pulp
+  rogers_paradox -- analogizes --> model_collapse
+  verification_fraction -- resolves --> rogers_paradox
+  stochastic_repeater -- lowers --> verification_fraction
+  division_of_linguistic_labor -- explains --> stochastic_repeater
+  epistemic_vigilance -- filters --> stochastic_repeater
+  information_cascade -- limit_of --> stochastic_repeater
+  triangulation -- requires --> source_diversity
+  monoculture -- lowers --> source_diversity
+  alignment_homogenization -- lowers --> latent_diversity
+  mimesis -- analogizes --> model_collapse
+  idle_talk -- analogizes --> model_collapse
+  simulacrum -- fixed_point_of --> model_collapse
+  ratchet -- requires --> fidelity_threshold
+  co_collapse -- lowers --> source_diversity
+  disruption -- measures --> model_collapse
+  slow_learners -- preserves --> latent_diversity
+  gaslighting -- limit_of --> stochastic_repeater
+  sophistry -- exploits --> epistemic_vigilance
+  cultural_transmission -- grounds --> iterated_learning
+  conformist_bias -- lowers --> latent_diversity
+```
+
+- **effective-population**: N_e = 1/sum w_i^2; governs drift rate.
+- **genetic-drift**: Random fluctuation of variant frequencies under finite sampling; leads to fixation.
+- **migration-balance**: Equilibrium diversity under migration/mutation vs drift. `H ~ 4Nm/(1+4Nm)`
+- **source-diversity**: delta: divergence among sources contributing to a corpus. `generalized JS divergence`
+- **latent-diversity**: Diversity of content in latent space, style factored out. `I(source;content)`
+- **surface-diversity**: Diversity of style/form; can mask latent homogeneity. `I(source;style)`
+- **model-collapse**: Degeneration of a self-consuming generative chain (8 definitions: Schaeffer 2025).
+- **accumulation-regime**: Training where data accumulate rather than replace; bounds collapse.
+- **sampling-bias**: Quality-seeking sampling (temperature<1, top-p) that reduces entropy per generation.
+- **iterated-learning**: Chains of learners each trained on the previous one's output.
+- **prior-replacement**: Iterated learning converges to the learners' prior.
+- **cultural-transmission**: Quantitative models of how culture passes between individuals.
+- **conformist-bias**: Disproportionate copying of the majority.
+- **rogers-paradox**: Social learning does not raise mean fitness in changing environments.
+- **verification-fraction**: v: share of agents or events checking Omega directly; v* is the threshold.
+- **stochastic-repeater**: An agent transmitting testimony with minimal verification of Omega.
+- **division-of-linguistic-labor**: Reference and knowledge held by a community via deference.
+- **epistemic-vigilance**: Cheap mechanisms for filtering testimony; checks against prior.
+- **information-cascade**: Agents ignore private signals and copy predecessors.
+- **wisdom-of-crowds**: Aggregation of independent estimates converges to truth.
+- **triangulation**: Davidson: objectivity from two interpreters and a shared world.
+- **monoculture**: Many decision-makers using the same model.
+- **alignment-homogenization**: Preference tuning reduces output diversity.
+- **mimesis**: Imitation as copy of copy (Plato).
+- **idle-talk**: Heidegger's Gerede: discourse decoupled from its referent.
+- **simulacrum**: Sign referring to signs; fixed point of self-consumption.
+- **ratchet**: Cumulative cultural evolution requiring fidelity.
+
+## L6. Institutions, pedagogy, careers, reflexivity
+
+```mermaid
+graph LR
+  co_collapse["co-collapse"]
+  disruption["disruption"]
+  dpi["dpi (L1)"]
+  eight_legged_essay["eight-legged-essay"]
+  exploration_exploitation["exploration-exploitation"]
+  feedback_loop["feedback-loop"]
+  fidelity_threshold["fidelity-threshold (L1)"]
+  hot_streak["hot-streak"]
+  incommensurability["incommensurability"]
+  latent_diversity["latent-diversity (L5)"]
+  lonely_crowds["lonely-crowds"]
+  model_collapse["model-collapse (L5)"]
+  performativity["performativity"]
+  platonic_representation["platonic-representation (L3)"]
+  pulp["pulp (L7)"]
+  q_model["q-model"]
+  reflexive_world["reflexive-world (L0)"]
+  science_institution["science-institution"]
+  sharpening["sharpening (L2)"]
+  slow_learners["slow-learners"]
+  source_diversity["source-diversity (L5)"]
+  time_integrated_snapshot["time-integrated-snapshot (L3)"]
+  verifier_channel["verifier-channel (L2)"]
+  sharpening -- analogizes --> exploration_exploitation
+  performativity -- breaks --> dpi
+  reflexive_world -- enables --> performativity
+  feedback_loop -- instantiates --> performativity
+  co_collapse -- instantiates --> performativity
+  co_collapse -- lowers --> source_diversity
+  lonely_crowds -- instantiates --> co_collapse
+  disruption -- measures --> model_collapse
+  exploration_exploitation -- parameterizes --> hot_streak
+  slow_learners -- preserves --> latent_diversity
+  q_model -- analogizes --> time_integrated_snapshot
+  science_institution -- instantiates --> verifier_channel
+  eight_legged_essay -- produces --> pulp
+  fidelity_threshold -- explains --> eight_legged_essay
+  incommensurability -- measured_by --> platonic_representation
+```
+
+- **performativity**: Models and utterances change what they describe. `Omega_{t+1}=f(Omega_t, theta_t)`
+- **feedback-loop**: Model outputs re-enter training data.
+- **co-collapse**: Human sources losing diversity toward models.
+- **lonely-crowds**: Concentrated attention with reduced interaction (Hao et al.).
+- **disruption**: CD index measure of whether work eclipses its predecessors.
+- **exploration-exploitation**: Trade-off between searching new options and refining known ones.
+- **slow-learners**: March: members slow to adopt the code preserve diversity.
+- **q-model**: Impact = Q x luck; stable Q over a career. `c = Q p`
+- **hot-streak**: Clustered period of high-impact work; onset after exploration then exploitation.
+- **science-institution**: Peer review, priority, organized skepticism: novelty plus verification.
+- **eight-legged-essay**: Ming-Qing exam essay form: conservation at maximal fidelity without grounding.
+- **incommensurability**: Kuhn: paradigms lack common measure; alignment metrics as partial measure.
+
+## L7. Value, interpretation, pathology
+
+```mermaid
+graph LR
+  aberrant_salience["aberrant-salience"]
+  aesthetic_distance["aesthetic-distance"]
+  aesthetic_measure["aesthetic-measure"]
+  archive_control["archive-control (L4)"]
+  channel_weighting["channel-weighting"]
+  clinamen["clinamen"]
+  compression_progress["compression-progress (L1)"]
+  defamiliarization["defamiliarization"]
+  eight_legged_essay["eight-legged-essay (L6)"]
+  epistemic_vigilance["epistemic-vigilance (L5)"]
+  epoch_tolerance["epoch-tolerance"]
+  fixed_probe["fixed-probe"]
+  frame_relativity["frame-relativity"]
+  fusion_of_horizons["fusion-of-horizons"]
+  gaps["gaps"]
+  gaslighting["gaslighting"]
+  genius_madness["genius-madness"]
+  hallucination["hallucination"]
+  horizon_of_expectations["horizon-of-expectations"]
+  inexhaustibility["inexhaustibility"]
+  interpretive_community["interpretive-community"]
+  latent_inhibition["latent-inhibition"]
+  logical_depth["logical-depth (L1)"]
+  long_range_mi["long-range-mi (L1)"]
+  misprision["misprision (L2)"]
+  novelty_transience_resonance["novelty-transience-resonance"]
+  open_work["open-work"]
+  precision_weighting["precision-weighting"]
+  prior_replacement["prior-replacement (L5)"]
+  pulp["pulp"]
+  readerly_writerly["readerly-writerly"]
+  reasoning_gap["reasoning-gap (L2)"]
+  retroactive_canon["retroactive-canon (L4)"]
+  sophistry["sophistry"]
+  stateful_world["stateful-world (L0)"]
+  stochastic_repeater["stochastic-repeater (L5)"]
+  surprising_yet_inevitable["surprising-yet-inevitable"]
+  sycophancy["sycophancy"]
+  undecidability["undecidability (L1)"]
+  variation_selection["variation-selection (L2)"]
+  verifier_channel["verifier-channel (L2)"]
+  variation_selection -- grounds --> genius_madness
+  clinamen -- instantiates --> misprision
+  frame_relativity -- rewires --> retroactive_canon
+  prior_replacement -- produces --> pulp
+  eight_legged_essay -- produces --> pulp
+  compression_progress -- formalizes --> inexhaustibility
+  logical_depth -- grounds --> inexhaustibility
+  fixed_probe -- grounds --> inexhaustibility
+  stateful_world -- enables --> fixed_probe
+  aesthetic_distance -- formalizes --> horizon_of_expectations
+  pulp -- defined_by --> aesthetic_distance
+  defamiliarization -- increases --> aesthetic_distance
+  readerly_writerly -- analogizes --> pulp
+  open_work -- exemplifies --> inexhaustibility
+  gaps -- grounds --> reasoning_gap
+  interpretive_community -- grounds --> frame_relativity
+  fusion_of_horizons -- grounds --> fixed_probe
+  surprising_yet_inevitable -- formalized_by --> compression_progress
+  aesthetic_measure -- precursor_of --> compression_progress
+  novelty_transience_resonance -- operationalizes --> genius_madness
+  novelty_transience_resonance -- operationalizes --> inexhaustibility
+  epoch_tolerance -- operationalizes --> inexhaustibility
+  long_range_mi -- operationalizes --> inexhaustibility
+  genius_madness -- depends_on --> verifier_channel
+  latent_inhibition -- mechanism_of --> genius_madness
+  aberrant_salience -- mechanism_of --> genius_madness
+  precision_weighting -- grounds --> gaslighting
+  precision_weighting -- grounds --> aberrant_salience
+  hallucination -- instantiates --> genius_madness
+  sycophancy -- instantiates --> gaslighting
+  gaslighting -- limit_of --> stochastic_repeater
+  archive_control -- instantiates --> gaslighting
+  channel_weighting -- grounds --> gaslighting
+  sophistry -- exploits --> epistemic_vigilance
+  undecidability -- grounds --> inexhaustibility
+```
+
+- **pulp**: Text whose value is exhausted on first reading; ~0 aesthetic distance from genre prior.
+- **inexhaustibility**: Sustained new content under rereading.
+- **horizon-of-expectations**: Jauss: readers' framework of expectations.
+- **aesthetic-distance**: Gap between horizon and work; formalized as KL from text to horizon.
+- **defamiliarization**: Shklovsky: art de-automatizes perception.
+- **readerly-writerly**: Barthes: consumed vs co-produced texts.
+- **open-work**: Eco: works that admit many coherent readings.
+- **gaps**: Iser: indeterminacies the reader fills.
+- **interpretive-community**: Fish: communities constituting readings.
+- **frame-relativity**: Value or category depends on interpretive frame.
+- **fusion-of-horizons**: Gadamer: understanding as merging historical horizons.
+- **fixed-probe**: A fixed text read against a changing reader/world yields new readings.
+- **surprising-yet-inevitable**: Improbable under prior, short under own code.
+- **aesthetic-measure**: Formal measures of aesthetic value (Birkhoff, Berlyne).
+- **novelty-transience-resonance**: KL to past (novelty), to future (transience); resonance = persistent novelty.
+- **epoch-tolerance**: How many training repetitions of a text remain useful; proposed literariness proxy.
+- **clinamen**: Bloom: the strong poet's swerve from a precursor; engineered diversity.
+- **genius-madness**: Both large deviations; distinguished by coupling to Omega.
+- **latent-inhibition**: Filtering of previously irrelevant stimuli; reduced in creativity and psychosis-proneness.
+- **aberrant-salience**: Significance attributed to noise.
+- **precision-weighting**: Relative weight of priors vs prediction errors (or own vs others' evidence).
+- **hallucination**: Confident output uncoupled from Omega; formal madness.
+- **sycophancy**: Model deferring to user over own evidence.
+- **gaslighting**: Adversary drives victim's precision on own perception toward zero.
+- **channel-weighting**: Unequal credibility assigned to speakers' channels (epistemic injustice).
+- **sophistry**: Speaker optimizing hearer acceptance against weak tests.
+
+## L8. LLMs as instruments; retrospective verification
+
+```mermaid
+graph LR
+  distributional_hypothesis["distributional-hypothesis (L3)"]
+  retrospective_verification["retrospective-verification"]
+  distributional_hypothesis -- exemplifies --> retrospective_verification
+```
+
+- **retrospective-verification**: Using a later apparatus (LLMs) to test claims long argued in a field.
+
+## Claim index
+
+| ID | Layer | Status | Difficulty | Title |
+|---|---|---|---|---|
+| K1 | L3 | conjecture | hard | Snapshot world model from statistical geometry |
+| K2 | L3 | conjecture | medium | The snapshot is time-integrated |
+| K3 | L3 | new | medium | Quinean indeterminacy = identifiability class |
+| K4 | L3 | new | easy | Convergence vs collapse |
+| K5 | L3 | implicit | easy | Retrospective verification of Firth |
+| K10 | L2 | implicit | easy | Closed-system C2 |
+| K11 | L2 | new | medium | Reasoning gap = generation-verification gap |
+| K12 | L2 | test | open | Sharpening narrows, distillation adds |
+| K13 | L2 | new | medium | Two sources of inexhaustibility |
+| K20 | L4 | definition | easy | Replication filter |
+| K21 | L4 | implicit | medium | Media regimes as points in (c, phi, n) |
+| K22 | L4 | conjecture | medium | Survival up, salience down |
+| K23 | L4 | new | easy | Archival tail loss |
+| K24 | L4 | new | medium | Retroactive canon network |
+| K25 | L4 | conjecture | open | Sleeping-beauty conditions |
+| K26 | L4 | new | easy | Effective population of sources |
+| K27 | L4 | implicit | easy | Hubs break the wisdom of crowds |
+| K28 | L4 | new | open | Frames rewire attachment |
+| K30 | L5 | conjecture | hard | C3 restated: latent-weighted collapse |
+| K31 | L5 | new | medium | Source diversity as migration |
+| K32 | L5 | known | easy | Prior replaces evidence |
+| K33 | L5 | implicit | medium | Rogers threshold v* |
+| K34 | L5 | new | easy | Vigilance checks the prior, not the world |
+| K35 | L5 | new | medium | Surface vs latent diversity |
+| K36 | L5 | new | easy | Two readings of homogeneity |
+| K37 | L5 | known | easy | Cascades as v -> 0 |
+| K38 | L6 | known | easy | March's slow learners |
+| K39 | L6 | new | open | Careers as generators; streaks need exploration |
+| K40 | L6 | new | medium | Performative decomposition |
+| K41 | L6 | test | open | Co-collapse |
+| K42 | L6 | conjecture | open | Pedagogy as error correction |
+| K43 | L6 | definition | easy | Institution 2x2 |
+| K44 | L6 | conjecture | open | Third pedagogical phase |
+| K45 | L7 | new | hard | Literature as sustained compression progress |
+| K46 | L7 | new | easy | Literariness is relational |
+| K47 | L7 | new | medium | Jauss formalized |
+| K48 | L7 | conjecture | medium | Collapse produces pulp |
+| K49 | L7 | new | medium | Surprising yet inevitable |
+| K50 | L7 | new | medium | Genius vs madness |
+| K51 | L7 | new | easy | Analytic vs synthetic genius |
+| K52 | L7 | test | open | Resonance as operational test |
+| K53 | L7 | new | open | Performativity of either sign |
+| K54 | L7 | new | medium | Gaslighting-psychosis mirror |
+| K55 | L7 | new | easy | Orwell's archive |
+| K56 | L7 | new | easy | Sycophancy as gaslit model |
+| K57 | L7 | new | open | Art as seed bank |

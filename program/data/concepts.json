@@ -1,0 +1,1816 @@
+{
+ "meta": {
+  "version": "0.1",
+  "updated": "2026-11-21",
+  "layers": {
+   "L0": "Mathematical primitives",
+   "L1": "Information-theoretic and computational laws",
+   "L2": "Reading, misprision, selection",
+   "L3": "Language and geometry",
+   "L4": "Media, archives, canon network",
+   "L5": "Population ecology of knowledge",
+   "L6": "Institutions, pedagogy, careers, reflexivity",
+   "L7": "Value, interpretation, pathology",
+   "L8": "LLMs as instruments; retrospective verification"
+  },
+  "relations": [
+   "accelerates",
+   "analogizes",
+   "answers",
+   "bounds",
+   "breaks",
+   "causes",
+   "challenges",
+   "closes",
+   "defined_by",
+   "depends_on",
+   "determines",
+   "enables",
+   "exemplifies",
+   "explains",
+   "exploits",
+   "filters",
+   "fixed_point_of",
+   "formalized_by",
+   "formalizes",
+   "governs",
+   "grounds",
+   "increases",
+   "instantiates",
+   "limit_of",
+   "lowers",
+   "masks",
+   "measured_by",
+   "measures",
+   "mechanism_of",
+   "operationalized_by",
+   "operationalizes",
+   "parameterizes",
+   "precursor_of",
+   "preserves",
+   "presupposed_by",
+   "prevents",
+   "produces",
+   "refines",
+   "reframed_by",
+   "requires",
+   "resolves",
+   "rewires",
+   "succeeds"
+  ],
+  "note": "Nodes are concepts; claims (claims.json) and bibliography entries reference concept ids. Edges are typed and directed."
+ },
+ "nodes": [
+  {
+   "id": "channel",
+   "layer": "L0",
+   "fields": [
+    "information-theory"
+   ],
+   "definition": "A Markov kernel K: X -> Delta(Y); every relation in the spine (perceive, write, copy, read, train, verify) is one.",
+   "formal": "K(y|x)"
+  },
+  {
+   "id": "stateful-world",
+   "layer": "L0",
+   "fields": [
+    "philosophy",
+    "physics"
+   ],
+   "definition": "The world process Omega_t has memory and is non-stationary; Omega_t != Omega_{t+1}; history matters.",
+   "formal": "omega_{t+1} ~ P(.|omega_{<=t})"
+  },
+  {
+   "id": "reflexive-world",
+   "layer": "L0",
+   "fields": [
+    "sociology",
+    "philosophy-of-science"
+   ],
+   "definition": "The part of Omega made of agents and their artifacts, which changes in response to models of it.",
+   "formal": "Omega_{t+1} depends on theta_t"
+  },
+  {
+   "id": "non-ergodicity",
+   "layer": "L0",
+   "fields": [
+    "physics",
+    "economics"
+   ],
+   "definition": "Ensemble averages (corpus) differ from time averages (a life)."
+  },
+  {
+   "id": "path-dependence",
+   "layer": "L0",
+   "fields": [
+    "economics"
+   ],
+   "definition": "Early contingent events select absorbing states."
+  },
+  {
+   "id": "interpreter-class",
+   "layer": "L0",
+   "fields": [
+    "cs"
+   ],
+   "definition": "Computational power of readers: finite, TC0, universal."
+  },
+  {
+   "id": "undecidability",
+   "layer": "L1",
+   "fields": [
+    "cs",
+    "mathematics"
+   ],
+   "definition": "Deductive closure of a corpus is r.e. but not decidable."
+  },
+  {
+   "id": "dpi",
+   "layer": "L1",
+   "fields": [
+    "information-theory"
+   ],
+   "definition": "Data-processing inequality: processing cannot increase information about a source.",
+   "formal": "X->Y->Z => I(X;Z)<=I(X;Y)"
+  },
+  {
+   "id": "rate-distortion",
+   "layer": "L1",
+   "fields": [
+    "information-theory"
+   ],
+   "definition": "Below the source rate, distortion is positive: misreading is forced.",
+   "formal": "D(R)>0"
+  },
+  {
+   "id": "sufficiency",
+   "layer": "L1",
+   "fields": [
+    "statistics"
+   ],
+   "definition": "A statistic retaining all information about a parameter; optimal predictors encode posterior sufficient statistics."
+  },
+  {
+   "id": "belief-state",
+   "layer": "L1",
+   "fields": [
+    "ml",
+    "physics"
+   ],
+   "definition": "Posterior over hidden states; represented geometrically by optimal predictors (mixed-state simplex)."
+  },
+  {
+   "id": "identifiability",
+   "layer": "L1",
+   "fields": [
+    "statistics",
+    "ml"
+   ],
+   "definition": "Representations determined up to an equivalence class by the data distribution."
+  },
+  {
+   "id": "compression-progress",
+   "layer": "L1",
+   "fields": [
+    "cs",
+    "aesthetics"
+   ],
+   "definition": "Rate of improvement in an observer's compression of data; Schmidhuber's interestingness.",
+   "formal": "-dK_t(x)/dt"
+  },
+  {
+   "id": "logical-depth",
+   "layer": "L1",
+   "fields": [
+    "cs"
+   ],
+   "definition": "Computation time needed to generate x from its shortest description."
+  },
+  {
+   "id": "effective-complexity",
+   "layer": "L1",
+   "fields": [
+    "physics"
+   ],
+   "definition": "Length of the description of a thing's regularities."
+  },
+  {
+   "id": "fidelity-threshold",
+   "layer": "L1",
+   "fields": [
+    "biology",
+    "cultural-evolution"
+   ],
+   "definition": "Eigen error threshold: maximal persistent content scales as ln(sigma)/epsilon.",
+   "formal": "K <~ ln sigma / eps"
+  },
+  {
+   "id": "long-range-mi",
+   "layer": "L1",
+   "fields": [
+    "linguistics",
+    "physics"
+   ],
+   "definition": "Mutual information between symbols as a function of distance; power-law in natural text."
+  },
+  {
+   "id": "reasoning-gap",
+   "layer": "L2",
+   "fields": [
+    "epistemology",
+    "ml"
+   ],
+   "definition": "F*(D) - F(theta): content implicit in a corpus but not yet extracted; the analytic residue."
+  },
+  {
+   "id": "generation-verification-gap",
+   "layer": "L2",
+   "fields": [
+    "ml"
+   ],
+   "definition": "How much better a model verifies than generates; governs self-improvement."
+  },
+  {
+   "id": "sharpening",
+   "layer": "L2",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Self-improvement by concentrating probability on self-verified outputs; adds no grounded information."
+  },
+  {
+   "id": "verifier-channel",
+   "layer": "L2",
+   "fields": [
+    "ml",
+    "philosophy-of-science"
+   ],
+   "definition": "An evidence source E_ver conditionally independent of D given Omega (proof checker, execution, experiment).",
+   "formal": "I(Omega;E_ver|D)>0"
+  },
+  {
+   "id": "transcendence",
+   "layer": "L2",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Aggregated learner beating each source by denoising; requires independent errors."
+  },
+  {
+   "id": "misprision",
+   "layer": "L2",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Gap between hearer's reading and speaker's meaning; Bloom's creative misreading; GM's core object."
+  },
+  {
+   "id": "context-dependent-reading",
+   "layer": "L2",
+   "fields": [
+    "linguistics"
+   ],
+   "definition": "Readings depend on hearer context (pragmatics)."
+  },
+  {
+   "id": "variation-selection",
+   "layer": "L2",
+   "fields": [
+    "psychology",
+    "philosophy-of-science"
+   ],
+   "definition": "Blind variation and selective retention as engine of knowledge growth."
+  },
+  {
+   "id": "testimony",
+   "layer": "L2",
+   "fields": [
+    "epistemology"
+   ],
+   "definition": "Knowledge from others' words; LLMs as pure testimony reasoners."
+  },
+  {
+   "id": "empiricism",
+   "layer": "L2",
+   "fields": [
+    "epistemology"
+   ],
+   "definition": "Knowledge of matters of fact requires experience."
+  },
+  {
+   "id": "analytic-synthetic",
+   "layer": "L2",
+   "fields": [
+    "epistemology"
+   ],
+   "definition": "Distinction between truths by meaning/deduction and truths about the world."
+  },
+  {
+   "id": "distributional-hypothesis",
+   "layer": "L3",
+   "fields": [
+    "linguistics"
+   ],
+   "definition": "Meaning is reflected in distribution (Harris, Firth)."
+  },
+  {
+   "id": "statistical-geometry",
+   "layer": "L3",
+   "fields": [
+    "linguistics",
+    "ml"
+   ],
+   "definition": "Geometry of representations induced by co-occurrence statistics."
+  },
+  {
+   "id": "pmi-geometry",
+   "layer": "L3",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Embeddings factorize (shifted) pointwise mutual information."
+  },
+  {
+   "id": "symmetry-to-geometry",
+   "layer": "L3",
+   "fields": [
+    "ml",
+    "mathematics"
+   ],
+   "definition": "Group-invariant co-occurrence forces representation geometry given by irreps."
+  },
+  {
+   "id": "latent-world-state",
+   "layer": "L3",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Text generated by a hidden world-state process."
+  },
+  {
+   "id": "linear-representation",
+   "layer": "L3",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Concepts as linear directions in representation space."
+  },
+  {
+   "id": "world-model-probe",
+   "layer": "L3",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Decoding latent world variables from model internals (Othello, space-time, color)."
+  },
+  {
+   "id": "platonic-representation",
+   "layer": "L3",
+   "fields": [
+    "ml",
+    "philosophy"
+   ],
+   "definition": "Convergence of representations across models and modalities."
+  },
+  {
+   "id": "convergence-vs-collapse",
+   "layer": "L3",
+   "fields": [
+    "philosophy",
+    "ml"
+   ],
+   "definition": "delta->0 with G rising (convergence on Omega) vs G falling (collapse onto each other)."
+  },
+  {
+   "id": "time-integrated-snapshot",
+   "layer": "L3",
+   "fields": [
+    "ml",
+    "history"
+   ],
+   "definition": "A model's world is a composite of the corpus's historical states, frozen at training."
+  },
+  {
+   "id": "symbol-grounding",
+   "layer": "L3",
+   "fields": [
+    "philosophy",
+    "cognitive-science"
+   ],
+   "definition": "How symbols acquire meaning; spine: possible as state, impossible as process."
+  },
+  {
+   "id": "communicative-intent",
+   "layer": "L3",
+   "fields": [
+    "linguistics",
+    "philosophy"
+   ],
+   "definition": "Bender-Koller requirement for meaning; outside the spine's claims."
+  },
+  {
+   "id": "conceptual-role",
+   "layer": "L3",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Meaning constituted by inferential role."
+  },
+  {
+   "id": "causal-reference",
+   "layer": "L3",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Reference fixed by causal-historical chains (Kripke, Putnam)."
+  },
+  {
+   "id": "teleosemantics",
+   "layer": "L3",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Content fixed by selection history."
+  },
+  {
+   "id": "indeterminacy",
+   "layer": "L3",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Quine: multiple translation manuals fit all behavior; = identifiability class."
+  },
+  {
+   "id": "meaning-as-use",
+   "layer": "L3",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Wittgenstein: meaning is use."
+  },
+  {
+   "id": "structuralism",
+   "layer": "L3",
+   "fields": [
+    "linguistics",
+    "literary-theory"
+   ],
+   "definition": "Meaning as a system of differences (Saussure)."
+  },
+  {
+   "id": "representationalism",
+   "layer": "L3",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Knowledge as mirroring reality; contested by pragmatists."
+  },
+  {
+   "id": "outside-text",
+   "layer": "L3",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Derrida: no outside-text; if true, G is undefined."
+  },
+  {
+   "id": "retrospective-verification",
+   "layer": "L8",
+   "fields": [
+    "history-of-ideas",
+    "methodology"
+   ],
+   "definition": "Using a later apparatus (LLMs) to test claims long argued in a field."
+  },
+  {
+   "id": "replication-filter",
+   "layer": "L4",
+   "fields": [
+    "book-history",
+    "cultural-evolution"
+   ],
+   "definition": "Copy iff perceived value exceeds cost; c sets the canon threshold.",
+   "formal": "v > c"
+  },
+  {
+   "id": "media-regime",
+   "layer": "L4",
+   "fields": [
+    "media-theory"
+   ],
+   "definition": "Oral, manuscript, print, digital, generative: points in (c, phi, n)."
+  },
+  {
+   "id": "evenness",
+   "layer": "L4",
+   "fields": [
+    "ecology",
+    "digital-humanities"
+   ],
+   "definition": "Distribution of copies across works; low evenness loses works."
+  },
+  {
+   "id": "tail-loss",
+   "layer": "L4",
+   "fields": [
+    "ml",
+    "ecology"
+   ],
+   "definition": "Rare variants lost first under resampling or copy loss."
+  },
+  {
+   "id": "archive",
+   "layer": "L4",
+   "fields": [
+    "philosophy",
+    "book-history"
+   ],
+   "definition": "Store of forms with provenance; Foucault's law of the sayable."
+  },
+  {
+   "id": "archive-control",
+   "layer": "L4",
+   "fields": [
+    "political-theory"
+   ],
+   "definition": "Adversarial control of the archive."
+  },
+  {
+   "id": "canon-selection",
+   "layer": "L4",
+   "fields": [
+    "literary-history"
+   ],
+   "definition": "Processes by which works enter and persist in the canon."
+  },
+  {
+   "id": "canon-entrenchment",
+   "layer": "L4",
+   "fields": [
+    "science-of-science"
+   ],
+   "definition": "Attention concentrating on canonical works as fields grow."
+  },
+  {
+   "id": "attention-economy",
+   "layer": "L4",
+   "fields": [
+    "economics"
+   ],
+   "definition": "When information is abundant, attention is the scarce filter."
+  },
+  {
+   "id": "preferential-attachment",
+   "layer": "L4",
+   "fields": [
+    "network-science"
+   ],
+   "definition": "New links attach in proportion to existing degree (Matthew effect).",
+   "formal": "P(i) ~ k_i"
+  },
+  {
+   "id": "fitness-attachment",
+   "layer": "L4",
+   "fields": [
+    "network-science"
+   ],
+   "definition": "Attachment proportional to fitness x degree; latecomers can overtake.",
+   "formal": "P(i) ~ eta_i k_i"
+  },
+  {
+   "id": "cultural-market",
+   "layer": "L4",
+   "fields": [
+    "sociology"
+   ],
+   "definition": "Markets for cultural goods with social influence; inequality and unpredictability."
+  },
+  {
+   "id": "sleeping-beauty",
+   "layer": "L4",
+   "fields": [
+    "science-of-science",
+    "literary-history"
+   ],
+   "definition": "Work with delayed recognition after dormancy."
+  },
+  {
+   "id": "retroactive-canon",
+   "layer": "L4",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Later works re-weight earlier ones (Eliot, Borges): backward edges."
+  },
+  {
+   "id": "hub-revival",
+   "layer": "L4",
+   "fields": [
+    "literary-history"
+   ],
+   "definition": "A high-attention node redirects attention to a dormant work."
+  },
+  {
+   "id": "gatekeeper",
+   "layer": "L4",
+   "fields": [
+    "sociology"
+   ],
+   "definition": "Node controlling admission to the canon."
+  },
+  {
+   "id": "hub-dominance",
+   "layer": "L4",
+   "fields": [
+    "network-science",
+    "economics"
+   ],
+   "definition": "A node with influence weight bounded away from zero; breaks wisdom of crowds."
+  },
+  {
+   "id": "effective-population",
+   "layer": "L5",
+   "fields": [
+    "population-genetics"
+   ],
+   "definition": "N_e = 1/sum w_i^2; governs drift rate."
+  },
+  {
+   "id": "genetic-drift",
+   "layer": "L5",
+   "fields": [
+    "population-genetics"
+   ],
+   "definition": "Random fluctuation of variant frequencies under finite sampling; leads to fixation."
+  },
+  {
+   "id": "migration-balance",
+   "layer": "L5",
+   "fields": [
+    "population-genetics"
+   ],
+   "definition": "Equilibrium diversity under migration/mutation vs drift.",
+   "formal": "H ~ 4Nm/(1+4Nm)"
+  },
+  {
+   "id": "source-diversity",
+   "layer": "L5",
+   "fields": [
+    "ml",
+    "political-theory"
+   ],
+   "definition": "delta: divergence among sources contributing to a corpus.",
+   "formal": "generalized JS divergence"
+  },
+  {
+   "id": "latent-diversity",
+   "layer": "L5",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Diversity of content in latent space, style factored out.",
+   "formal": "I(source;content)"
+  },
+  {
+   "id": "surface-diversity",
+   "layer": "L5",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Diversity of style/form; can mask latent homogeneity.",
+   "formal": "I(source;style)"
+  },
+  {
+   "id": "model-collapse",
+   "layer": "L5",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Degeneration of a self-consuming generative chain (8 definitions: Schaeffer 2025)."
+  },
+  {
+   "id": "accumulation-regime",
+   "layer": "L5",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Training where data accumulate rather than replace; bounds collapse."
+  },
+  {
+   "id": "sampling-bias",
+   "layer": "L5",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Quality-seeking sampling (temperature<1, top-p) that reduces entropy per generation."
+  },
+  {
+   "id": "iterated-learning",
+   "layer": "L5",
+   "fields": [
+    "cognitive-science",
+    "linguistics"
+   ],
+   "definition": "Chains of learners each trained on the previous one's output."
+  },
+  {
+   "id": "prior-replacement",
+   "layer": "L5",
+   "fields": [
+    "cognitive-science"
+   ],
+   "definition": "Iterated learning converges to the learners' prior."
+  },
+  {
+   "id": "cultural-transmission",
+   "layer": "L5",
+   "fields": [
+    "cultural-evolution"
+   ],
+   "definition": "Quantitative models of how culture passes between individuals."
+  },
+  {
+   "id": "conformist-bias",
+   "layer": "L5",
+   "fields": [
+    "cultural-evolution"
+   ],
+   "definition": "Disproportionate copying of the majority."
+  },
+  {
+   "id": "rogers-paradox",
+   "layer": "L5",
+   "fields": [
+    "anthropology"
+   ],
+   "definition": "Social learning does not raise mean fitness in changing environments."
+  },
+  {
+   "id": "verification-fraction",
+   "layer": "L5",
+   "fields": [
+    "epistemology",
+    "cultural-evolution"
+   ],
+   "definition": "v: share of agents or events checking Omega directly; v* is the threshold."
+  },
+  {
+   "id": "stochastic-repeater",
+   "layer": "L5",
+   "fields": [
+    "epistemology"
+   ],
+   "definition": "An agent transmitting testimony with minimal verification of Omega."
+  },
+  {
+   "id": "division-of-linguistic-labor",
+   "layer": "L5",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Reference and knowledge held by a community via deference."
+  },
+  {
+   "id": "epistemic-vigilance",
+   "layer": "L5",
+   "fields": [
+    "cognitive-science"
+   ],
+   "definition": "Cheap mechanisms for filtering testimony; checks against prior."
+  },
+  {
+   "id": "information-cascade",
+   "layer": "L5",
+   "fields": [
+    "economics"
+   ],
+   "definition": "Agents ignore private signals and copy predecessors."
+  },
+  {
+   "id": "wisdom-of-crowds",
+   "layer": "L5",
+   "fields": [
+    "economics",
+    "political-theory"
+   ],
+   "definition": "Aggregation of independent estimates converges to truth."
+  },
+  {
+   "id": "triangulation",
+   "layer": "L5",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Davidson: objectivity from two interpreters and a shared world."
+  },
+  {
+   "id": "monoculture",
+   "layer": "L5",
+   "fields": [
+    "cs",
+    "economics"
+   ],
+   "definition": "Many decision-makers using the same model."
+  },
+  {
+   "id": "alignment-homogenization",
+   "layer": "L5",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Preference tuning reduces output diversity."
+  },
+  {
+   "id": "mimesis",
+   "layer": "L5",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Imitation as copy of copy (Plato)."
+  },
+  {
+   "id": "idle-talk",
+   "layer": "L5",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Heidegger's Gerede: discourse decoupled from its referent."
+  },
+  {
+   "id": "simulacrum",
+   "layer": "L5",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Sign referring to signs; fixed point of self-consumption."
+  },
+  {
+   "id": "ratchet",
+   "layer": "L5",
+   "fields": [
+    "anthropology"
+   ],
+   "definition": "Cumulative cultural evolution requiring fidelity."
+  },
+  {
+   "id": "performativity",
+   "layer": "L6",
+   "fields": [
+    "sociology",
+    "ml"
+   ],
+   "definition": "Models and utterances change what they describe.",
+   "formal": "Omega_{t+1}=f(Omega_t, theta_t)"
+  },
+  {
+   "id": "feedback-loop",
+   "layer": "L6",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Model outputs re-enter training data."
+  },
+  {
+   "id": "co-collapse",
+   "layer": "L6",
+   "fields": [
+    "computational-social-science"
+   ],
+   "definition": "Human sources losing diversity toward models."
+  },
+  {
+   "id": "lonely-crowds",
+   "layer": "L6",
+   "fields": [
+    "science-of-science"
+   ],
+   "definition": "Concentrated attention with reduced interaction (Hao et al.)."
+  },
+  {
+   "id": "disruption",
+   "layer": "L6",
+   "fields": [
+    "science-of-science"
+   ],
+   "definition": "CD index measure of whether work eclipses its predecessors."
+  },
+  {
+   "id": "exploration-exploitation",
+   "layer": "L6",
+   "fields": [
+    "management",
+    "ml"
+   ],
+   "definition": "Trade-off between searching new options and refining known ones."
+  },
+  {
+   "id": "slow-learners",
+   "layer": "L6",
+   "fields": [
+    "organization-theory"
+   ],
+   "definition": "March: members slow to adopt the code preserve diversity."
+  },
+  {
+   "id": "q-model",
+   "layer": "L6",
+   "fields": [
+    "science-of-science"
+   ],
+   "definition": "Impact = Q x luck; stable Q over a career.",
+   "formal": "c = Q p"
+  },
+  {
+   "id": "hot-streak",
+   "layer": "L6",
+   "fields": [
+    "science-of-science"
+   ],
+   "definition": "Clustered period of high-impact work; onset after exploration then exploitation."
+  },
+  {
+   "id": "science-institution",
+   "layer": "L6",
+   "fields": [
+    "sociology"
+   ],
+   "definition": "Peer review, priority, organized skepticism: novelty plus verification."
+  },
+  {
+   "id": "eight-legged-essay",
+   "layer": "L6",
+   "fields": [
+    "history"
+   ],
+   "definition": "Ming-Qing exam essay form: conservation at maximal fidelity without grounding."
+  },
+  {
+   "id": "incommensurability",
+   "layer": "L6",
+   "fields": [
+    "philosophy-of-science"
+   ],
+   "definition": "Kuhn: paradigms lack common measure; alignment metrics as partial measure."
+  },
+  {
+   "id": "pulp",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Text whose value is exhausted on first reading; ~0 aesthetic distance from genre prior."
+  },
+  {
+   "id": "inexhaustibility",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Sustained new content under rereading."
+  },
+  {
+   "id": "horizon-of-expectations",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Jauss: readers' framework of expectations."
+  },
+  {
+   "id": "aesthetic-distance",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Gap between horizon and work; formalized as KL from text to horizon."
+  },
+  {
+   "id": "defamiliarization",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Shklovsky: art de-automatizes perception."
+  },
+  {
+   "id": "readerly-writerly",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Barthes: consumed vs co-produced texts."
+  },
+  {
+   "id": "open-work",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Eco: works that admit many coherent readings."
+  },
+  {
+   "id": "gaps",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Iser: indeterminacies the reader fills."
+  },
+  {
+   "id": "interpretive-community",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Fish: communities constituting readings."
+  },
+  {
+   "id": "frame-relativity",
+   "layer": "L7",
+   "fields": [
+    "literary-theory",
+    "sociology"
+   ],
+   "definition": "Value or category depends on interpretive frame."
+  },
+  {
+   "id": "fusion-of-horizons",
+   "layer": "L7",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Gadamer: understanding as merging historical horizons."
+  },
+  {
+   "id": "fixed-probe",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "A fixed text read against a changing reader/world yields new readings."
+  },
+  {
+   "id": "surprising-yet-inevitable",
+   "layer": "L7",
+   "fields": [
+    "literary-theory",
+    "information-theory"
+   ],
+   "definition": "Improbable under prior, short under own code."
+  },
+  {
+   "id": "aesthetic-measure",
+   "layer": "L7",
+   "fields": [
+    "aesthetics"
+   ],
+   "definition": "Formal measures of aesthetic value (Birkhoff, Berlyne)."
+  },
+  {
+   "id": "novelty-transience-resonance",
+   "layer": "L7",
+   "fields": [
+    "digital-humanities"
+   ],
+   "definition": "KL to past (novelty), to future (transience); resonance = persistent novelty."
+  },
+  {
+   "id": "epoch-tolerance",
+   "layer": "L7",
+   "fields": [
+    "ml"
+   ],
+   "definition": "How many training repetitions of a text remain useful; proposed literariness proxy."
+  },
+  {
+   "id": "clinamen",
+   "layer": "L7",
+   "fields": [
+    "literary-theory"
+   ],
+   "definition": "Bloom: the strong poet's swerve from a precursor; engineered diversity."
+  },
+  {
+   "id": "genius-madness",
+   "layer": "L7",
+   "fields": [
+    "psychology",
+    "philosophy"
+   ],
+   "definition": "Both large deviations; distinguished by coupling to Omega."
+  },
+  {
+   "id": "latent-inhibition",
+   "layer": "L7",
+   "fields": [
+    "psychology"
+   ],
+   "definition": "Filtering of previously irrelevant stimuli; reduced in creativity and psychosis-proneness."
+  },
+  {
+   "id": "aberrant-salience",
+   "layer": "L7",
+   "fields": [
+    "psychiatry"
+   ],
+   "definition": "Significance attributed to noise."
+  },
+  {
+   "id": "precision-weighting",
+   "layer": "L7",
+   "fields": [
+    "neuroscience"
+   ],
+   "definition": "Relative weight of priors vs prediction errors (or own vs others' evidence)."
+  },
+  {
+   "id": "hallucination",
+   "layer": "L7",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Confident output uncoupled from Omega; formal madness."
+  },
+  {
+   "id": "sycophancy",
+   "layer": "L7",
+   "fields": [
+    "ml"
+   ],
+   "definition": "Model deferring to user over own evidence."
+  },
+  {
+   "id": "gaslighting",
+   "layer": "L7",
+   "fields": [
+    "philosophy",
+    "sociology"
+   ],
+   "definition": "Adversary drives victim's precision on own perception toward zero."
+  },
+  {
+   "id": "channel-weighting",
+   "layer": "L7",
+   "fields": [
+    "philosophy"
+   ],
+   "definition": "Unequal credibility assigned to speakers' channels (epistemic injustice)."
+  },
+  {
+   "id": "sophistry",
+   "layer": "L7",
+   "fields": [
+    "philosophy",
+    "ml"
+   ],
+   "definition": "Speaker optimizing hearer acceptance against weak tests."
+  }
+ ],
+ "edges": [
+  {
+   "source": "dpi",
+   "relation": "grounds",
+   "target": "reasoning-gap"
+  },
+  {
+   "source": "dpi",
+   "relation": "grounds",
+   "target": "verification-fraction"
+  },
+  {
+   "source": "dpi",
+   "relation": "grounds",
+   "target": "model-collapse"
+  },
+  {
+   "source": "channel",
+   "relation": "instantiates",
+   "target": "verifier-channel"
+  },
+  {
+   "source": "rate-distortion",
+   "relation": "grounds",
+   "target": "misprision"
+  },
+  {
+   "source": "sufficiency",
+   "relation": "grounds",
+   "target": "belief-state"
+  },
+  {
+   "source": "belief-state",
+   "relation": "grounds",
+   "target": "world-model-probe"
+  },
+  {
+   "source": "identifiability",
+   "relation": "formalizes",
+   "target": "indeterminacy"
+  },
+  {
+   "source": "pmi-geometry",
+   "relation": "formalizes",
+   "target": "distributional-hypothesis"
+  },
+  {
+   "source": "symmetry-to-geometry",
+   "relation": "formalizes",
+   "target": "distributional-hypothesis"
+  },
+  {
+   "source": "distributional-hypothesis",
+   "relation": "exemplifies",
+   "target": "retrospective-verification"
+  },
+  {
+   "source": "distributional-hypothesis",
+   "relation": "exemplifies",
+   "target": "sleeping-beauty"
+  },
+  {
+   "source": "statistical-geometry",
+   "relation": "formalizes",
+   "target": "structuralism"
+  },
+  {
+   "source": "latent-world-state",
+   "relation": "grounds",
+   "target": "statistical-geometry"
+  },
+  {
+   "source": "platonic-representation",
+   "relation": "instantiates",
+   "target": "convergence-vs-collapse"
+  },
+  {
+   "source": "time-integrated-snapshot",
+   "relation": "depends_on",
+   "target": "stateful-world"
+  },
+  {
+   "source": "symbol-grounding",
+   "relation": "reframed_by",
+   "target": "convergence-vs-collapse"
+  },
+  {
+   "source": "causal-reference",
+   "relation": "answers",
+   "target": "symbol-grounding"
+  },
+  {
+   "source": "teleosemantics",
+   "relation": "answers",
+   "target": "symbol-grounding"
+  },
+  {
+   "source": "communicative-intent",
+   "relation": "challenges",
+   "target": "symbol-grounding"
+  },
+  {
+   "source": "outside-text",
+   "relation": "challenges",
+   "target": "dpi"
+  },
+  {
+   "source": "representationalism",
+   "relation": "presupposed_by",
+   "target": "latent-world-state"
+  },
+  {
+   "source": "meaning-as-use",
+   "relation": "analogizes",
+   "target": "statistical-geometry"
+  },
+  {
+   "source": "reasoning-gap",
+   "relation": "operationalized_by",
+   "target": "generation-verification-gap"
+  },
+  {
+   "source": "sharpening",
+   "relation": "closes",
+   "target": "reasoning-gap"
+  },
+  {
+   "source": "sharpening",
+   "relation": "analogizes",
+   "target": "prior-replacement"
+  },
+  {
+   "source": "sharpening",
+   "relation": "analogizes",
+   "target": "exploration-exploitation"
+  },
+  {
+   "source": "verifier-channel",
+   "relation": "prevents",
+   "target": "model-collapse"
+  },
+  {
+   "source": "transcendence",
+   "relation": "depends_on",
+   "target": "source-diversity"
+  },
+  {
+   "source": "transcendence",
+   "relation": "analogizes",
+   "target": "wisdom-of-crowds"
+  },
+  {
+   "source": "testimony",
+   "relation": "instantiates",
+   "target": "stochastic-repeater"
+  },
+  {
+   "source": "empiricism",
+   "relation": "formalized_by",
+   "target": "dpi"
+  },
+  {
+   "source": "analytic-synthetic",
+   "relation": "formalized_by",
+   "target": "reasoning-gap"
+  },
+  {
+   "source": "variation-selection",
+   "relation": "grounds",
+   "target": "genius-madness"
+  },
+  {
+   "source": "misprision",
+   "relation": "instantiates",
+   "target": "variation-selection"
+  },
+  {
+   "source": "clinamen",
+   "relation": "instantiates",
+   "target": "misprision"
+  },
+  {
+   "source": "replication-filter",
+   "relation": "determines",
+   "target": "canon-selection"
+  },
+  {
+   "source": "media-regime",
+   "relation": "parameterizes",
+   "target": "replication-filter"
+  },
+  {
+   "source": "fidelity-threshold",
+   "relation": "parameterizes",
+   "target": "media-regime"
+  },
+  {
+   "source": "evenness",
+   "relation": "determines",
+   "target": "tail-loss"
+  },
+  {
+   "source": "tail-loss",
+   "relation": "instantiates",
+   "target": "model-collapse"
+  },
+  {
+   "source": "attention-economy",
+   "relation": "succeeds",
+   "target": "replication-filter"
+  },
+  {
+   "source": "attention-economy",
+   "relation": "causes",
+   "target": "canon-entrenchment"
+  },
+  {
+   "source": "preferential-attachment",
+   "relation": "causes",
+   "target": "canon-entrenchment"
+  },
+  {
+   "source": "preferential-attachment",
+   "relation": "lowers",
+   "target": "effective-population"
+  },
+  {
+   "source": "fitness-attachment",
+   "relation": "enables",
+   "target": "sleeping-beauty"
+  },
+  {
+   "source": "retroactive-canon",
+   "relation": "enables",
+   "target": "sleeping-beauty"
+  },
+  {
+   "source": "hub-revival",
+   "relation": "enables",
+   "target": "sleeping-beauty"
+  },
+  {
+   "source": "gatekeeper",
+   "relation": "analogizes",
+   "target": "hub-dominance"
+  },
+  {
+   "source": "hub-dominance",
+   "relation": "breaks",
+   "target": "wisdom-of-crowds"
+  },
+  {
+   "source": "frame-relativity",
+   "relation": "rewires",
+   "target": "retroactive-canon"
+  },
+  {
+   "source": "effective-population",
+   "relation": "governs",
+   "target": "genetic-drift"
+  },
+  {
+   "source": "genetic-drift",
+   "relation": "causes",
+   "target": "model-collapse"
+  },
+  {
+   "source": "migration-balance",
+   "relation": "prevents",
+   "target": "model-collapse"
+  },
+  {
+   "source": "source-diversity",
+   "relation": "instantiates",
+   "target": "migration-balance"
+  },
+  {
+   "source": "latent-diversity",
+   "relation": "refines",
+   "target": "source-diversity"
+  },
+  {
+   "source": "surface-diversity",
+   "relation": "masks",
+   "target": "latent-diversity"
+  },
+  {
+   "source": "accumulation-regime",
+   "relation": "bounds",
+   "target": "model-collapse"
+  },
+  {
+   "source": "sampling-bias",
+   "relation": "accelerates",
+   "target": "model-collapse"
+  },
+  {
+   "source": "iterated-learning",
+   "relation": "causes",
+   "target": "prior-replacement"
+  },
+  {
+   "source": "prior-replacement",
+   "relation": "explains",
+   "target": "model-collapse"
+  },
+  {
+   "source": "prior-replacement",
+   "relation": "produces",
+   "target": "pulp"
+  },
+  {
+   "source": "rogers-paradox",
+   "relation": "analogizes",
+   "target": "model-collapse"
+  },
+  {
+   "source": "verification-fraction",
+   "relation": "resolves",
+   "target": "rogers-paradox"
+  },
+  {
+   "source": "stochastic-repeater",
+   "relation": "lowers",
+   "target": "verification-fraction"
+  },
+  {
+   "source": "division-of-linguistic-labor",
+   "relation": "explains",
+   "target": "stochastic-repeater"
+  },
+  {
+   "source": "epistemic-vigilance",
+   "relation": "filters",
+   "target": "stochastic-repeater"
+  },
+  {
+   "source": "information-cascade",
+   "relation": "limit_of",
+   "target": "stochastic-repeater"
+  },
+  {
+   "source": "triangulation",
+   "relation": "requires",
+   "target": "source-diversity"
+  },
+  {
+   "source": "monoculture",
+   "relation": "lowers",
+   "target": "source-diversity"
+  },
+  {
+   "source": "alignment-homogenization",
+   "relation": "lowers",
+   "target": "latent-diversity"
+  },
+  {
+   "source": "mimesis",
+   "relation": "analogizes",
+   "target": "model-collapse"
+  },
+  {
+   "source": "idle-talk",
+   "relation": "analogizes",
+   "target": "model-collapse"
+  },
+  {
+   "source": "simulacrum",
+   "relation": "fixed_point_of",
+   "target": "model-collapse"
+  },
+  {
+   "source": "ratchet",
+   "relation": "requires",
+   "target": "fidelity-threshold"
+  },
+  {
+   "source": "performativity",
+   "relation": "breaks",
+   "target": "dpi"
+  },
+  {
+   "source": "reflexive-world",
+   "relation": "enables",
+   "target": "performativity"
+  },
+  {
+   "source": "feedback-loop",
+   "relation": "instantiates",
+   "target": "performativity"
+  },
+  {
+   "source": "co-collapse",
+   "relation": "instantiates",
+   "target": "performativity"
+  },
+  {
+   "source": "co-collapse",
+   "relation": "lowers",
+   "target": "source-diversity"
+  },
+  {
+   "source": "lonely-crowds",
+   "relation": "instantiates",
+   "target": "co-collapse"
+  },
+  {
+   "source": "disruption",
+   "relation": "measures",
+   "target": "model-collapse"
+  },
+  {
+   "source": "exploration-exploitation",
+   "relation": "parameterizes",
+   "target": "hot-streak"
+  },
+  {
+   "source": "slow-learners",
+   "relation": "preserves",
+   "target": "latent-diversity"
+  },
+  {
+   "source": "q-model",
+   "relation": "analogizes",
+   "target": "time-integrated-snapshot"
+  },
+  {
+   "source": "science-institution",
+   "relation": "instantiates",
+   "target": "verifier-channel"
+  },
+  {
+   "source": "eight-legged-essay",
+   "relation": "produces",
+   "target": "pulp"
+  },
+  {
+   "source": "fidelity-threshold",
+   "relation": "explains",
+   "target": "eight-legged-essay"
+  },
+  {
+   "source": "incommensurability",
+   "relation": "measured_by",
+   "target": "platonic-representation"
+  },
+  {
+   "source": "compression-progress",
+   "relation": "formalizes",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "logical-depth",
+   "relation": "grounds",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "fixed-probe",
+   "relation": "grounds",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "stateful-world",
+   "relation": "enables",
+   "target": "fixed-probe"
+  },
+  {
+   "source": "aesthetic-distance",
+   "relation": "formalizes",
+   "target": "horizon-of-expectations"
+  },
+  {
+   "source": "pulp",
+   "relation": "defined_by",
+   "target": "aesthetic-distance"
+  },
+  {
+   "source": "defamiliarization",
+   "relation": "increases",
+   "target": "aesthetic-distance"
+  },
+  {
+   "source": "readerly-writerly",
+   "relation": "analogizes",
+   "target": "pulp"
+  },
+  {
+   "source": "open-work",
+   "relation": "exemplifies",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "gaps",
+   "relation": "grounds",
+   "target": "reasoning-gap"
+  },
+  {
+   "source": "interpretive-community",
+   "relation": "grounds",
+   "target": "frame-relativity"
+  },
+  {
+   "source": "fusion-of-horizons",
+   "relation": "grounds",
+   "target": "fixed-probe"
+  },
+  {
+   "source": "surprising-yet-inevitable",
+   "relation": "formalized_by",
+   "target": "compression-progress"
+  },
+  {
+   "source": "aesthetic-measure",
+   "relation": "precursor_of",
+   "target": "compression-progress"
+  },
+  {
+   "source": "novelty-transience-resonance",
+   "relation": "operationalizes",
+   "target": "genius-madness"
+  },
+  {
+   "source": "novelty-transience-resonance",
+   "relation": "operationalizes",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "epoch-tolerance",
+   "relation": "operationalizes",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "long-range-mi",
+   "relation": "operationalizes",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "genius-madness",
+   "relation": "depends_on",
+   "target": "verifier-channel"
+  },
+  {
+   "source": "latent-inhibition",
+   "relation": "mechanism_of",
+   "target": "genius-madness"
+  },
+  {
+   "source": "aberrant-salience",
+   "relation": "mechanism_of",
+   "target": "genius-madness"
+  },
+  {
+   "source": "precision-weighting",
+   "relation": "grounds",
+   "target": "gaslighting"
+  },
+  {
+   "source": "precision-weighting",
+   "relation": "grounds",
+   "target": "aberrant-salience"
+  },
+  {
+   "source": "hallucination",
+   "relation": "instantiates",
+   "target": "genius-madness"
+  },
+  {
+   "source": "sycophancy",
+   "relation": "instantiates",
+   "target": "gaslighting"
+  },
+  {
+   "source": "gaslighting",
+   "relation": "limit_of",
+   "target": "stochastic-repeater"
+  },
+  {
+   "source": "archive-control",
+   "relation": "instantiates",
+   "target": "gaslighting"
+  },
+  {
+   "source": "archive-control",
+   "relation": "depends_on",
+   "target": "stateful-world"
+  },
+  {
+   "source": "channel-weighting",
+   "relation": "grounds",
+   "target": "gaslighting"
+  },
+  {
+   "source": "sophistry",
+   "relation": "exploits",
+   "target": "epistemic-vigilance"
+  },
+  {
+   "source": "non-ergodicity",
+   "relation": "refines",
+   "target": "time-integrated-snapshot"
+  },
+  {
+   "source": "path-dependence",
+   "relation": "instantiates",
+   "target": "stateful-world"
+  },
+  {
+   "source": "undecidability",
+   "relation": "grounds",
+   "target": "inexhaustibility"
+  },
+  {
+   "source": "interpreter-class",
+   "relation": "parameterizes",
+   "target": "undecidability"
+  },
+  {
+   "source": "effective-complexity",
+   "relation": "analogizes",
+   "target": "logical-depth"
+  },
+  {
+   "source": "cultural-market",
+   "relation": "instantiates",
+   "target": "preferential-attachment"
+  },
+  {
+   "source": "cultural-transmission",
+   "relation": "grounds",
+   "target": "iterated-learning"
+  },
+  {
+   "source": "conformist-bias",
+   "relation": "lowers",
+   "target": "latent-diversity"
+  },
+  {
+   "source": "archive",
+   "relation": "enables",
+   "target": "sleeping-beauty"
+  },
+  {
+   "source": "canon-selection",
+   "relation": "instantiates",
+   "target": "variation-selection"
+  }
+ ]
+}

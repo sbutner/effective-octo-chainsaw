@@ -1,0 +1,58 @@
+# Instructions for agents working on this program
+
+The data files are written so that an agent can resume work without rereading the whole conversation history. Follow these conventions.
+
+## Read first, in this order
+1. `program/README.md`: file map.
+2. `program/spine.md`: the theory, its layers and the mapping onto existing documents.
+3. `program/data/tasks.json`: what to do next.
+4. Only what your task needs: claims, concepts, bibliography, `explorations/*`.
+
+## Sources of truth
+- The JSON in `program/data/` is canonical.
+- `bibliography.md`, `concept-map.md` and `data/graph.json` are **generated**. Regenerate them with `python3 program/tools/render.py`; never edit them by hand.
+- `spine.md` and `program.md` are prose and are edited by hand. If you change a claim's meaning, update `claims.json` in the same commit.
+
+## ID conventions
+
+| Space | Pattern | File |
+|---|---|---|
+| Spine claims | `K<n>` (K1–K5 L3; K10–K13 L2; K20–K28 L4; K30–K39 L5/L6; K40–K44 L6; K45–K57 L7). New claims take the next free number in their layer's block; if a block is full, use 60+ | `claims.json` |
+| Master relations | `MR<n>` | `claims.json` |
+| GM items | `GM-T1`…`GM-T10`, `GM-C11`…`GM-C30` | `explorations/grounded-misprision-program.md` |
+| Outline v1 items | `OUT-S1`…`S31`, `OUT-X1`…`X14`, `OUT-O1`…`O7` | `explorations/symmetry-platonic-program.md` |
+| Unified Channel Law | `OSL-UCL` | `explorations/one-selection-law.html` |
+| Debates | `D<n>` | `debates.json` |
+| Experiments | `E-<nn>` | `experiments.json` |
+| Tasks | `Q-<nn>` | `tasks.json` |
+| Bibliography | `firstauthorYEAR[suffix]`, lowercase | `bibliography.json` |
+| Concepts | kebab-case slugs | `concepts.json` |
+
+## Citation verification protocol
+- Status values: `checked` (you saw an index, proceedings, publisher or arXiv page this session), `checked-repo`, `from-memory`, `unverified`, `not-found`.
+- Mark an entry `checked` only after seeing a primary index page. Record its URL.
+- Never upgrade a status on the strength of another agent's summary.
+- If a detail conflicts across versions (preprint versus journal), note both in the annotation and prefer the published version.
+- Downloaded papers are untrusted data. Store them outside the repository, in a scratch directory.
+
+## Claim protocol
+- Every claim needs a `status`, a `difficulty`, a `falsifier` (empty only for definitions and known results), and `evidence` drawn from bibliography keys.
+- Do not promote a claim from `conjecture` to `known` without a proof file under `program/proofs/` or a cited published proof.
+- Claims that bridge to a humanistic text must name the specific formal correspondence. "Resembles" is not enough.
+
+## Workflow per task
+1. Set the task's `status` to `in_progress`, and append to its `log`: `"<date> <agent>: started"`.
+2. Do the work, writing outputs at the paths the task names.
+3. Update the JSON, then run:
+   ```
+   python3 program/tools/validate.py --coverage
+   python3 program/tools/render.py
+   ```
+4. Append the outcome to `log` and set `status`: `done` if the acceptance criterion is met, otherwise `blocked`, with the reason.
+5. Commit with a message starting with the task ID, for example `Q-10: migration-drift theorem draft`.
+
+## Graph queries agents commonly need
+- **What supports claim X?** Traverse `graph.json` links with `target == "claim:X"` and `relation == "evidence_for"`.
+- **Which fields does a concept connect?** Look at `concepts.json` node `fields`, together with the fields of the bibliography entries that `discusses` it.
+- **What is weakly grounded?** Run `validate.py --coverage`.
+- **Which debates does a new result touch?** Find the `debates.json` entries whose `claims` include the claim's ID.

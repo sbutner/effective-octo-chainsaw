@@ -1,6 +1,6 @@
 # Explorations
 
-Working documents for the research program: **world symmetry → corpus statistics → model geometry → grounding and behavior**. For current state and next steps, see [`../HANDOFF.md`](../HANDOFF.md).
+Working documents for the research program: **world symmetry → corpus statistics → model geometry → grounding and behavior**. For current state and next steps, see [`../HANDOFF.md`](../HANDOFF.md). These documents are now components of the umbrella theory in [`../program/`](../program/README.md), which links their IDs (GM-T\*, GM-C\*, OUT-S\*) from `program/data/claims.json`.
 
 | File | What it is | Origin | Date |
 |---|---|---|---|

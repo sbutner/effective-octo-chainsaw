@@ -2,6 +2,31 @@
 
 *Last updated 2026-11-21. Branch: `claude/determined-davinci-3341ib`.*
 
+## 0. Reframing (latest session): start at [`program/`](program/README.md)
+
+The project has been widened. It is now **a formal theory of knowledge production and transmission**, running from information-theoretic first principles through archives and literary canons to LLM ecosystems. LLMs serve as an apparatus for retrospectively verifying long-standing claims in other fields; Firth's distributional hypothesis is the model case. The documents below are now components of that spine:
+
+| Document | Role in the spine |
+|---|---|
+| GM | Selection core |
+| Outline v1 | Symmetric sector |
+| *One Selection Law* | Behavior stage |
+| Lean drafts | Lattice skeleton |
+
+**New in `program/`:**
+
+- **`spine.md`**: nine layers, L0 to L8.
+- **`program.md`**: the program of workstreams, proof queue, experiments, bridges, phases and risks.
+- **`AGENTS.md`**: conventions for agents.
+- **Canonical JSON in `data/`**:
+  - 46 claims (K-*) and 5 master relations;
+  - 131 concepts linked by 129 typed edges;
+  - a 196-entry annotated bibliography with a verification status for each entry;
+  - 21 debates, 12 experiments and 20 agent tasks.
+- **Tools**: `tools/validate.py` checks integrity and coverage; `tools/render.py` generates `bibliography.md`, `concept-map.md` and `graph.json`.
+
+**Next:** follow `program/data/tasks.json`, highest priority first. In order: Q-01/Q-02 (citations), Q-04/Q-05 (notation and estimators), Q-08/Q-10 (proofs), Q-14 (experiments E-01 and E-04). Sections 1–8 below still describe the sub-programs accurately.
+
 ## 1. What this project is
 
 The project is a mathematical research program about how world structure gets into language and into models trained on language. It started from informal notes on language (sensoria, misperception, embeddings, cants, nuance, audience models) and a hunch:
