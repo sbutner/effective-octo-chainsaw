@@ -1,329 +1,456 @@
-# Symmetry → Geometry → Convergence
+# Symmetry, Geometry, Convergence — v1
 
-*A mathematical program connecting symmetric language statistics (Karkada et al., 2026) to the Platonic Representation Hypothesis (Huh et al., 2024), built on a generous reading of a set of notes on language.*
+*The solvable sector of the Platonic Representation Hypothesis and of Grounded Misprision.*
 
-Status: outline v0 · 2026-11-21
-
----
-
-## 0. Thesis
-
-The **Platonic Representation Hypothesis (PRH)** says that models trained on different data, objectives and modalities converge toward a shared statistical model of reality. Its supporting theory is an idealization: discrete world events, bijective observations, contrastive learners whose optimal kernel is pointwise mutual information (PMI), and infinite data. It does not say what the shared model *looks like*, how fast agents converge, why agents with *disjoint* data and *different* perceptions should agree, or what is left over when they don't.
-
-**Karkada, Korchinski, Nava, Wyart & Bahri** show, for a single model, that when language statistics carry a symmetry the learned geometry is forced by it. The co-occurrence of two months depends only on the interval between them, so Fourier modes give the month circle, the year curve, and linearly decodable coordinates for places. The geometry survives drastic perturbations, such as deleting every sentence in which two months co-occur. It survives because a continuous latent variable controls the statistics *collectively*, across the whole vocabulary.
-
-**Claim of this project: the symmetric sector of language is the exactly solvable sector of the PRH.** On any word family that is an orbit of a world symmetry $G$:
-
-1. Every learner in a broad class converges to the same object: the decomposition of the family into irreducible representations (irreps) of $G$. Agents differ only by a short vector of per-irrep radii and a gauge rotation. The class covers any objective that is an entrywise function of co-occurrence statistics, and deep networks with exchangeable token initialization.
-2. Alignment between two models is then a closed-form function of those radii: linear CKA is the cosine similarity of the two spectral profiles.
-3. Convergence needs a shared *law*, not shared *data*. Its rate is set by the same collective eigengap that makes the geometry robust.
-4. What does **not** converge is the symmetry-breaking residue: relative phases between families, community-specific associations, register. That is where the notes' cants, audience models and "what do you mean, *you people*?" live.
-
-The notes' hunch becomes three theorems to prove:
-
-- geometry is a pushforward of the statistics of real-world behavior (Stage A);
-- separately trained ("disjoint") but mutually intelligible models are what equivariance plus concentration predict (Stage C);
-- pooled corpora are consistent estimators of the world kernel's symmetric part, which is the precise sense in which language is an accumulation system for world models (Stage E).
+Status: outline v1 · 2026-11-21. This version replaces v0 in the same file. It was checked against the full texts of Karkada et al. (arXiv:2602.15029v3), Storan, Tolias & Miolane (arXiv:2610.00647v1) and Huh et al. (arXiv:2405.07987), and merged with *Grounded Misprision: A Research Program* (Nov 20, 2026) and the two `LanguageAccumulation` Lean drafts.
 
 ---
 
-## 1. Reading the notes as mathematical objects
+## 0. What changed from v0
 
-| Note | Formal object |
+- **Corrections (§3).**
+  - The target matrix is $M^\star$, not PMI.
+  - The titles of Karkada et al. (2025) and Engels et al. (2025) were wrong.
+  - The robustness argument and the group and Gelfand-pair theorems are already published. v0's B1–B2 are now cited, not proposed.
+- **Status tags on every item:** **Known** (published, with pointer), **Implicit** (used but never stated), **New** (target theorem), **Conjecture**, **Test**.
+- **Merged with Grounded Misprision (GM):** shared notation (§4) and a new Stage F of joint results. The main joint claim is that *convergence is not grounding* (S25–S26).
+- **Renumbered** to avoid clashing with GM's labels: results S1–S31, experiments X1–X14, open problems O1–O7. GM's A, T and C labels keep their meaning.
+
+---
+
+## 1. Thesis
+
+There are two claims, one per program.
+
+**State: the PRH side.** Take a word family whose co-occurrence statistics are invariant under a group $G$. On such a family, representational convergence is a theorem, not a hypothesis. The shape every learner reaches is fixed by $G$: it is made of matrix elements of $G$'s irreducible representations (irreps). This much is Karkada et al. and Storan et al.
+
+What this program adds is the multi-agent part:
+
+- the shape is shared across objectives, agents, corpora and modalities;
+- alignment between two models has a closed form, a Plancherel inner product of their spectra;
+- the alignment ceiling is computable.
+
+On symmetric families, that answers the PRH's own open question of what an alignment score of 0.16 means. It also makes precise the PRH's §6 conjecture that alignment is "capped by the mutual information between the input signals."
+
+**Process: the GM side.** Convergence is not grounding. Models trained on a shared or self-generated corpus converge to *the corpus's* kernel. That kernel equals the world's kernel only through channels that are conditionally independent of the corpus given the world (GM A2, T4).
+
+In the symmetric sector this has a sharp signature:
+
+- closed-loop training acts as a low-pass filter (GM T9);
+- alignment metrics are dominated by the leading irrep;
+- so **collapse raises cross-model alignment while lowering grounded information**.
+
+PRH alignment is therefore evidence about reality only across conditionally independent channels (S26).
+
+**Together.** Reference carries world symmetry into word statistics, and geometry is a snapshot of that symmetry (GM T8 = S1). Convergence of snapshots across agents is the PRH. Whether a snapshot stays true is a matter of selection (GM T3).
+
+---
+
+## 2. The anchor results, verified
+
+### 2.1 Karkada, Korchinski, Nava, Wyart & Bahri (2026), arXiv:2602.15029v3, ICML 2026
+
+- **Model.** Word embeddings learn the top eigenmodes of
+  $$M^\star_{ij}=\frac{P_{ij}-P_iP_j}{\tfrac12(P_{ij}+P_iP_j)},$$
+  which equals PMI up to third order. The embeddings are $W=\Phi\sqrt{|\Lambda^\star|}$ (Karkada et al., 2025).
+  - Asymmetric (word/context) factorization is identifiable only up to an invertible linear map. With their balanced initialization, the Gram matrix factors $|M^\star|$.
+  - Empirically $M^\star$ is far from positive semidefinite: $\operatorname{rank}M^+\approx\operatorname{rank}M^-$.
+- **Assumption 3.1.** $P_{ij}=P_iP_j\,\tilde C(\mathrm{dist}(x_i,x_j))$, so $M^\star_{ij}=C(\mathrm{dist})$ with $C=f\circ\tilde C$ and $f(y)=2(y-1)/(y+1)$.
+- **Results.**
+  - Prop. 1: Fourier geometry on periodic lattices.
+  - Cor. 2: for the periodized exponential kernel, amplitudes $a_n=\sqrt{2\sigma/(1+\sigma^2k_n^2)}$ with $k_n=\pi n$.
+  - Prop. 3: open boundary conditions (years), with wavenumbers set by a transcendental quantization condition. This gives Lissajous curves.
+  - Prop. 4: linear coordinate decoding error scales as $\varepsilon^2\sim r^{-1/D}$ in the probe rank $r$.
+- **Robustness (§4).**
+  - Latent model: $P(i\mid t)=P(i)(1+g(t-t_i))$, so PMI is circulant in seasonal phase.
+  - Eigenvalues *and the gaps between them* scale with the number of seasonal words $N$. So editing a fixed block, such as the $12^2$ month–month entries, cannot move the top eigenvectors (Weyl or Davis–Kahan).
+  - Experiment: month–month co-occurrence is set to independence ($M^\star_{\mathcal S}=0$), with $d=10^3\ll V=2.5\times10^4$. The month circle survives.
+  - With $H$ seasonal "helper" words, reconstruction error falls like $1/\sqrt H$. Number words ("one" through "seventeen") do not help.
+- **Product structure (App. D).** Seasonality times binary attributes gives a Kronecker-structured PMI. Its eigenbasis is Fourier modes times Walsh functions: harmonic analysis on $\mathbb Z_N\times\mathbb Z_2^d$.
+- **Symmetry breakers they report.**
+  - "May" polysemy, which an LLM resolves from context and word2vec does not.
+  - Kinks in the year manifold at WWI and WWII.
+  - Digit tokenization of years.
+  - Two-token US state names.
+- **Not addressed:** the PRH, or alignment across models. Their discussion does call the geometry "task-agnostic and architecture-agnostic," and notes that text-only models acquire "a form of perceptual grounding."
+
+### 2.2 Storan, Tolias & Miolane (2026), arXiv:2610.00647v1
+
+- **Theorems.**
+  - Finite group acting freely and transitively on the words (a torsor), Thm 4.1 / B.3: the principal-component scores are $\sqrt{\lambda^{(s)}_\rho d_\rho/n}\,\rho(g)_{as}$. Here $\lambda^{(s)}_\rho$ are the eigenvalues of the matrix Fourier coefficient $\widehat C(\rho)$. This covers non-abelian groups and irreps that appear more than once.
+  - Compact groups (Thm C.5).
+  - Homogeneous spaces (Thm D.1), with a Gelfand-pair corollary (D.3) in which eigenvalues are integrals of spherical functions.
+  - The sphere $S^2$ (Thm 4.2).
+  - If the kernel is a class function, then $\widehat C(\rho)=\hat c_\rho I$.
+- **Method.** They test invariance with the Reynolds projection $\Pi_GM^\star$ (averaging $M^\star$ over the group) and report its $R^2$.
+  - Months: $R^2=0.87$.
+  - Bach triads: $R^2=0.822$ under transposition–inversion $T/I\cong D_{12}$, versus 0.830 under transposition alone ($\mathbb Z_{12}$), which uses 7 more parameters.
+  - $T/I$ is the most data-efficient hypothesis on held-out chorales.
+- **Evidence across models.** They do not frame this as PRH evidence, but it is:
+  - the circle of fifths appears in chord embeddings (per-chord cosine 0.98) and in ChordBERT activations (0.91);
+  - the sky sphere appears as degree-ordered spherical-harmonic blocks in 5 of 7 LLMs;
+  - the same fingerprint appears in embeddings trained on four star guides totalling 131k tokens;
+  - simulations suggest roughly 32–64 times that corpus would match the 123B model's sharpness;
+  - genre matters more than volume: text8 (17M tokens) shows no sky signal.
+- **Shape versus radii.** Across choices of context window, the rotation angles and isotypic energy stay stable while the eigenvalues drift. In their words, "corpora that have the same symmetries can still have wildly different eigenvalues."
+- **Not addressed:** the PRH, perturbation theory, or theory for LLM activations. Their stated limitation is that applying the result to activations "rests on an empirical premise."
+
+### 2.3 Huh, Cheung, Wang & Isola (2024), arXiv:2405.07987, ICML 2024
+
+- **Idealized world.**
+  - The world is a sequence of discrete events $\mathbf Z$.
+  - Observations are **bijective, deterministic** functions of events.
+  - Noise-contrastive (NCE-type) learners converge to $K_{\mathrm{PMI}}+c_X$.
+  - Bijectivity carries PMI over to the events, so all modalities converge to $K_{\mathrm{PMI}}(z_a,z_b)$.
+- **§6 limitations.**
+  - For non-bijective observations, they conjecture that alignment is "capped by the mutual information between the input signals and by the capacity of each model."
+  - They leave open whether a mutual-$k$NN score of 0.16 is strong or weak.
+  - Their color experiment (after Abdou et al., 2021) is a symmetric-family case: hue is roughly a circle, $U(1)$.
+  - Their metric family CKNNA interpolates between CKA and mutual-$k$NN.
+
+### 2.4 Settled versus open
+
+| Question | Status |
 |---|---|
-| We speak compulsively, for the performance or for the content | Utterances come from a mixture of a *content channel* (informative about world state $\theta$) and a *performance channel* (informative about speaker type $\tau$) |
-| Sensoria: perceived, classified, encoded lexically | Perception kernel $\pi_a(s \mid \theta,\iota)$, then a quantizer $\kappa_a: S\to C_a$ (classification), then lexicalization $\lambda_a: C_a \to \Delta(V)$ |
-| …includes metacognitive observations | The state includes the agent's internal state $\iota$; mental-state words are lexicalizations of $\iota$ |
-| …and imaginative excursions | Some utterances are generated from $\theta \sim q_a$ (the agent's own model) rather than from the world |
-| Misperceptions: a shared world, divergent categorizations | Agent-specific distortions of a shared world kernel, and different quantizers $\kappa_a \neq \kappa_b$ |
-| Embeddings vary by person; each has a subset of the corpus | Agent corpus $D_a$, empirical statistics $\hat M_a$, learned embedding $E_a: V\to\mathbb{R}^{d_a}$ |
-| …varies with expectation and sensoria co-occurrence | Context-conditioned kernels $M_a(\cdot,\cdot \mid c)$, where expectation acts as prior or context state |
-| Cants and shared experiences align associations efficiently | Shared side information and shared codebooks on the symmetry-breaking subspace (Wyner–Ziv) |
-| Speech shares sensoria or invokes a behavior | Two message types: source coding of $\theta$ (assertive) and control of the listener's action $b$ (directive), as in Lewis signaling games |
-| Hearing: decode in reverse, rate-limited, decide on a response | A Bayesian decoder under a capacity constraint, followed by a decision rule |
-| Nuance: put quantization precision where it pays most in context | Rate allocation across components under a context-dependent distortion: reverse water-filling |
-| "What do you mean, *you people*?" | A second-order model: the listener's estimate $\hat E_S$ of the speaker's lexicon, via an inferred speaker type (Rational Speech Acts) |
-| Hunch | **H1:** geometry is a pushforward of the statistics of world states and behaviors. **H2:** disjoint corpora still give mutually intelligible models. **H3:** pooled corpora estimate the world kernel, and large learners recover it |
+| Invariant statistics give irrep geometry, for one model, in word embeddings | **Known** (Karkada; Storan) |
+| Robustness to block edits through a collective eigengap | **Known** (Karkada §4.1) |
+| Same structure in LLMs, text-embedding models and a chord transformer | **Empirical** (Karkada; Storan); no theory |
+| Shape shared across objectives (entrywise transforms) | **Implicit** in Karkada Eq. 3; stated and used here (S2) |
+| Shape shared across agents, corpora and modalities; closed-form alignment; ceilings | **New** (S9–S15) |
+| Theory for deep networks, not just word embeddings | **New** (S7) |
+| Convergence versus grounding; alignment under collapse | **New, joint with GM** (S24–S31) |
 
 ---
 
-## 2. The two anchor results in a common language
+## 3. Corrections to v0
 
-### 2.1 Symmetry → geometry (Karkada et al., 2026)
-
-**Phenomena explained.** Circular month and weekday features in LLMs (Engels et al., 2024), and linear probes for years, latitude and longitude (Gurnee & Tegmark, 2024).
-
-**Mechanism (paraphrased).** Embedding models approximately learn the top eigenvectors of a PMI-like target matrix $M$ (Levy & Goldberg, 2014; Karkada et al., 2025).
-
-- If $M$ restricted to the months is circulant, $M_{ij} = f\big((i-j) \bmod 12\big)$, its eigenvectors are discrete Fourier modes. The top pair $\big(\cos\tfrac{2\pi i}{12}, \sin\tfrac{2\pi i}{12}\big)$ puts the months on a circle.
-- Toeplitz structure (years) gives cosine-like modes and a smooth 1-D curve.
-- Distance-dependent statistics on the sphere (places) give spherical harmonics. Their $\ell = 1$ block is the Cartesian embedding of the globe.
-
-**Robustness.** The geometry survives when direct co-occurrences are removed. The reason is that a continuous latent variable (seasonal time, position) drives each month's co-occurrence with the *rest* of the vocabulary.
-
-**Generalization.** A follow-up (arXiv:2610.00647, *Group-Invariant Statistics Determine Embedding Geometry*) appears to extend this to general symmetry groups, with embeddings given by irreps. Marchetti et al. (2024) show Fourier features emerging in group-invariant networks. Stage B below takes the group-theoretic version as its starting point and does not claim it as new.
-
-### 2.2 Platonic Representation Hypothesis (Huh, Cheung, Wang & Isola, 2024)
-
-**Hypothesis.** Representations are converging toward a shared statistical model of reality. Convergence is measured with mutual nearest-neighbor kernel alignment. As evidence, alignment rises with competence and scale, including across vision and language.
-
-**Their idealized argument.** The world is a sequence of discrete events $z$, and each modality observes them through $\mathrm{obs}_X$. A contrastive learner's optimal kernel is $K(x_a,x_b) = \mathrm{PMI}(x_a,x_b) + c_X$. If observations are bijective, the PMI over observations equals the PMI over events. So every modality converges to the same $K_{\mathrm{PMI}}(z_a,z_b)$.
-
-**What it leaves open:**
-
-- (a) the *shape* of the limit;
-- (b) finite and disjoint data;
-- (c) observation channels that are not bijective and differ by agent (misperception);
-- (d) objectives whose optimum is not exactly PMI;
-- (e) rates, ceilings, and an account of what does *not* converge.
-
-### 2.3 The bridge in one line
-
-The PRH says that in the idealized limit everyone's kernel equals $K_{\mathrm{PMI}}$. The symmetry result says that if $K$ commutes with $G$, its eigenbasis is fixed by $G$ alone.
-
-**Bridge: commuting with $G$ is far more robust than $K$ itself.** It survives every entrywise transform (so any objective), equivariant misperception, independent sampling, and, in law, architecture. So the eigenbasis, which is the geometry, converges even when the kernels do not.
+1. **Target matrix.** It is $M^\star$, a bounded surrogate for PMI that is accurate to third order. Embeddings factor its positive part, or $|M^\star|$ in the asymmetric case. Both are spectral functions, so they fit the learner class in §5.
+2. **v0's B1** (Schur's lemma, Peter–Weyl, Gelfand pairs) is Storan et al.'s theorem. They also cover the torsor case where irreps repeat, which v0 excluded.
+3. **v0's B2** (the collective eigengap) is Karkada et al. §4.1. The only addition here: their ablation ($M^\star_{\mathcal S}=0$) is itself a $G$-invariant edit, so it reshapes the spectrum without touching the basis (S6).
+4. **v0's alignment formula** (C2) held only when no irrep repeats. The general form is a Plancherel inner product (S10).
+5. **v0's rates** (C3) used total tokens. The right sample size is the *family-relevant* mass: Karkada's helper-word count $H$, and Storan's genre-over-volume result (S11).
+6. **v0's pooling claim** (C5) treated all symmetry breaking as noise to average away. Some of it is real world signal: February, the hemispheres, the wars. S27 splits the two kinds.
+7. **Titles.** Karkada et al. (2025) is *Closed-form training dynamics reveal learned features and linear structure in word2vec-like models* (NeurIPS). Engels et al. is *Not all language model features are one-dimensionally linear* (ICLR 2025).
 
 ---
 
-## 3. Formal setup
+## 4. Shared primitives and notation
 
-**3.1 World.** A latent space $(\Theta,\mu)$ holds world states *and behaviors*: what people do, and when. A compact group $G$ acts measurably on $\Theta$ and preserves $\mu$. Let $\rho$ be the joint law of the latent contexts of two tokens in the same window. Assume $\rho$ is invariant under the diagonal action $(\theta,\theta')\mapsto(g\theta, g\theta')$.
+This version uses GM's notation and renames the v0 symbols that clashed with it.
 
-**3.2 Agents and corpora.** Agent $a$ emits tokens through a composite channel $p_a(v\mid\theta)$: perception, then categorization, then lexicalization, then the speech act. Collective control takes the latent-variable form
+| Object | GM | Here |
+|---|---|---|
+| World, states, law, symmetry | $(\Omega,P)$, $\omega_t$, $G$ | same; orbit $\mathcal O\cong G/K\subset\Omega$ |
+| Sensoria, private evidence | $O_{a,t}=\sigma_a(\omega_t,\xi_{a,t})$, $E_a$ | same |
+| Agent state | $s_a=(b_a,S_a,\kappa_a)$ | same; $\kappa$ is *context* (v0's quantizer is now $q_a$, v0's blur is now $\nu_a$) |
+| Reading | $\rho_l(h\mid u,\kappa_l)$ | written $r_l(\cdot)$, freeing $\rho$ for irreps |
+| Collective state, grounded information | $W_t$, $\mathcal G_t=I(\Omega;W_t)$ | same; spectral version $\mathcal G=\sum_\rho\mathcal G_\rho$ (S24) |
+| Corpus, machine reader | $D$, $q\approx P_D$ | same |
+| Word family | — | $\mathcal S\subset V$, in bijection with $\mathcal O$ (v0's $W$) |
+| Representations | — | $X_a$ (v0's $E_a$, which clashed with GM's evidence) |
+| Co-occurrence target | — | $M^\star_a$; irreps $\rho\in\widehat G$; Fourier coefficients $\widehat C_a(\rho)$ |
 
-$$P_a(u,v) = \int p_a(u\mid\theta)\,p_a(v\mid\theta')\,\rho(d\theta,d\theta'), \qquad M_a(u,v) = \log\frac{P_a(u,v)}{P_a(u)\,P_a(v)} .$$
+**Where the two programs meet.**
 
-Equivalently, $P_a = \Lambda_a K_{\text{world}} \Lambda_a^{\top}$ with $(\Lambda_a)_{u\theta} = p_a(u\mid\theta)$. The corpus $D_a$ has $n_a$ tokens, and corpora may be disjoint. The pooled corpus is $D=\bigcup_a D_a$.
+| GM item | Here |
+|---|---|
+| A14: co-occurrence is induced by co-occurrence in the world | Karkada §4.1's latent model is the formal instance |
+| T1: misprision is unavoidable | S17–S18, restricted to a family |
+| T6: fidelity threshold | S28, restricted to a family |
+| T8: equivariant reference transfers symmetry | S1 |
+| T9: collapse is a low-pass filter | S21–S22, S28 |
+| T10: geometry as a weak internal test | S29 |
+| C13: correlated evidence turns aggregation into cascades | enters S13 |
+| C21, C28: camps; conspiracy communities | S20 |
 
-**3.3 G-families.** A family $W \subset V$ is a set of words with a bijection onto an orbit $\mathcal O \cong G/H \subset \Theta$. Examples: months onto $\mathbb Z_{12}$; city names onto $S^2 = SO(3)/SO(2)$.
+**Original notes, and where each now lives.**
 
-$G$ acts on the vocabulary by permutations $\sigma_g$: on $W$ through the orbit, on bulk words through their latent phases, and trivially on neutral words. The channel is **equivariant** if $p_a(\sigma_g v \mid g\theta) = p_a(v\mid\theta)$. The family is **multiplicity-free** when $(G,H)$ is a Gelfand pair, which holds for $\mathbb Z_N$, for $U(1)$, and for $S^2$ under $SO(3)$.
+| Note | Location |
+|---|---|
+| Speaking for the performance or for the content | Performance channel = speaker-type cues (S19–S20); content channel = families |
+| Sensoria, metacognition, imaginative excursions | GM primitive 2; imagination as untested readings, the drift term (S21); metacognition tested in X10 (affect circumplex) |
+| Misperceptions | S4, S12, S18 |
+| Embeddings vary by person; each holds a subset of the corpus | S9–S13 |
+| Cants and shared experiences | S19 (Wyner–Ziv side information) |
+| Speech shares sensoria or invokes a behavior; hearing is rate-limited | GM primitives 5–7; S16–S17 |
+| Nuance | S17 |
+| "What do you mean, *you people*?" | S19 |
+| Hunch | S1 (geometry comes from behavior); S11 and S26 (disjoint but intelligible, and when agreement means reality); S23 and GM T4 (accumulation) |
 
-**3.4 Learners.**
+---
 
-- $\mathcal L_{\text{lin}}$: the population target is $T = \mathrm{trunc}_d\,\psi\big(F(M)\big)$.
-  - $F$ acts entrywise: PMI, shifted PMI (SGNS), log counts (GloVe), PPMI.
-  - $\psi$ is a spectral reshaping, for example from finite-time training dynamics.
-  - The learned embedding satisfies $EE^\top \approx T$, up to an invertible linear map fixed by a canonical inner product or whitening.
-- $\mathcal L_{\text{exch}}$: any deep network that meets three conditions:
+## 5. The program
+
+**Learner classes.**
+
+- $\mathcal L_{\text{lin}}$: the target is $\mathcal T_a=\mathrm{trunc}_d\,\psi(F(M_a))$.
+  - $F$ acts entrywise: PMI, shifted PMI, log counts, or $M^\star$.
+  - $\psi$ is spectral: positive part, absolute value, or reshaping by finite-time training.
+- $\mathcal L_{\text{exch}}$: deep networks in which
   - token identity enters only through embedding and unembedding rows;
-  - initialization is i.i.d. across rows;
-  - training uses a permutation-equivariant optimizer (SGD, Adam).
-
-**3.5 Alignment.** Linear CKA (Kornblith et al., 2019), mutual-$k$NN (the PRH metric) and Procrustes distance, each computed on a family $W$.
-
----
-
-## 4. The program
+  - those rows are initialized i.i.d.;
+  - the optimizer is permutation-equivariant.
 
 ### Stage A: symmetry inheritance (world → corpus)
 
-- **A1 (pushforward).** If $\rho$ is $G$-invariant and the channel is equivariant, then $M_a(\sigma_g u,\sigma_g v) = M_a(u,v)$. *Proof:* change of variables in 3.2.
-  - *This is H1 as a lemma.* The geometry a corpus can support is inherited from the symmetry of world behavior: months co-occur with harvests, snow and holidays according to where those behaviors sit in the year.
-- **A2 (entrywise invariance).** For any function $f$, $f(M)$ also commutes with $R_g$, the permutation matrices of $\sigma_g$.
-  - Trivial, and central: every objective in $\mathcal L_{\text{lin}}$ has the same commutant, hence the same isotypic decomposition. On a multiplicity-free family it also has the same eigenvectors.
-  - Only the eigenvalues depend on the objective.
-- **A3 (decomposing distortions).** Any agent-specific distortion $B_a = M_a - M$ splits as $B_a = B_a^G + B_a^\perp$, where $B_a^G = \int_G R_g B_a R_g^{-1}\,dg$ is the Reynolds average.
-  - Only $B^\perp$ can rotate eigenvectors. $B^G$ only reshapes the spectrum.
-- **A4 (worked example: hemispheres).** In the north, snow co-occurs with Dec–Feb; in the south, with Jun–Aug. So $p_S(\text{snow}\mid i) = p_N(\text{snow}\mid i+6)$.
-  - Pooling a southern fraction $s$ multiplies the $k$-th Fourier coefficient of every seasonal co-occurrence profile by $1 - s + s(-1)^k$.
-  - At $s=\tfrac12$, odd harmonics vanish exactly. They stay zero after taking the log, because a function with period 6 still has period 6.
-  - The pooled statistics are still circulant, so the basis is unchanged, but the *spectrum is reordered*. If seasonal content dominates calendar-sequence content, $k=2$ overtakes $k=1$, and the top two principal components put June next to December.
-  - Calendar co-occurrence ("from May to June", fixed-date holidays) does not depend on hemisphere, so it keeps $k=1$ alive.
-  - *A clean instance of "a shared world produces divergent categorizations": the same calendar, with phase-shifted associations.*
+- **S1. Pushforward (GM T8). Implicit/Known.** Suppose the joint law $\Pi$ of co-occurring contexts is $G$-invariant, and the channel is equivariant: $p_a(\sigma_gv\mid g\omega)=p_a(v\mid\omega)$. Then $M^\star_a(\sigma_gu,\sigma_gv)=M^\star_a(u,v)$.
+  - Proof: change of variables. Karkada §4.1 is the $U(1)$ case.
+- **S2. Objective independence. Implicit, now stated.** Every entrywise $F$ and every spectral $\psi$ preserves commutation with the permutation matrices $R_g$.
+  - So every learner in $\mathcal L_{\text{lin}}$ has the same isotypic decomposition; only the spectra differ.
+- **S3. Decomposing distortions. New, elementary.** Write an agent's deviation as $B_a=M_a-M=B_a^G+B_a^\perp$, with $B^G=\int_GR_gBR_g^{-1}\,dg$.
+  - This is the same projection Storan et al. use to test invariance.
+  - Only $B^\perp$ can rotate eigenvectors.
+- **S4. Hemispheres. New; Test X2.** Let $s$ be the southern share of the corpus.
+  - The $k$-th Fourier coefficient of every seasonal profile is multiplied by $1-s+s(-1)^k$.
+  - At $s=\tfrac12$ the odd harmonics vanish exactly, and stay zero after taking the log.
+  - The basis is unchanged, but the spectrum can reorder: when seasonal content dominates calendar-sequence content, June lands next to December.
 
-### Stage B: symmetry → geometry (single agent)
+### Stage B: symmetry → geometry (one agent)
 
-- **B1 (Schur / Peter–Weyl; known).** Let $K_W$ be any $G$-commuting Gram matrix on a multiplicity-free family. Then
+- **S5. Known** (Storan Thms 4.1, C.5, D.1, D.3; Karkada Props 1–4). Family geometry consists of irrep matrix elements weighted by $\sqrt{\lambda_\rho^{(s)}}$.
+- **S6. Known** (Karkada §4.1), with one remark. The collective eigengap scales with the number of coupled words. The deletion ablation is $G$-invariant, so it changes the radii and not the basis.
+- **S7. Exchangeability for deep networks. New.** Assume:
+  - (i) the algorithm is equivariant: $\mathrm{Alg}(\sigma D,\sigma\xi)=\sigma\,\mathrm{Alg}(D,\xi)$;
+  - (ii) the initialization is exchangeable: $\sigma\xi\overset d=\xi$;
+  - (iii) the corpus law is invariant: $\sigma_gD\overset d=D$.
 
-  $$K_W = \sum_{\rho\ne \mathbf 1} \alpha_\rho\, P_\rho^W, \qquad E(w_x) = \bigoplus_\rho \sqrt{\alpha_\rho}\;\Phi_\rho(x),$$
+  Then the *law* of every token-level representation is $G$-invariant. This covers static embeddings and context-averaged activations at any layer. So $\mathbb E[\mathrm{Gram}_{\mathcal S}]$ satisfies S5, and no linearity is needed.
+  - This targets the limitation both papers state.
+  - Open: self-averaging (measurable as variance across seeds), and a quantitative version under approximate invariance (algorithmic stability).
+  - Empirical hint: in Karkada's Fig. 14, context sharpens the circle across layers.
+- **S8. Learning order. Conjecture; Test X9.** In the closed-form dynamics of Karkada et al. (2025), eigenmodes are learned in order of eigenvalue.
+  - So irreps should appear low-frequency first, and cross-model alignment should rise in steps.
 
-  with fixed projections $P^W_\rho$ and fixed harmonic frames $\Phi_\rho$:
-  - Fourier modes on $\mathbb Z_N$: the circle, then torus-knot curves when higher harmonics are kept;
-  - cosine modes for Toeplitz kernels on an interval: the "horseshoe" of Diaconis, Goel & Holmes (2008);
-  - spherical harmonics on $S^2$: the $\ell=1$ block is $(x,y,z)$, so latitude $=\arcsin z$ and longitude $=\operatorname{atan2}(y,x)$.
+### Stage C: convergence across agents (the bridge to the PRH)
 
-  *The shape is universal; agents differ only in the spectral profile $\alpha = (\alpha_\rho)_\rho$.* Truncation must not split a degenerate irrep; otherwise the choice of $d$ itself breaks the symmetry.
+- **S9. Population universality. New; empirical support in Storan Fig. 9.** Suppose agents differ in equivariant channel, objective, dimension and modality, but share $G$ and the orbit $\mathcal O$.
+  - Then $X_a|_{\mathcal S}$ and $X_b|_{\mathcal S}$ share the harmonic frame.
+  - They differ only in their spectra $\{\widehat C_a(\rho)\}$ and in a gauge transformation: the choice of origin and reflection within each irrep block.
+- **S10. Closed-form alignment. New.** For centered family Gram matrices (full rank, positive part):
+  $$\mathrm{CKA}(a,b)=\frac{\sum_{\rho\neq\mathbf 1}d_\rho\,\langle\widehat C_a(\rho),\widehat C_b(\rho)\rangle_F}{\big(\sum_\rho d_\rho\lVert\widehat C_a(\rho)\rVert_F^2\big)^{1/2}\big(\sum_\rho d_\rho\lVert\widehat C_b(\rho)\rVert_F^2\big)^{1/2}}$$
+  - This is the Plancherel inner product of the two kernels.
+  - For class-function or Gelfand-pair kernels, it reduces to the multiplicity-weighted cosine of the two scalar spectral profiles.
+  - Mutual-$k$NN equals 1 whenever the distance profile is monotone, for example when the leading irrep dominates on $\mathbb Z_N$.
+  - *On symmetric families, this answers the PRH's question of what a given score means: the ceiling is computable from the two spectra.*
+- **S11. Disjoint corpora, with rates. New.** By Davis–Kahan, $\lVert\sin\Theta(U_a,U_b)\rVert\le2(\varepsilon_a+\varepsilon_b)/\delta$. No shared data is needed.
+  - The gap $\delta$ scales with the number $H$ of words coupled to the family.
+  - The estimation error $\varepsilon$ scales with the family-relevant token mass $n_{\text{eff}}$, not with total tokens.
+  - Evidence: Karkada's $1/\sqrt H$ helper scaling; Storan's genre-over-volume result and their 32–64× simulation.
+- **S12. Ordering and blur. New.** A symmetric, unimodal perceptual blur $\nu_a$ multiplies the spectrum by $|\hat\nu_a(\rho)|^2$ (abelian case, linear-response regime), so the order of the irreps is preserved.
+  - A multimodal distortion, such as S4's hemisphere mixture, can reorder it.
+- **S13. Pooling with correlated sources. New; uses GM C13.** Agent idiosyncrasies shrink like $\sqrt{\log|V|/A_{\text{eff}}}$, where $A_{\text{eff}}=A/(1+(A-1)\bar\gamma)$ and $\bar\gamma$ is the mean pairwise correlation of the agents' distortions.
+  - At a fixed token count, more independent sources give more alignment. Correlated sources give cascades.
+- **S14. Cross-modal, weakening bijectivity. New.** If an equivariant observation channel has nonzero Schur scalars on the leading irreps, that is enough for cross-modal convergence on the family (when no irrep repeats). Bijectivity is not needed.
+  - This is the precise, family-level form of PRH §6's mutual-information cap.
+- **S15. A ceiling. New.** Alignment ≈ the population Plancherel CKA $-\,O((\varepsilon_a+\varepsilon_b)/\delta)$.
+  - As scale grows, alignment rises toward a ceiling. The ceiling is below 1 unless the two spectra are proportional.
 
-- **B2 (why deletion fails to destroy geometry: two mechanisms).**
-  - *Basis.* Deleting all within-family co-occurrences, as in the paper's ablation, is a $G$-invariant edit $\Delta$. By A2 and A3 it cannot rotate the basis; it can only reshape $\alpha$.
-  - *Ordering.* Collective control preserves the order of the irreps. With $|V_\theta|$ bulk words coupled to $\theta$, the family's leading eigenvalues scale like $|V_\theta|$, while $\lVert\Delta\rVert = O(|W|)$. A Davis–Kahan bound then gives $\sin\angle = O(|W|/|V_\theta|)$.
-  - **Goal:** prove this with explicit constants.
+### Stage D: communication
 
-- **B3 (exchangeability theorem; new; for deep networks).** Assume:
-  - (i) the training algorithm is equivariant: $\mathrm{Alg}(\sigma D,\sigma\xi) = \sigma\,\mathrm{Alg}(D,\xi)$;
-  - (ii) the initialization is exchangeable: $\sigma\xi \overset{d}{=} \xi$;
-  - (iii) the corpus *law* is invariant: $\sigma_g D \overset{d}{=} D$.
+- **S16. Schematic.** Communication error splits into three terms:
+  - lexical misalignment, which vanishes on families by Stage C;
+  - error in the listener's model of the speaker;
+  - a rate term.
+- **S17. Nuance as water-filling over irreps. New.** For $G$-invariant distortions of negative type:
+  $$R(D)=\sum_\rho\frac{m_\rho}{2}\log^+\frac{w_\rho(\kappa)\,\alpha_\rho}{\eta}$$
+  - The context $\kappa$ sets the weights $w_\rho$, so context decides where precision goes.
+- **S18. Misprision is high-pass (GM T1 on a family). New.** Two readers in different contexts, or with different quantizers $q_a$, agree below both water lines and both Nyquist limits, and diverge above them.
+  - Months coarse-grained to seasons: the gains $|\sin(\pi k/4)/(3\sin(\pi k/12))|$ are 0.91, 0.67, 0.33, 0 and 0.24 for $k=1$ to $5$.
+  - *Unavoidable misprision has a spectral address: the high irreps.*
+- **S19. Audience models and "you people". New.** The listener decodes with a posterior over speaker types:
+  $$P_L(h\mid u)\propto\sum_\tau P(\tau\mid\text{cues})\,S_\tau(u\mid h)\,P_\tau(h)$$
+  This is a Rational Speech Acts model with type uncertainty.
+  - On families, the $S_\tau$ agree, except for relative phases *between* families: "a December wedding" is warm or cold depending on hemisphere.
+  - Cants act as shared side information (Wyner–Ziv).
+  - Negative trust, GM's conspiracy case, is a type posterior that flips the sign of evidence.
+- **S20. The social residual (GM C21, C28). Conjecture; Test X8.** Fit two community-trained models to each other by Procrustes on the families. The residual:
+  - is orthogonal to the families;
+  - predicts the community;
+  - clusters into camps.
 
-  Then the *law* of every token-level representation is $G$-invariant. This covers a static embedding and the mean contextual state at any layer. Hence $\mathbb E[\mathrm{Gram}_W]$ commutes with $G$, and B1 applies to it. *No linearity is needed.*
+  Prediction: corpora from conspiracy communities keep the calendar circle while their residual diverges. They agree about December.
 
-  Open:
-  - (a) *Self-averaging:* how close is a realized Gram matrix to its mean? This is measurable as variance across seeds, and is itself a PRH-style statement.
-  - (b) *Approximate symmetry:* a quantitative version when (iii) holds only approximately. This needs algorithmic stability with respect to the fraction of symmetry-breaking text. Known breakers: tokenization (years split into digits), polysemy ("May"), and distinguished origins (New Year).
+### Stage E: accumulation (GM's process, specialized)
 
-- **B4 (learning order).** In the solvable dynamics of Karkada et al. (2025), eigenmodes are learned one after another in order of eigenvalue. Combined with B1, irreps appear low-frequency first: the circle forms before the finer harmonics.
-  - **Prediction:** cross-model alignment on a family rises in discrete steps during training, one irrep at a time.
+- **S21. Generational map with selection. New.**
+  $$M_{t+1}=\beta M_{\text{world}}+(1-\beta)\big[\pi\,\mathcal F_{\text{test}}(\Phi(M_t))+(1-\pi)\,\Phi(M_t)\big]$$
+  - $\beta$: the fraction of fresh, grounded speech.
+  - $\pi$: the fraction of synthetic or retold readings that pass a test on independent evidence (GM's select term).
+  - The remainder is GM's drift term.
+  - If $\Phi$ is equivariant in law, every iterate keeps the $G$-basis.
+- **S22. Low-pass collapse (GM T9). Conjecture, with a mechanism.** Suppose each generation re-estimates from $n_{\text{eff}}$ samples with Wiener-type shrinkage $s_\rho=\alpha_\rho/(\alpha_\rho+\sigma^2/n_{\text{eff}})$.
+  - Then the radii evolve as $\alpha^{(t+1)}_\rho=s^{(t)}_\rho\alpha^{(t)}_\rho$.
+  - Small radii decay fastest, so harmonics die in order and the circle goes last.
+  - If data accumulate rather than being replaced, $n_{\text{eff}}$ grows and the radii plateau (Gerstgrasser et al., 2024).
+- **S23. What the limit is. New.** $M_\infty$ is the world kernel seen through the *average lexicalization channel*. That is meaning from form as a state, as in GM T8.
 
-### Stage C: convergence across agents (the PRH bridge)
+### Stage F: joint results (grounding, alignment, the irrep lattice)
 
-- **C1 (population universality).** Let agents $a$ and $b$ differ in their equivariant channels, objectives $F_a, F_b$, dimensions $d_a, d_b$, and even modality, while sharing $G$ and the family orbit. Then
+- **S24. Grounded information by irrep. New.** Assume $G$-invariance and a Gaussian surrogate: the world's family kernel is a stationary Gaussian field on $\mathcal O$, and the representation observes it with noise. Then
+  $$\mathcal G=\sum_\rho\mathcal G_\rho,\qquad \mathcal G_\rho=\tfrac{m_\rho}{2}\log(1+\mathrm{SNR}_\rho)$$
+  - *In the symmetric sector, GM's "index $\mathcal G$ by target" becomes "index $\mathcal G$ by irrep."*
+  - Water-filling (S17), aliasing (S18) and collapse (S22) are all statements about the vector $(\mathcal G_\rho)_\rho$.
+- **S25. Collapse inflates alignment. New; Test X12.** Take scalar, nonnegative spectra (class-function or Gelfand-pair kernels) with a shared leading irrep. Let $\tau_a$ be the share of spectral mass outside the leading irrep. Then
+  $$\mathrm{CKA}(a,b)\ \ge\ \sqrt{(1-\tau_a)(1-\tau_b)}$$
+  - Collapse drives $\tau\to0$ (S22). Collapsed models then align almost perfectly with each other, and with any kernel dominated by the leading irrep, while $\mathcal G$ falls (GM T2).
+  - **CKA and mutual-$k$NN cannot see exactly what collapse destroys.**
+  - Measuring grounding needs a tail-sensitive measure: per-irrep radii, plus the world-asymmetry component (S27), each checked against an independent channel. Examples: climate records for months, geodesic distances for places, true celestial angles as in Storan §7.
+- **S26. When alignment is evidence of reality. New, easy.** Suppose $D_a\perp D_b\mid\Omega$ (GM A2), and the two models' training randomness is independent. For any learners, the data-processing inequality along $D_a\to\Omega\to D_b$ gives
+  $$I(X_a;X_b)\le I(D_a;D_b)\le\min\{I(\Omega;D_a),\,I(\Omega;D_b)\}$$
+  - Agreement can then only come from the world.
+  - Without conditional independence (shared web text, or synthetic data from a common model), agreement is bounded only by the shared corpus, and grounding can be zero.
+  - Agreement that comes from shared *priors* is invisible to mutual information but visible to CKA. That is S25's inflation.
+  - *Alignment between LLMs trained on overlapping web corpora does not by itself show convergence to reality. Alignment across conditionally independent channels (different modalities, languages, eras or hemispheres) can.*
+  - This is the information-theoretic form of PRH §6's cap. Relating population mutual information to CKA on a single training run is a further step (O5).
+- **S27. Two kinds of symmetry breaking. New.** Split $B^\perp=B^\perp_{\text{world}}+B^\perp_{\text{agent}}$.
+  - The world part: February is short; seasons flip by hemisphere; the year manifold kinks at WWI and WWII (Karkada); New Year pins the origin.
+  - The agent part: idiosyncrasy.
+  - Pooling removes the agent part (S13).
+  - Collapse removes the world part first (GM T9, second bullet), because irregularities are small modes and closed loops regress toward a smooth prior.
+  - The world part is also what fixes the gauge across models (O3).
+- **S28. An error threshold per irrep (GM T6 on a family). Conjecture.** An irrep survives transmission if its per-generation signal-to-noise ratio clears the copy noise.
+  - The number of retained harmonics, $K(n_{\text{eff}},\varphi,A_{\text{eff}})$, is the family-level analogue of Eigen's $K$.
+  - Calendar dates (365 tokens, many harmonics; Karkada Fig. 9) give a high-resolution testbed.
+- **S29. Geometry as a weak test (GM T10). New, easy.** The Reynolds projection $\Pi_G$ is a function of the corpus, so it cannot raise $\mathcal G$ (GM T2).
+  - It does lower variance, which is why $T/I$ is the most data-efficient chord hypothesis in Storan et al.
+  - It also erases $B^\perp_{\text{world}}$.
+  - So it slows collapse at the cost of smoothing away the world's irregularities. It is a bias–variance trade, not a source of information.
+- **S30. Explicit content as closure under tensor products (GM: "`sup` should become a closure operator"). New.**
+  - Once the leading irrep is resolved, every higher harmonic is *computable* from it: $e^{ik\theta}=(e^{i\theta})^k$, and in general through tensor products and fusion rules.
+  - So explicit content on a family is the closure of the resolved irreps under tensor products.
+  - The radii $\alpha_\rho$, which say how strongly the world couples to each harmonic, are not computable. They are grounded information.
+  - This is GM's split between explicit and grounded content, realized exactly. It also gives GM the closure operator it wants: $\mathrm{cl}(R)$ = the irreps generated by $R$ under $\otimes$.
+  - Consistency check with S4: a reader who resolves only $k=2$ (hemisphere-mixed seasonal text) has closure equal to the even frequencies, so the annual cycle cannot be deduced from the semiannual one.
+- **S31. The irrep lattice as a grounded `InfoLattice`. New.** When no irrep repeats, let a state be a subset of $\widehat G$ (in general, a subrepresentation), with sup = union, bot = $\varnothing$. An agent "knows $\rho$" when $\mathrm{SNR}_\rho$ is above threshold. Then:
+  - collapse is a deflationary operator that removes high irreps;
+  - aliasing is restriction to a subgroup's dual;
+  - deduction is S30's closure;
+  - $\mathcal G$ is monotone on the lattice.
 
-  $$E_a|_W = D_{\alpha^a}\,\Phi\,O_a, \qquad E_b|_W = D_{\alpha^b}\,\Phi\,O_b,$$
-
-  with a common harmonic frame $\Phi$, diagonal radii $D_\alpha$, and gauge rotations $O$ that commute with $G$ (choice of origin and reflection within each irrep block).
-  - *This is the PRH's "shared model of reality", in closed form: the harmonic structure of the world's symmetry group.*
-
-- **C2 (closed-form alignment).** Centering removes the trivial irrep. Then
-
-  $$\mathrm{CKA}(a,b) = \frac{\sum_\rho m_\rho\,\alpha^a_\rho\,\alpha^b_\rho}{\sqrt{\sum_\rho m_\rho (\alpha^a_\rho)^2}\,\sqrt{\sum_\rho m_\rho (\alpha^b_\rho)^2}}, \qquad m_\rho = \operatorname{rank} P_\rho^W .$$
-
-  That is, CKA is the cosine similarity of the two spectral profiles.
-  - **Mutual-$k$NN corollary on $\mathbb Z_N$.** Squared embedding distance depends only on circular distance $\delta$, through the profile $\delta \mapsto \sum_k \alpha_k m_k\big(1-\cos\tfrac{2\pi k\delta}{N}\big)$. If that profile increases on $[0, N/2]$, which holds when $\alpha_1$ dominates, every agent's $k$NN graph is the cycle, and mutual-$k$NN alignment is exactly 1.
-  - *The PRH's own metric saturates on symmetric families under a checkable condition.*
-
-- **C3 (finite, disjoint corpora).** Let $\varepsilon_a = \lVert \hat T_a - T_a\rVert_{op}$ be the estimation error.
-  - Bounding $\varepsilon_a$ with matrix Bernstein under a Zipfian frequency profile is a technical milestone.
-  - Davis–Kahan then gives $\lVert \sin\Theta(U_a, U_b)\rVert \le 2(\varepsilon_a + \varepsilon_b)/\delta$.
-  - **No shared data is required, only a shared law.** This is H2: disjoint but mutually intelligible models.
-  - The family eigengap $\delta$ grows with the number of bulk words coupled to the latent variable. So **one mechanism, collective control, gives both robustness (B2) and fast convergence (C3).**
-
-- **C4 (ordering condition; blur theorem).** Equivariant distortions keep the basis but can reorder the spectrum. Reordering is the only population-level failure mode.
-  - **Theorem target.** Suppose agent $a$ perceives $\tilde\theta = \theta + \eta$, with $\eta \sim \kappa_a$ symmetric and unimodal on $G$ (wrapped Gaussian, von Mises) and independent per token. In the linear-response regime (small PMI), $\alpha^a_k = |\hat\kappa_a(k)|^2\,\alpha_k$. Since $|\hat\kappa_a(k)|$ decreases in $|k|$, the order of the irreps is preserved whenever $\alpha$ is decreasing.
-  - *Blur-type misperception is harmless. Multimodal distortion, like the hemisphere mixture of A4, is exactly what reorders.*
-
-- **C5 (pooling theorem).** Suppose the agents' $B_a^\perp$ are independent with mean zero. Then, in linear response, the symmetry-breaking part of the pooled target shrinks like $\sqrt{\log|V|/A}$ in operator norm, where $A$ is the number of independent sources.
-  - **Prediction (a refinement of the PRH):** at a fixed token count, more independent sources give higher cross-model alignment on symmetric families. Diversity matters, not just scale.
-
-- **C6 (cross-modal; weakens the PRH's bijectivity assumption).** Suppose a second modality observes $\theta$ through an equivariant channel, such as images of seasons or satellite tiles of places.
-  - In the multiplicity-free case, Schur's lemma forces the induced operator to act as a scalar $c_\rho$ on each irrep. Cross-modal alignment is then the C2 formula with $\alpha^X_\rho \propto |c_\rho|^2 \alpha_\rho$.
-  - **Bijectivity is not needed.** It suffices that the channel is equivariant and that $c_\rho \neq 0$ on the leading irreps. A many-to-one, lossy observation channel is fine, provided it does not annihilate the leading irreps.
-
-- **C7 (scaling with a ceiling).** $\mathrm{Align}(a,b) \approx \mathrm{CKA}_{\text{pop}}(\alpha^a,\alpha^b) - O\big((\varepsilon_a+\varepsilon_b)/\delta\big)$.
-  - As scale grows, estimation noise falls and more irreps are resolved, so alignment rises, as the PRH observes.
-  - It saturates at a **computable ceiling**. The ceiling equals 1 only when the two profiles are proportional, which depends on the objective $F$ and on the channel scalars $c_\rho$.
-  - *Falsifiable in a way the PRH is not: it predicts the limiting alignment value for each family and each pair of model classes.*
-
-### Stage D: communication (speech, hearing, nuance, audience)
-
-- **D1 (error decomposition).** Speaker $S$ encodes $x\in\mathcal O$ (an assertion) or an intended listener action $b$ (a directive). Listener $L$ decodes with $E_L$ and with $\hat E_S$, its model of the speaker. Target bound:
-
-  $$\text{error} \;\lesssim\; \underbrace{\min_O \lVert E_S - E_L O\rVert_W}_{\text{lexical; vanishes on families (Stage C)}} \;+\; \underbrace{\lVert E_S - \hat E_S\rVert}_{\text{audience model}} \;+\; \underbrace{\text{rate term}}_{\text{hearing is rate-limited}} .$$
-
-- **D2 (nuance = water-filling over irreps).** Any $G$-invariant distortion of negative type on a Gelfand homogeneous space has a harmonic expansion with $w_\rho \ge 0$ (Schoenberg):
-
-  $$d_c(x,\hat x) = \sum_\rho w_\rho(c)\,\lVert \Phi_\rho(x) - \Phi_\rho(\hat x)\rVert^2 .$$
-
-  Under a Gaussian surrogate with per-irrep variance $\alpha_\rho$, the optimal rate–distortion trade-off is reverse water-filling:
-
-  $$R(D) = \sum_\rho \frac{m_\rho}{2}\log^+\frac{w_\rho(c)\,\alpha_\rho}{\eta} .$$
-
-  - **Nuance is the context dependence of $w(c)$.** "Let's meet next season" puts weight on $\rho_1$; "the deadline is the 14th" puts weight on high irreps. Lexical precision goes where the context-weighted variance clears the water line.
-  - Embedding truncation at dimension $d$ is the special case of uniform weights and a hard dimension budget. So the month circle is the two-dimensional water-filling solution.
-
-- **D3 (divergent categorization = aliasing).** Coarse categories are equivariant quantizers onto a subgroup. Example: months to seasons, $\mathbb Z_{12}\to\mathbb Z_4$, by averaging three-month blocks.
-  - Block averaging sends the month harmonic $k$ to the season harmonic $k \bmod 4$ with gain $\left|\tfrac{\sin(\pi k/4)}{3\sin(\pi k/12)}\right|$:
-
-    | $k$ | 1 | 2 | 3 | 4 | 5 |
-    |---|---|---|---|---|---|
-    | gain | 0.91 | 0.67 | 0.33 | 0 | 0.24 |
-
-  - **Proposition:** two agents with different categorizations agree on the band below both Nyquist limits, with fidelity $1 - O(\alpha_3/\alpha_1)$. They cannot share distinctions above it. *Mutual intelligibility is agreement at low frequency; misperception lives at high frequency.*
-  - Connects to information-bottleneck color naming (Zaslavsky et al., 2018), since hue is an approximate $U(1)$ family. In Gaussian IB, components switch on at critical $\beta$ values (Chechik et al., 2005); under symmetry they should switch on one irrep at a time.
-  - **Prediction:** the lexical refinement of a symmetric domain proceeds irrep by irrep.
-
-- **D4 (audience models: "what do you mean, *you people*?").** The listener infers a speaker type $\tau$ from performance-channel cues, then decodes with
-
-  $$P_L(x\mid u) \propto \sum_\tau P(\tau\mid\text{cues})\,S_\tau(u\mid x)\,P_\tau(x).$$
-
-  This is a Rational Speech Acts model (Frank & Goodman, 2012) with uncertainty over speaker type.
-  - On $G$-families, Stage C makes the $S_\tau$ nearly identical, *except for relative phases between families*: "a December wedding" is warm or cold depending on $\tau$.
-  - Off families, the $E_\tau$ differ in residual directions.
-  - **The "*you people*" moment is a type-posterior event.** The listener's inferred $\tau$ selects an $E_\tau$ in which the phrase points at a group, whether or not the speaker's own $E_S$ does.
-  - **Cants:** a shared $\tau$ means a shared residual codebook, which acts as Wyner–Ziv side information, so $R_{WZ}(D) \le R(D)$. This is the formal version of "efficient, expressive association alignments within the frame."
-
-- **D5 (social-residual conjecture).** Train models on corpora from communities $\tau_1$ and $\tau_2$, and remove the best Procrustes fit on $G$-families. The residual:
-  - (i) is nearly orthogonal to the family subspaces;
-  - (ii) linearly predicts $\tau$;
-  - (iii) concentrates on vocabulary heavy in the performance channel: register markers, in-group terms, politeness, slurs.
-
-  *Convergence belongs to the content channel; plurality persists in the performance channel.*
-
-### Stage E: language as an accumulation system
-
-- **E1 (generational map).** $T_{t+1} = \beta\,T_{\text{world}} + (1-\beta)\,\Phi(T_t)$.
-  - $\beta$ is the fraction of fresh, grounded speech.
-  - $1-\beta$ covers imaginative excursions, retellings and synthetic text generated by models trained on $T_t$.
-  - If $\Phi$ is equivariant in law, every iterate shares the $G$-basis, and $\beta$ only sets the radii at the fixed point.
-- **E2 (collapse ordering).** Truncation and finite resampling inside $\Phi$ shrink small-eigenvalue irreps geometrically, and only $\beta$ replenishes them.
-  - **Prediction:** under recursive training (Shumailov et al., 2024), radii collapse from high frequency to low, and the circle is the last structure to go.
-  - Contrast Bayesian iterated learning (Griffiths & Kalish, 2007), which converges to the learners' prior. Grounding ($\beta>0$) pins the fixed point to the world, while $G$ pins the *shape* for every $\beta$.
-- **E3 (what the limit is).** $T_\infty \approx F\big(\mathbb E_a[\Lambda_a K_{\text{world}} \Lambda_a^{\top}]\big)$: the world kernel seen through the *average* lexicalization channel.
-  - It recovers the world's harmonic structure on every irrep whose average channel scalar is nonzero.
-  - Shared equivariant biases ($B^G$) distort the radii but not the shape.
-  - What nobody lexicalizes is lost.
-  - *This is H3 with its scope stated: language accumulates the symmetric, lexicalized part of the world model.* Whether large models also learn the world's *dynamics*, not only its relational geometry, is a separate and harder question (compare Li et al., 2023).
+  This gives the Lean drafts' `InfoLattice` a concrete model anchored in the world (§8).
 
 ---
 
-## 5. Experiments (each tied to a prediction above)
+## 6. Shared testbed: a cyclic world
 
-| # | Setup | Prediction |
-|---|---|---|
-| X1 | word2vec, GloVe and small transformers trained on disjoint corpus shards | Family CKA matches the C2 formula computed from each model's own spectrum; mutual-$k$NN = 1 wherever $\alpha_1$ dominates |
-| X2 | Northern- vs southern-hemisphere corpora, then mixtures with southern fraction $s$ | Odd seasonal harmonics scale as $1-2s$; seasonal words' phase relative to months differs by $\pi$; the month circle survives through calendar co-occurrence (A4) |
-| X3 | Replace month tokens with season tokens in one corpus | Agreement on $k=1$ with the D3 gains; no agreement above Nyquist |
-| X4 | Direct co-occurrence ablation (as in Karkada et al.), compared across agents | Basis unchanged; profile reshaped; leading-order shift $O(\lvert W\rvert/\lvert V_\theta\rvert)$ |
-| X5 | Fixed token budget, varying number of independent sources | Alignment rises with the number of sources (C5) |
-| X6 | Language vs vision on seasonal imagery and satellite tiles of places | Cross-modal CKA ≈ the profile cosine with channel scalars $c_\rho$ (C6) |
-| X7 | Recursive train-and-generate loops | High irreps collapse first; the circle is the last to go (E2) |
-| X8 | Community-split corpora (register, region) | The social residual is orthogonal to families and predicts community (D5) |
-| X9 | Open LLM checkpoints across seeds, data orders and model families | Stepwise alignment during training (B4); seed variance tests self-averaging (B3) |
-| X10 | Metacognitive and perceptual sensoria: affect words (Russell's 1980 circumplex) and hue words | Whether introspective and perceptual domains behave as approximate $U(1)$ families |
+This is a finite instance for GM's Phase 1 ("finite Ω, finite H, Bayesian agents"), in which nearly every statement above is computable.
+
+- **World.** $\Omega$ is $\mathbb Z_N$ (the calendar) times seasonal phenomena, with $G=\mathbb Z_N$ shifting both.
+- **Agents.** Two hemispheres (S4), with independent sensoria (say, thermometers) or none.
+- **Lexicalization.** Equivariant, except for designated irregularities: a short month, a fixed-date holiday.
+- **Readers.** Human readers have the corpus plus independent evidence $E_i$. The machine reader runs a closed loop, optionally with a verifier.
+- **Computable here:** GM T1, T2, T4, T8 and T9, and S4, S10, S13, S22 and S24–S29.
+- **Sizes.** $N=12$ for months, $N=7$ for weekdays, $N=365$ for dates.
 
 ---
 
-## 6. Open problems and risks
+## 7. Experiments
 
-1. **Most vocabulary is not an exact $G$-family.** Without symmetry, C3-style convergence still holds for the eigenfunctions of the latent kernel, but objective-independence (A2) fails, because an entrywise $F$ changes the eigenvectors.
-   - **Sharp question:** when is the eigenbasis of $f(M)$ the same for every $f$? Write $M=\sum_i v_i A_i$ over its level sets. Then $\{f(M)\}_f$ is simultaneously diagonalizable **iff the level-set indicator matrices $A_i$ pairwise commute**. Monotone $f$ suffice, since indicators of single values are differences of monotone functions.
-   - Commutative association schemes give a natural sufficient condition. Group orbitals (Schurian schemes) are the main example, and on a single orbit they are commutative exactly when $(G,H)$ is a Gelfand pair.
-   - So the exact condition for *objective-free* PRH convergence is combinatorial, and group symmetry is a special case.
-   - Next steps: approximate versions of this criterion, and a model of the whole lexicon as "many small approximate families plus a residual."
-2. **Approximate symmetry.** New Year pins the origin of $\mathbb Z_{12}$, "May" is polysemous, and years are tokenized into digits.
-   - Symmetry-breaking terms also *fix the gauge*. **Prediction:** across models, the phase of the month circle relative to "New Year" and "cold" aligns. Sparse-autoencoder or neuron-level month features, however, are arbitrary rotations within the irrep block unless something pins them.
-3. **Contextual representations.** Which layer and which pooling count as "the" representation? B3 covers any token-level functional, but self-averaging may vary by layer.
-4. **The link from LLMs to PMI** is only approximate (it goes through the log-bilinear output layer). B3 is meant to remove the dependence on it.
-5. **Rare words and Zipf tails** dominate the estimation error. They need reweighting before C3 holds with useful constants.
-6. **PRH evidence is metric-sensitive.** C2 gives CKA and mutual-$k$NN in closed form, which allows a principled comparison of the two metrics on families.
+| # | Setup | Prediction | Materials |
+|---|---|---|---|
+| X1 | Word embeddings and small transformers trained on disjoint shards | Family CKA matches the Plancherel formula (S10) | Karkada code: github.com/dkarkada/symmetry-stats-repgeom |
+| X2 | Northern- vs southern-hemisphere corpora, and mixtures | Odd seasonal harmonics scale as $1-2s$ (S4) | Regional news, Wikipedia |
+| X3 | Season tokens replace month tokens in one corpus | S18 gains; no agreement above Nyquist | Wikipedia |
+| X4 | Deletion ablation, compared across agents | Basis fixed, radii shift (S6) | As in Karkada Fig. 4 |
+| X5 | Fixed token count; vary the number and correlation of sources | Alignment tracks $A_{\text{eff}}$ (S13) | Multi-source corpora |
+| X6 | Vision vs language on seasonal imagery, satellite tiles, sky | Cross-modal CKA predicted from Schur scalars (S14) | Storan's sky setup |
+| X7 | Recursive training, replacing vs accumulating data | High irreps die first; accumulation plateaus (S22) | GM experiment 2 |
+| X8 | Corpora split by community | Social residual behaves as in S20 | — |
+| X9 | Training checkpoints and seeds | Alignment rises in steps (S8); seed variance tests S7 | Open model suites |
+| X10 | Affect words and hue words | Do they behave as approximate $U(1)$ families? | PRH Fig. 8; Abdou et al. |
+| X11 | Grounded vs random filtering at equal strength (GM experiment 1) | Strong collapse vanishes only under grounded filtering, which preserves per-irrep radii and $B^\perp_{\text{world}}$ | GM |
+| X12 | Alignment during collapse | Cross-model CKA and mutual-$k$NN rise or hold while tail-sensitive grounded fidelity falls (S25) | X7 runs |
+| X13 | The same families across languages | Month and number circles align across languages up to gauge, and $B^\perp_{\text{world}}$ pins the gauge (GM's translatability case) | Multilingual Wikipedia |
+| X14 | Dates across self-training generations | Number of retained harmonics vs $n_{\text{eff}}$ and fidelity (S28) | Karkada Fig. 9 setup |
 
 ---
 
-## 7. Milestones
+## 8. Formalization plan (Lean)
 
-- **Paper 1, "Objective-free geometry":** A1–A3, B3, and open problem 1 (commutants, exchangeability, the level-set commutation criterion).
-- **Paper 2, "Platonic convergence on symmetric families":** C1–C7 (closed-form alignment, rates with disjoint data, pooling, cross-modal convergence without bijectivity). Experiments X1, X4–X6, X9.
-- **Paper 3, "Nuance and intelligibility":** D2–D4 (water-filling over irreps, aliasing between categorizations, audience models). Experiments X2, X3, X8, X10.
-- **Paper 4, "Accumulation and collapse":** E1–E3. Experiment X7.
+Cheapest first, each in a form that plugs into the existing drafts:
+
+1. **S1 for a finite group.** A reindexing of finite sums (`Equiv.sum_comp`). Core plus `Finset` is enough.
+2. **S4 on `ZMod 12`.** The odd Fourier coefficients of $\tfrac12(f+f\circ(\cdot+6))$ vanish. A finite computation.
+3. **S31.** An `InfoLattice` instance on `Finset (Fin 7)`, the real irreps of $\mathbb Z_{12}$ (frequencies 0–6), replacing `Bit3`. Add witnesses for collapse (drop the top frequency), aliasing (map to `Fin 3` for $\mathbb Z_4$) and closure.
+4. **S30 as a closure operator.** For $\mathbb Z_N$, $\mathrm{cl}(R)$ is the subgroup of $\mathbb Z_N$ generated by $R$. This is a clean place to make GM's "`sup` should become a closure operator" concrete.
+5. **O1.** Commuting level sets ⇔ simultaneous diagonalization for every $f$. Needs Mathlib's spectral theory; medium difficulty.
+6. **S26.** Needs mutual information on finite distributions, which GM notes may have to be defined by hand, followed by the data-processing inequality.
+
+---
+
+## 9. Notes on the attached drafts
+
+- **GM T4, part 2.**
+  - The hypothesis "$\xi$ independent of $\Omega$" should be "$\xi\perp\Omega\mid D$." Counterexample: let $\Omega$ and $D$ be independent fair bits and $\xi=\Omega\oplus D$. Then $\xi\perp\Omega$, yet $C=D\oplus\xi=\Omega$, so $I(\Omega;D,C)=1>0=I(\Omega;D)$. GM T2 already states the conditional form correctly.
+  - "Strictly under finite sampling" needs an extra assumption that $C$ is not sufficient. If $C$ is a sufficient statistic of $D$ for $\Omega$, equality holds.
+- **GM T9 and v0's pooling claim conflicted.** v0 averaged away exactly the irregularities GM wants to preserve. S27 resolves this by splitting $B^\perp$ into world and agent parts.
+- **Lean v1 (`LanguageAccumulation`, the lattice file).** Two results are worth keeping:
+  - `grounded_communicate_conserves_collective` is already the lattice form of GM T2: talk redistributes knowledge but does not grow it;
+  - `discovery_and_language_grows_collective` is the lattice form of GM T4, part 1.
+- **The Lean misprision rework.**
+  - `human_language_is_misprision_accumulation_system` holds for *every* channel `C`, so all of its content lives in the hypotheses.
+  - In particular, growth follows from defining `IsCollectivelyBloomian` as "not below the collective." That is the "assumed growth" GM diagnoses.
+  - `destructive_can_shrink_collective` and `backedUp_shields_collective` do carry content. They map onto the redundancy term in GM T6.
+- **Missing file.** GM's roadmap refers to a "File B (add/delete monoid)" with archive and group-sum sections, to be used for T8. The two uploaded files are the original lattice file and the misprision rework, so File B was not among them.
+- **GM A14** cites Karkada et al. for "co-occurrence is induced by co-occurrence in the world." Their §4.1 latent model is the formal instance, but they do not make the claim about reference themselves. So GM's T8 is the program's own upstream step, as GM says.
+
+---
+
+## 10. Open problems
+
+- **O1. Objective-free geometry beyond groups.** $\{f(M)\}_f$ is simultaneously diagonalizable if and only if the indicator matrices of $M$'s level sets commute. Commutative association schemes are sufficient. Group orbitals are the Schurian case, and on a single orbit they commute exactly when $(G,K)$ is a Gelfand pair.
+- **O2. Many small families plus a residual.** Product groups (Karkada App. D, $\mathbb Z_N\times\mathbb Z_2^d$) are the first case. Approximate and local symmetries are next.
+- **O3. Gauge.** Symmetry-breaking anchors pin the phase across models. Prediction: neuron-level or sparse-autoencoder features are arbitrary rotations within irrep blocks unless something pins them.
+- **O4.** Self-averaging, and approximate invariance, for S7.
+- **O5. From population to realization.** Connect S26's mutual-information bound to CKA computed on a single training run.
+- **O6. Asymmetric identifiability.** Word/context factorizations are fixed only up to an invertible map (Karkada App. B.2). Alignment comparisons need the balanced solution or a canonical inner product.
+- **O7. A family-level selection threshold.** GM's $\lambda^*$, worked out in the cyclic world (S21), as the first exact case.
+
+---
+
+## 11. Milestones, merged with GM's phases
+
+1. **Finite cyclic world.** GM Phase 1, plus S1, S4, S24, S26 and S29. Lean items 1–4.
+2. **Convergence.** S7 and S9–S15, with experiments X1, X4–X6, X9 and X13.
+3. **Selection and collapse.** GM Phase 2, plus S21, S22, S25, S27 and S28, with X7, X11, X12 and X14.
+4. **Communication.** S17–S20, with X2, X3, X8 and X10.
 
 ---
 
 ## References
 
-- Chechik, Globerson, Tishby & Weiss (2005). Information bottleneck for Gaussian variables. *JMLR*.
-- Diaconis, Goel & Holmes (2008). Horseshoes in multidimensional scaling and local kernel methods. *Annals of Applied Statistics*.
-- Engels, Michaud, Liao, Gurnee & Tegmark (2024). Not all language model features are linear.
-- Frank & Goodman (2012). Predicting pragmatic reasoning in language games. *Science*.
-- Griffiths & Kalish (2007). Language evolution by iterated learning with Bayesian agents. *Cognitive Science*.
-- Gurnee & Tegmark (2024). Language models represent space and time. *ICLR*.
-- Huh, Cheung, Wang & Isola (2024). The Platonic Representation Hypothesis. *ICML*.
-- Karkada, Simon, Bahri & DeWeese (2025). Solvable dynamics of self-supervised word embeddings and the emergence of analogical reasoning.
-- Karkada, Korchinski, Nava, Wyart & Bahri (2026). Symmetry in language statistics shapes the geometry of model representations. arXiv:2602.15029 (ICML 2026).
-- Kornblith, Norouzi, Lee & Hinton (2019). Similarity of neural network representations revisited. *ICML*.
-- Levy & Goldberg (2014). Neural word embedding as implicit matrix factorization. *NeurIPS*.
-- Li et al. (2023). Emergent world representations: exploring a sequence model trained on a synthetic task. *ICLR*.
-- Marchetti, Hillar, Kragic & Sanborn (2024). Harmonics of learning: universal Fourier features emerge in invariant networks. *COLT*.
-- Russell (1980). A circumplex model of affect. *Journal of Personality and Social Psychology*.
-- Shumailov et al. (2024). AI models collapse when trained on recursively generated data. *Nature*.
-- Wyner & Ziv (1976). The rate-distortion function for source coding with side information at the decoder. *IEEE Transactions on Information Theory*.
-- Zaslavsky, Kemp, Regier & Tishby (2018). Efficient compression in color naming and its evolution. *PNAS*.
-- arXiv:2610.00647 (2026). Group-invariant statistics determine embedding geometry: harmonic analysis of representations from Bach to the night sky. *(Not read in full; cited for scope only.)*
+**Checked against the full text for this version**
+
+- Huh, Cheung, Wang & Isola (2024). The Platonic Representation Hypothesis. ICML. arXiv:2405.07987.
+- Karkada, Korchinski, Nava, Wyart & Bahri (2026). Symmetry in language statistics shapes the geometry of model representations. arXiv:2602.15029v3; ICML 2026.
+- Storan, Tolias & Miolane (2026). Group-invariant statistics determine embedding geometry: harmonic analysis of representations from Bach to the night sky. arXiv:2610.00647v1.
+
+**As cited in those papers**
+
+- Abdou et al. (2021): color structure in text-trained language models.
+- Berdnikov & Liokumovich (2026): sky sphere representation in language models, arXiv:2607.27092.
+- Engels, Michaud, Liao, Gurnee & Tegmark (2025). Not all language model features are one-dimensionally linear. ICLR.
+- Gurnee & Tegmark (2024). Language models represent space and time. ICLR.
+- Karkada, Simon, Bahri & DeWeese (2025). Closed-form training dynamics reveal learned features and linear structure in word2vec-like models. NeurIPS.
+- Korchinski et al. (2025): linear analogies from Kronecker structure in $M^\star$, as described by Karkada et al.
+- Levy & Goldberg (2014). Neural word embedding as implicit matrix factorization. NeurIPS.
+
+**From the GM draft's checked list**
+
+- Dohmatob et al. (2024).
+- Gerstgrasser et al. (2024).
+- Griffiths & Kalish (2007).
+- Guo, Wu & Yiu (2026).
+- Shumailov et al. (2024).
+
+**From memory, not re-checked**
+
+- Chechik, Globerson, Tishby & Weiss (2005).
+- Diaconis, Goel & Holmes (2008).
+- Frank & Goodman (2012).
+- Kornblith et al. (2019).
+- Li et al. (2023).
+- Marchetti, Hillar, Kragic & Sanborn (2024), arXiv:2312.08550.
+- Russell (1980).
+- Wyner & Ziv (1976).
+- Zaslavsky, Kemp, Regier & Tishby (2018).
