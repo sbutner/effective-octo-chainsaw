@@ -2,7 +2,7 @@
 
 *The solvable sector of the Platonic Representation Hypothesis and of Grounded Misprision.*
 
-Status: outline v1 · 2026-11-21. This version replaces v0 in the same file. It was checked against the full texts of Karkada et al. (arXiv:2602.15029v3), Storan, Tolias & Miolane (arXiv:2610.00647v1) and Huh et al. (arXiv:2405.07987), and merged with *Grounded Misprision: A Research Program* (Nov 20, 2026) and the two `LanguageAccumulation` Lean drafts.
+Status: outline v1 · 2026-11-21. This version replaces v0 in the same file. It was checked against the full texts of Karkada et al. (arXiv:2602.15029v3), Storan, Tolias & Miolane (arXiv:2610.00647v1) and Huh et al. (arXiv:2405.07987), and merged with *Grounded Misprision: A Research Program* (Nov 20, 2026; [`grounded-misprision-program.md`](grounded-misprision-program.md)) and the two `LanguageAccumulation` Lean drafts ([`lean/`](lean/)). A later synthesis, [`one-selection-law.html`](one-selection-law.html), builds on both.
 
 ---
 
