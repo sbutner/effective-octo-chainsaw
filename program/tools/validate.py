@@ -72,7 +72,8 @@ def main():
         """A protocol violation: a warning while the id is listed debt, an error otherwise."""
         if rid in db.DEBT[kind]:
             debt_hit[kind].add(rid)
-            warnings.append(f"debt: {msg}")
+            if coverage:
+                warnings.append(f"debt: {msg}")
         else:
             errors.append(msg)
 
@@ -224,6 +225,9 @@ def main():
             st[e["status"]] = st.get(e["status"], 0) + 1
         warnings.append(f"bibliography status counts: {st}")
 
+    if not coverage and any(debt_hit.values()):
+        warnings.append("protocol debt: " + ", ".join(f"{len(v)} {k}" for k, v in debt_hit.items())
+                        + " (listed in db.DEBT; --coverage shows them; task Q-24)")
     for w in warnings:
         print("WARN ", w)
     for e in errors:
