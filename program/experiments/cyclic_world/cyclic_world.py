@@ -34,10 +34,9 @@ class World:
 
 @dataclass(frozen=True)
 class Channel:
-    """Primitive 2: Markov kernel K[omega, o] with a time and an energy cost per use."""
+    """Primitive 2: Markov kernel K[omega, o] with a single cost c per use."""
     K: np.ndarray = field(compare=False)
-    time_cost: float = 0.0
-    energy_cost: float = 0.0
+    c: float = 0.0
 
     def __post_init__(self):
         K = np.asarray(self.K, float)
@@ -46,15 +45,15 @@ class Channel:
         object.__setattr__(self, "K", K)
 
     @staticmethod
-    def noiseless(N: int, **costs) -> "Channel":
-        return Channel(np.eye(N), **costs)
+    def noiseless(N: int, c: float = 0.0) -> "Channel":
+        return Channel(np.eye(N), c=c)
 
     @staticmethod
-    def constant(N: int, **costs) -> "Channel":
-        return Channel(np.full((N, N), 1.0 / N), **costs)
+    def constant(N: int, c: float = 0.0) -> "Channel":
+        return Channel(np.full((N, N), 1.0 / N), c=c)
 
     @staticmethod
-    def box_blur(N: int, w: int, **costs) -> "Channel":
+    def box_blur(N: int, w: int, c: float = 0.0) -> "Channel":
         """Observe a uniform draw from w consecutive phases, from omega - w//2 to omega - w//2 + w - 1 (centred on omega for odd w)."""
         if not 1 <= w <= N:
             raise ValueError("need 1 <= w <= N")
@@ -62,7 +61,7 @@ class Channel:
         for a in range(N):
             for j in range(w):
                 K[a, (a + j - w // 2) % N] += 1.0 / w
-        return Channel(K, **costs)
+        return Channel(K, c=c)
 
     def gains(self) -> np.ndarray:
         """|k-th DFT coefficient| of the kernel row at phase 0, k = 0..N-1 (shift-invariant kernels)."""

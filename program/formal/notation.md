@@ -15,7 +15,7 @@
 
 | Symbol | Meaning | Defined in | First use | Replaces |
 |---|---|---|---|---|
-| $\Omega$ | World: probability space $(\Omega,P)$, also the random state; includes agents and their texts (plan, spine principle 5) | GM, Primitives 1 | GM, Primitives 1 | |
+| $\Omega$ | World: probability space $(\Omega,P)$, also the random state. It consists of interactions (events, and what agents do and write); agents' internal models such as $\theta_a$ are hidden and are not part of it | GM, Primitives 1 | GM, Primitives 1 | |
 | $P$ | Law of the world, $G$-invariant | GM, Primitives 1 | GM, Primitives 1 | |
 | $\omega_t$ | State of the world at time $t$ (stateful, partly reflexive process) | GM, Primitives 1 | GM, Primitives 1 | plan "world process $\omega_t$" (same) |
 | $G$ | Symmetry group acting on $\Omega$ and leaving $P$ invariant; $G=\mathbb Z_N$ in the cyclic world | GM, Primitives 1 | GM, Primitives 1 | |
@@ -104,7 +104,7 @@
 | $K$ | Kolmogorov complexity $K(x\mid y)$; $K_t$ at time $t$ | spine L1 | spine L1 | spine generic kernel $K$ (now $\mathcal K$); GM T6 content bound; stabilizer |
 | $K_{\max}$ | Largest body of content that persists, $\lesssim\ln\sigma_{\mathrm{sel}}/\varepsilon_{\mathrm{eff}}$ | GM, T6 | GM, T6 | GM $K$ |
 | $K_{\mathrm{harm}}$ | Number of harmonics retained, $K_{\mathrm{harm}}(n_{\mathrm{eff}},\varphi,A_{\mathrm{eff}})$ | outline S28 | outline S28 | outline $K(n_{\mathrm{eff}},\varphi,A_{\mathrm{eff}})$ |
-| $\mathcal K$ | Generic channel: Markov kernel $X\to\Delta(Y)$ with a time and an energy cost per use | spine L0; plan, primitive 2 | spine L0 | spine $K$ |
+| $\mathcal K$ | Generic channel: Markov kernel $X\to\Delta(Y)$ with a single cost $c$ per use | spine L0; plan, primitive 2 | spine L0 | spine $K$ |
 | $\mathcal K_{\mathrm{cp}}$ | Copying channel; its fidelity per copy is $\varphi$ | F-00 (this table) | spine L0 (as $\phi$) | spine $\phi$ (channel) |
 | $R$ | Channel rate in bits per second; $R(\mathrm{Dist})$ is the rate-distortion function | GM, T1 | GM, T1 | |
 | $\mathrm{Dist}$ | Expected distortion at rate $R$, $\mathrm{Dist}(R)>0$ | F-00 (this table) | GM, T1 (as $D(R)$) | GM $D$ in $D(R)$ |
@@ -114,13 +114,11 @@
 | $\sigma_{\mathrm{sel}}$ | Selective advantage of tested content | F-00 (this table) | GM, T6 (as $\sigma$) | GM bare $\sigma$ |
 | $\sigma^2_{\mathrm{est}}$ | Per-sample noise variance in Wiener shrinkage | F-00 (this table) | outline S22 (as $\sigma^2$) | outline $\sigma^2$ |
 | $\varphi$ | Fidelity per copy (scalar), $\varphi\in[0,1]$ | GM, Primitives 8 | GM, Primitives 8 | spine $\phi$, $\varphi$ as channel |
-| $c$ | Cost per copy (scalar summary of the copying channel's time and energy cost) | spine K20 | spine K20 | |
-| $c^{\mathrm{time}}$ | Time cost per use of a channel | plan, primitive 2 | plan, primitive 2 | |
-| $c^{\mathrm{en}}$ | Energy cost per use of a channel | plan, primitive 2 | plan, primitive 2 | |
+| $c$ | Cost per channel use, a single scalar; for the copying channel, the cost per copy | spine K20; plan, primitive 2 | spine K20 | |
 | $\chi$ | Perceived value of a form; a form is copied iff $\chi>c$ | F-00 (this table) | spine K20 (as $v$) | spine K20 $v$ |
 | $v$ | Verification fraction: share of content passed through an independent test | spine K30 | spine K30 | spine K20 perceived value (now $\chi$) |
 | $v^\star$ | Minimum verification fraction below which $\mathcal G$ decays | spine K33 | spine K33 | |
-| $\mathrm{refl}$ | Reflexivity: how much of $\Omega$ is made of agents and texts, so that $\Omega_{t+1}$ depends on $\theta_t$ | F-00 (this table) | spine principle 5, §3 (as $r$) | spine $r$ |
+| $\mathrm{refl}$ | Reflexivity: how much of $\Omega$ is made of agents' actions and texts, so that $\Omega_{t+1}$ depends on what models trained on $\Omega_t$ do | F-00 (this table) | spine principle 5, §3 (as $r$) | spine $r$ |
 | $N_e$ | Effective population of sources, $1/\sum_i w_i^2$ over attention shares | spine K26 | spine K26 | |
 | $w_i$ | Attention share of source $i$ (normalized weight in $\mathrm{Att}_t$) | spine K26 | spine K26 | |
 | $\mathrm{Att}_t$ | Attention and citation graph with weights $w$ | F-00 (this table) | spine L0 (as $\Gamma_t$) | spine $\Gamma_t$ |
@@ -220,7 +218,7 @@ Each old use becomes the new symbol. Later rungs migrate prose; the source docum
 - $E_a$ (evidence) and $E_{\mathrm{ver}}$ (verifier evidence): $E_{\mathrm{ver}}$ is never agent-indexed.
 - $\varphi$ is the only phi. `\phi` is not used anywhere.
 
-## Not resolved
+## Settled by the human, 2026-11-22
 
-- The spine says "$\Omega$ includes the agents". Then $\Omega$ contains $\theta_a$, so $\mathcal G=I(\Omega;W_t)$ can count an agent's own parameters. F-01 must say whether $\mathcal G$ is taken over the world without agents ($\Omega_{\mathrm{vis}}$ or an $\Omega$ minus agents). This table gives the symbols but does not decide that.
-- $c$ is a scalar in spine K20 and a (time, energy) pair in the plan. This table keeps $c$ as the scalar summary and gives $c^{\mathrm{time}}$, $c^{\mathrm{en}}$ for the pair. The combination rule is open until a rung needs it.
+- $\Omega$ consists of interactions. Internal models are hidden, so $\mathcal G=I(\Omega;W_t)$ never counts an agent's own parameters.
+- A channel has a single cost $c$ per use. There is no time and energy pair.

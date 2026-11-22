@@ -18,7 +18,7 @@ Judgment calls a reviewer should check:
 - The spine's fit $F(\theta)$ is read as GM's expected log score $L$.
 - The agent count is $|A|$, because $A$ is GM's set of agents.
 
-Left open for F-01:
+Settled by the human after review, 2026-11-22:
 
-- $\Omega$ contains the agents, so $\mathcal G=I(\Omega;W_t)$ can count an agent's own parameters. F-01 has to decide which part of $\Omega$ grounded information is measured over.
-- The scalar cost $c$ and the channel's pair $(c^{\text{time}},c^{\text{en}})$ have no combining rule yet.
+- $\Omega$ consists of interactions. Internal models are hidden and are not part of the world, so grounded information never counts an agent's parameters.
+- A channel carries a single cost $c$ per use. The time and energy pair is gone from the plan, the ledger, the notation and the testbed.

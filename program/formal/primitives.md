@@ -6,8 +6,8 @@
 
 | # | Primitive | Formal type | Added by | Instantiated in the testbed | Status |
 |---|---|---|---|---|---|
-| 1 | World process $\omega_t$ | Stateful stochastic process on $\Omega$, with a symmetry group $G$ acting on it. $\Omega$ contains the agents and their models. | R0 (inherited from spine L0) | `experiments/cyclic_world`: $\Omega=\mathbb Z_N\times$ seasons, $G=\mathbb Z_N$ | Proposed |
-| 2 | Channel | Markov kernel $K:X\to\Delta(Y)$ with a time cost and an energy cost per use | R0 (inherited from spine L0, costs new) | `Channel` in `experiments/cyclic_world` | Proposed |
+| 1 | World process $\omega_t$ | Stateful stochastic process on $\Omega$, with a symmetry group $G$ acting on it. $\Omega$ consists of interactions. Agents' internal models are hidden and are not part of $\Omega$. | R0 (inherited from spine L0) | `experiments/cyclic_world`: $\Omega=\mathbb Z_N\times$ seasons, $G=\mathbb Z_N$ | Proposed |
+| 2 | Channel | Markov kernel $K:X\to\Delta(Y)$ with a single cost $c$ per use | R0 (inherited from spine L0, cost new) | `Channel` in `experiments/cyclic_world` | Proposed |
 | 3 | Agent | A bounded-capacity predictor fitted online to its own joint stream of episodes | R1 | R0 holds only the stream; the predictor is F-01's | Proposed |
 | 4 | Goal | A preference over world states. A signal is scored by the change in $\omega$ it brings about through the receiver's action. | R2 | Not yet | Proposed |
 
@@ -35,6 +35,6 @@ These come from `formalization.md`, "Open questions". None is admitted yet.
 | Candidate | Rung that tests it | Where it would go |
 |---|---|---|
 | Timescale parameter for nouns of things that change ("river") | R3 | Noun as a slowly varying state |
-| Processing-speed parameter for the 200 ms turn gap | R2 | The channel's time cost |
+| Processing-speed parameter for the 200 ms turn gap | R2 | The channel cost $c$ |
 | Separate information or relationship term in the payoff | R2, R4 | The goal primitive's score |
 | Computable afferent cost | R3 | Entropy rate of the sensorium $\sigma_a$ over the episode |

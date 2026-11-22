@@ -28,7 +28,7 @@ The existing documents in `explorations/` become components of this spine:
 2. **Every arrow is a channel.** Every relation (perceives, writes, copies, reads, cites, trains on, verifies) is a Markov kernel, so the data-processing inequality (DPI) applies everywhere it is not explicitly broken.
 3. **Grounding is an accounting identity, not a metaphor.** Track $\mathcal G=I(\Omega;\cdot)$ (grounded information) separately from explicit content $\mathcal X$ (what can be stated or computed). Most debates mix the two up.
 4. **Selection decides the sign.** Variation is unavoidable (GM T1). Whether it helps or harms is set by what it is tested against (GM T3).
-5. **The world is stateful and partly reflexive.** $\Omega_t\neq\Omega_{t+1}$, and part of $\Omega$ is made of the agents and their texts. This is what breaks the clean DPI chain and what makes canons retroactive.
+5. **The world is stateful and partly reflexive.** $\Omega_t\neq\Omega_{t+1}$, and part of $\Omega$ is made of what agents do and write. Their internal models are hidden and enter $\Omega$ only through those actions. This is what breaks the clean DPI chain and what makes canons retroactive.
 6. **Status tags are mandatory.** Every claim is tagged Known, Implicit, New, Conjecture or Test (outline v1's convention), and every citation is tagged checked or from memory.
 
 ---
