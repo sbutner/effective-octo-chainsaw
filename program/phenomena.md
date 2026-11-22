@@ -1,0 +1,118 @@
+# Phenomena menu and emergence scoreboard
+
+*Generated from `data/phenomena.json` by `tools/phenomena.py`. Edit the JSON, not this file. Method: [`harness.md` §5.5](harness.md). All seed verdicts are unreviewed (tier V0).*
+
+## Scoreboard
+
+| Formalism | Assessed | Emergence score | Bolt-on index | Postulated share | Proved share of derivations | Specificity (negative controls) | Contradicted | Must-emerge failures |
+|---|---|---|---|---|---|---|---|---|
+| `spine-v0.1` | 36 | 0.416 | 0.031 | 0.056 | 0.129 | 1.0 | — | — |
+| `rival:noisy-copy` | 0 | not assessed | | | | | | |
+| `rival:bayesian-iterated-learning` | 0 | not assessed | | | | | | |
+| `rival:cultural-attraction` | 0 | not assessed | | | | | | |
+| `rival:dual-inheritance` | 0 | not assessed | | | | | | |
+
+Rival formalisms are listed but not yet assessed, so their rows are empty. The score means something only relative to them.
+
+## Coverage
+
+- 43 entries: 38 phenomena and 5 negative controls.
+- Informed the design: 9. Added blind to the formalism: 0. The score is only as good as the blind, held-out share.
+- Per field (phenomena only): cognitive-science 1, cultural-evolution 9, evolutionary-anthropology 1, linguistics 7, literary-history 4, literary-theory 6, media-history 1, ml 5, philosophy 3, psychiatry 1.
+- Fields below 5: cognitive-science, evolutionary-anthropology, literary-history, media-history, philosophy, psychiatry, science-of-science, social-epistemology.
+- Theorized but not yet observed (prediction targets, the Firth pattern still open): P-030, P-031, P-032, P-033, P-038, P-040, P-041.
+
+## Menu
+
+### cognitive-science
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-050 | Illusion of explanatory depth: people believe they understand mechanisms far better than they do. | replicated / observed-only | `sloman2017`, `rozenblit2002` | untested (none) | K11 | Possible link: explicit content (what can be run) versus held but unrun instructions. Not assessed. |
+
+### cultural-evolution
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-010 **must** | Serial reproduction regresses toward the transmitters' cultural schemas. | robust / observed-then-theorized | `kalish2007`, `griffiths2007` | emergent (proved) | K32, GM-T3 | The drift term of T3 is exactly this. The convergence result is published (Griffiths & Kalish). |
+| P-011 | Smaller or isolated populations lose cultural complexity (the Tasmanian case). | contested / observed-only | `henrich2004` | postulated (claimed) | GM-T6 | A11 is taken from Henrich, so this earns no emergence credit. Contested by vaesen2016. |
+| P-012 **must** | Pure social learning does not raise mean fitness in a changing environment (Rogers' paradox); critical or individual learning resolves it. | replicated / theorized-then-observed | `rogers1988`, `enquist2007` | emergent (sketch) | GM-T2, GM-T4, K33 | Info-theoretic core proved in proofs/psitip (T2; T4.2 corrected): a closed loop cannot gain. The threshold v* (K33) is still a conjecture. |
+| P-013 | Cumulative culture (the ratchet) requires high-fidelity transmission. | replicated / observed-only | `tomasello1999` | postulated (claimed) | GM-T6 | This is axiom A11. |
+| P-014 | Conformist and prestige biases shape which variants spread. | replicated / observed-only | `boyd1985`, `cavallisforza1981` | bolted-on (none) | GM-T3 | The spine sorts these biases into the drift term but does not predict their form or strength. Accommodated, not derived. |
+| P-015 | Content biases: negative, threat-related and social information survives transmission chains better. | replicated / observed-only | hint only | silent (none) | — | No mechanism ties the content of a reading to its retention probability. A candidate extension is relevance weights w(kappa), as in S17. |
+| P-016 | Transmission is reconstructive: variants converge to attractors rather than replicating faithfully (cultural attraction). | replicated / observed-only | `sperber1986` | parametric (claimed) | K32, OUT-S21 | Attractors are the modes of the prior. Parametric because which attractors appear depends on the prior. |
+| P-017 | Social influence breaks the wisdom of crowds: it raises inequality and unpredictability of success. | replicated / theorized-then-observed | `ladha1992`, `condorcet1785`, `salganik2006` | emergent (sketch) | OUT-S13, K27, K26 | Correlated evidence lowers A_eff. That gives accuracy loss, but the inequality of success needs the attachment dynamics of K28. |
+| P-018 | Information cascades: agents rationally ignore private signals and herd. | robust / observed-only | `bikhchandani1992` | emergent (proved) | K37 | K37 is a known result, re-applied. |
+| N-001 **must** | NON-PHENOMENON: closed-loop retelling chains steadily increase accuracy about the world. | robust / observed-only | `kalish2007` | excluded (proved) | GM-T2 | Excluded by T2 (proofs/psitip row 1). |
+
+### evolutionary-anthropology
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-020 | Oral traditions transmit through formulas and themes rather than verbatim text. | replicated / observed-only | `ong1982`, `lord1960` | parametric (claimed) | GM-T6, K21 | A12 postulates the oral/literate split. The formula-as-error-correction step is what would earn the credit. |
+
+### linguistics
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-001 **must** *(informed design)* | Words that occur in similar contexts have similar meanings: distributional similarity tracks semantic similarity. | robust / theorized-then-observed | `harris1954`, `firth1957`, `levy2014`, `karkada2026`, `storan2026` | emergent (sketch) | GM-T8, OUT-S1, OUT-S5, K5 | Close to postulated: A14 says reference induces co-occurrence. Credit depends on A14 being motivated independently of Firth (it is: by reference, not by meaning). The geometry step (S5) is published. |
+| P-002 *(informed design)* | Representations of cyclic or spatial word families (months, colors, places, sky positions) reproduce the world's geometry. | robust / observed-only | `karkada2026`, `storan2026`, `gurnee2024`, `abdou2021` | emergent (proved) | OUT-S1, OUT-S5 | S5 is a published theorem (Storan; Karkada) once S1's invariance holds. |
+| P-003 | Law of conformity: frequent words change meaning more slowly. | replicated / observed-only | hint only | parametric (claimed) | OUT-S11, OUT-S22, K31 | Candidate mechanism: estimation error and drift scale with 1/n_eff. Same mechanism as P-004; one mechanism for two phenomena is a good sign if it holds. |
+| P-004 | Irregular verbs regularize, and rare ones regularize faster (rate roughly inverse square root of frequency). | replicated / observed-only | hint only | parametric (claimed) | OUT-S22, OUT-S27, GM-T9 | The exponent is a sharp target: the system must produce a frequency^-1/2 law without tuning, or this is bolted-on. |
+| P-005 | Word frequencies follow Zipf's law. | robust / observed-only | hint only | silent (none) | — | Nothing in the spine generates frequency distributions. Recorded to expose the gap. |
+| P-006 *(informed design)* | Languages change, yet texts remain translatable across languages and eras. | replicated / observed-only | `quine1960` | emergent (claimed) | OUT-S9, OUT-S27, K3 | A GM test case, so it informed the design. |
+| P-007 | Under iterated learning, languages become more structured and easier to learn. | replicated / theorized-then-observed | `griffiths2007`, `kirby2008` | emergent (proved) | K32 | K32 imports the Griffiths–Kalish result. Under the 'prior replaces evidence' mechanism, structure emerges toward the learners' prior. |
+| N-005 | NON-PHENOMENON: embedding geometry is arbitrary and unrelated to the structure of the referents. | robust / observed-only | `karkada2026`, `storan2026` | excluded (proved) | OUT-S1, OUT-S5 |  |
+
+### literary-history
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-034 | Most works are lost; survival of medieval literature is heavily skewed and incomplete. | replicated / observed-only | `kestemont2022`, `moretti2000` | emergent (claimed) | K23, K20 |  |
+| P-035 | Sleeping beauties: some works are neglected for a long time, then suddenly recognized. | replicated / theorized-then-observed | `jauss1970`, `ke2015` | parametric (claimed) | K25, K24 |  |
+| P-036 | Cumulative advantage: attention, citations and canonical status concentrate (the Matthew effect). | robust / theorized-then-observed | `merton1968`, `price1976`, `barabasi1999` | untested (none) | K24, K28 | Unclear whether preferential attachment is derived or assumed in the canon-network layer. Assess. |
+| P-037 *(informed design)* | Some works are reread for millennia without being exhausted (Homer is still read). | robust / observed-only | hint only | emergent (claimed) | GM-T7, K13, K45 | A GM test case. |
+
+### literary-theory
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-030 **must** *(informed design)* | Literary frame: a canonical work cannot be paraphrased without loss (the heresy of paraphrase); fidelity norms approach strict equality. [frame: literary; contrast P-031] | theorized-only / theorized-only | hint only | emergent (claimed) | GM-T1, GM-C18, K45 | Must come out of the same mechanism as P-031 with only the frame varied. Two mechanisms would count as a bolt-on. |
+| P-031 **must** *(informed design)* | Pulp/genre frame: texts tolerate heavy compression, skimming, abridgment and dropped passages with little loss of what readers value. [frame: pulp; contrast P-030] | theorized-only / theorized-only | `propp1928` | emergent (claimed) | GM-C19, K45, K46 | The contrast pair is the test: one compressibility-relative-to-prior mechanism, with the frame setting the distortion measure. |
+| P-032 **must** *(informed design)* | Creative misprision: strong misreadings of predecessors drive literary innovation. | theorized-only / theorized-only | `bloom1973` | emergent (sketch) | GM-T1, GM-T3 | T1 (misprision is unavoidable) is the easy part. The creative branch needs T3's threshold, which is a conjecture. If it fails to emerge, the formalism is wrong (per program design). |
+| P-033 *(informed design)* | Reception is historical: a work's meaning and value shift with the readers' horizon of expectations. | theorized-only / theorized-only | `jauss1970`, `gadamer1960`, `iser1976` | emergent (claimed) | K47, GM-T7 | A6 (re-reading in changed contexts) is close to the phenomenon itself, so this risks being postulated. |
+| P-038 *(informed design)* | Interpretive communities: commentary splits into camps that read the same text differently. | theorized-only / theorized-only | `fish1980` | emergent (claimed) | OUT-S20, GM-C21 |  |
+| P-039 | Defamiliarization: art works by making the familiar strange; novelty followed by resonance marks influential texts. | replicated / theorized-then-observed | `shklovsky1917`, `barron2018` | parametric (claimed) | K52, K49 |  |
+| N-003 **must** | NON-PHENOMENON: every misreading is degradation; there is no creative branch. | theorized-only / observed-only | `bloom1973` | excluded (sketch) | GM-T3 | Excluded if T3's select term is positive. Depends on the λ* conjecture. |
+| N-004 **must** | NON-PHENOMENON: literary and genre texts lose the same amount under paraphrase or compression. | theorized-only / observed-only | — | excluded (claimed) | GM-C18, GM-C19 |  |
+
+### media-history
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-021 | Print increases textual fixity and standardization. | contested / observed-only | `eisenstein1979` | parametric (claimed) | K21 | Media regimes are points in (c, phi, n). Fixity follows from higher copy fidelity phi. |
+
+### ml
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-060 **must** | Model collapse: recursive training on generated data loses distribution tails first. | replicated / observed-only | `shumailov2024`, `dohmatob2024tails` | emergent (sketch) | GM-T9, OUT-S22, GM-T2 | 'No gain' is proved (T2). 'Tails first' rests on the S22 shrinkage mechanism, a conjecture. |
+| P-061 | Accumulating real data alongside synthetic data prevents collapse; replacing it does not. | replicated / observed-only | `gerstgrasser2024` | emergent (sketch) | GM-T4, OUT-S22 | T4 says accumulation stops the loss but cannot produce gain. |
+| P-062 | Representations of different models converge as scale grows (the Platonic Representation Hypothesis). | contested / observed-only | `huh2024` | emergent (claimed) | OUT-S9, OUT-S10, OUT-S15 | Emergent on symmetric families. The program also predicts that convergence is not grounding (S25, S26; S26 is proved). |
+| P-063 | LLM outputs are homogeneous across models and users (an 'artificial hivemind'); AI assistance reduces collective diversity. | replicated / observed-only | `jiang2025hivemind`, `wu2024monoculture`, `doshi2024`, `padmakumar2024` | emergent (claimed) | K35, K30 |  |
+| P-064 | Sycophancy: models trained on human approval tell users what they want to hear. | replicated / observed-only | `sharma2024` | parametric (claimed) | K56 |  |
+| N-002 **must** | NON-PHENOMENON: agreement between models always implies agreement with the world. | robust / observed-only | — | excluded (proved) | OUT-S26 | Excluded with a counterexample: proofs/psitip row 9 (shared data). |
+
+### philosophy
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-040 | Indeterminacy of translation: evidence underdetermines reference. | theorized-only / theorized-only | `quine1960` | emergent (sketch) | K3, OUT-O6 | It is an identifiability class: geometry is fixed up to a gauge (Roeder; Marconato). |
+| P-041 | Form alone cannot ground meaning (the symbol-grounding problem; the octopus test). | contested / theorized-only | `harnad1990`, `searle1980`, `bender2020` | emergent (sketch) | GM-T2, GM-T4, GM-T8 | The 'impossible as process' half is proved in proofs/psitip. The 'possible as state' half rests on T8 / S1. |
+| P-042 | Testimony transmits knowledge, but only under vigilance; vigilance fails against coherent consensus error. | replicated / observed-only | `coady1992`, `lackey2008`, `sperber2010`, `mercier2020` | emergent (claimed) | K34 | The first half is postulated by A5. The emergent part is K34's claim that vigilance checks the prior, not the world. |
+
+### psychiatry
+
+| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |
+|---|---|---|---|---|---|---|
+| P-051 | Psychosis as aberrant precision weighting of prediction errors. | contested / observed-only | `sterzer2018` | parametric (claimed) | K54 |  |

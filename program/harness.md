@@ -1,6 +1,6 @@
 # The research harness: how it runs and how it verifies
 
-*v0.1 · 2026-11-22. This turns [`tooling.md`](tooling.md) into an operating specification. "Exists" marks a part that is already in the repo. "Build" marks a part that is proposed. The first verifier, the PSITIP pilot, has run: [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md).*
+*v0.2 · 2026-11-22. This turns [`tooling.md`](tooling.md) into an operating specification. "Exists" marks a part that is already in the repo. "Build" marks a part that is proposed. The first verifier, the PSITIP pilot, has run: [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md).*
 
 ## 1. Summary
 
@@ -9,6 +9,7 @@ The harness is a co-mathematician-style workbench running on Claude Code. Its sh
 - A **coordinator** turns tasks into workstreams. Each workstream decomposes its claim into typed steps.
 - A **router** sends every step to the strongest verifier available for its type: an information-inequality prover, exact computation, finite counterexample search, a simulation template, a citation check, or Lean.
 - Steps no machine can check go through a calibrated, *conditionally independent* review protocol, which ends at a human gate.
+- Whole formalisms are also checked against their literatures by the **emergence verifier** (§5.5). It counts how many behaviors that linguistics, cultural evolution, anthropology, literary studies, philosophy and ML have theorized or observed emerge from the formalism's core premises, and how many have to be bolted on by hand.
 - Nothing advances a claim except a recorded verdict. Every failure is kept.
 
 All LLM calls, including those inside third-party tools, go through `claude -p`, so they run on the subscription.
@@ -29,6 +30,8 @@ flowchart TD
   RT -->|informal step| REV[Calibrated independent review]
   PS & EX & FS & SIM & LIB & LEAN & REV --> LED[Verdict ledger in claims.json]
   LED --> GATE{Promotion gate}
+  PH[(Phenomena menu: phenomena.json)] --> EMV[Emergence verifier: phenomena.py]
+  EMV -->|scoreboard, must-emerge, contradictions| GATE
   GATE -->|needs human| H
   GATE --> WR[PaperOrchestra drafts plus reviewer gate]
 ```
@@ -44,6 +47,9 @@ flowchart TD
 | **Verifiers** | Scripts under `program/proofs/` and `program/experiments/` | One job each | A verdict plus the artifact that reproduces it | PSITIP, sympy/numpy, AI Scientist templates, Lean |
 | **Reviewers** | Fresh `claude -p` processes with no shared context, from mixed models | One step or one proof, blind to the author's reasoning where possible | Step verdicts with reasons | Co-mathematician's persistent reviewers; AI Scientist `perform_review.py` |
 | **Librarian** | A script plus an agent | Bibliography entries | `status`, URL, supporting quote | Co-mathematician's citation checking; `AGENTS.md` protocol |
+| **Menu builder** | A Librarian-class agent that never sees the formalism | Field surveys, textbooks, meta-analyses | `phenomena.json` entries with `blind: true` | §5.5 |
+| **Rival advocate** | One agent per rival formalism, told to argue for it | The menu and the rival's sources | Rival assessments | §5.5 |
+| **Emergence auditor** | A reviewer that checks verdicts, not proofs | One assessment plus its derivation and premises | Verdict accepted or downgraded, with reason | §5.5 |
 | **Writer** | PaperOrchestra (exists) | Verified claims only | Drafts, which must pass the review gate | PaperOrchestra; AI Scientist reviewer |
 | **Human** | You | Review packets | Approvals, modeling decisions, steering | Every source system keeps a human gate |
 
@@ -53,6 +59,7 @@ flowchart TD
 program/
   data/claims.json            canonical; gains a "verification" object per claim (build, §6)
   data/tasks.json             goals; each Q-task is one workstream
+  data/phenomena.json         literature-grounded behaviors and negative controls, with assessments per formalism (exists, seed)
   workstreams/<Q>/            build
     charter.md                goal, claims in scope, acceptance criterion, required verification tier
     steps.json                the claim decomposed into typed steps (schema in §5.1)
@@ -61,7 +68,8 @@ program/
     reviews/                  raw reviewer transcripts, one file per round
   proofs/<verifier>/          reproducible verifier inputs and outputs (exists: psitip/)
   experiments/<template>/     simulation templates and run records (build: cyclic_world/)
-  tools/validate.py           extended with verification-gate checks (exists; extend)
+  tools/validate.py           referential integrity, including phenomena premise rules (exists; extend with tier gates)
+  tools/phenomena.py          emergence scoreboard; writes phenomena.md; --strict for CI (exists)
   tools/verify_all.py         re-runs every mechanical verifier; a red run blocks promotion (build)
 ```
 
@@ -126,7 +134,7 @@ Every step in `steps.json` has a `type`, and the type fixes the verifier:
 | `citation` | Librarian: primary page via Semantic Scholar or arXiv, plus a supporting quote | Source exists, the metadata matches, and the quote supports the use | All `from-memory` entries (Q-01, Q-02) |
 | `formal` | Lean 4 + Mathlib | Machine-checked proof | Outline §8 items 1–4 |
 | `informal` | Review protocol (§5.3) | Calibrated reviewers approved; residual risk stated | Strictness clauses; T3 selection identity; most of L4–L7 |
-| `definition` / `correspondence` | Well-posedness checks plus the human gate | Accepted as a modeling choice or a reading, never "true" | K3 (Quine as identifiability); K45–K49 (Jauss) |
+| `definition` / `correspondence` | Well-posedness checks, the **emergence verifier** (§5.5), then the human gate | Accepted as a modeling choice or a reading, never "true". The emergence verifier says how much of its field's recorded behavior it reproduces | K3 (Quine as identifiability); K45–K49 (Jauss) |
 
 **Coverage.** A workstream reports what fraction of its steps went to a machine verifier. Raising that fraction is an explicit goal: each informal step is first examined to see whether it can be retyped.
 
@@ -145,7 +153,7 @@ Every step in `steps.json` has a `type`, and the type fixes the verifier:
 
 ### 5.3 Verifying theory that has no solver and no runnable experiment
 
-This covers most of L4–L7, the selection identity (GM T3), strictness and rate clauses, and the bridge claims. Seven mechanisms, applied in order. Each is weaker than a machine proof, and each is recorded as what it is.
+This covers most of L4–L7, the selection identity (GM T3), strictness and rate clauses, and the bridge claims. Seven mechanisms work at the level of steps and claims, applied in order. An eighth, the emergence verifier (§5.5), works at the level of whole formalisms. Each is weaker than a machine proof, and each is recorded as what it is.
 
 1. **Shrink the informal residue.** Before any review, the workstream must try to *retype* each informal step:
    - Many "conceptual" steps are finite identities, inequalities, or "for all small cases" claims in disguise.
@@ -228,12 +236,119 @@ The tier is a separate axis from `status`. `status` says whether a result is kno
 - A claim enters a bridge essay only at V3 or above.
 - A master relation (MR1–MR5) counts as proved only at V4 or above.
 - A claim can be promoted from `conjecture` to `known` only at V4, together with the human gate.
+- A formalism (a set of axioms and definitions) is not tiered. It carries its emergence vector (§5.5.4), and a change to it may not reduce that vector without review.
 
 **Pilot outcomes, as candidate tiers pending review:**
 
 - GM T2, T4.2 (corrected), S26 and MR1 (both under the Markov condition): V4 candidates, because PSITIP proved them end to end.
 - GM T4.2 as written: R.
 - GM T4.1: inequality at V4, but needing restatement, since its strictness clause is still V0.
+
+### 5.5 The emergence verifier: grounding a formalism in its literatures
+
+**Principle.** A formalization is checked against what its own literatures have already found. The model case is Firth:
+
+- the field theorized that co-occurrence approximates meaning (Harris 1954; Firth 1957);
+- the program formalizes it (A14, T8, S1, S5);
+- word2vec and the later work on latent spaces supplied the empirical evidence (Levy & Goldberg 2014; Karkada et al. 2026).
+
+The same test applies everywhere. A good formalism *anticipates* the behaviors recorded by linguistics, cultural transmission, evolutionary anthropology, literary theory and history, philosophy and ML, and they *emerge* from its core premises. A poor one reproduces them only after mechanisms are bolted on by hand.
+
+Some behaviors **must** emerge. Creative misprision is the clearest: it should be an inevitable potential consequence of the system. If it does not emerge, the prior formalisms are inaccurate.
+
+#### 5.5.1 The menu (`data/phenomena.json`)
+
+Each entry has:
+
+| Field | Meaning |
+|---|---|
+| `id` | `P-nnn` for phenomena, `N-nnn` for negative controls |
+| `field`, `layers` | Source literature and spine layer |
+| `behavior` | The behavior, stated in the field's own terms, not the program's. Frozen once assessed; rewording means a new ID |
+| `kind` | `law`, `regularity`, `case`, or `non-phenomenon` |
+| `frame`, `contrast_with` | For frame-dependent pairs. Example: P-030, the literary frame, asserts near-strict equality (the heresy of paraphrase); P-031, the pulp frame, tolerates heavy compression and high packet-drop rates |
+| `must_emerge` | Failure here is a red flag for the formalism, not just a gap |
+| `grounding.theorized` / `observed` | Bibliography keys for the field's theorizing and for its empirical evidence |
+| `grounding.source_hints` | Unverified pointers, awaiting the Librarian |
+| `grounding.strength` | `robust`, `replicated`, `contested`, `single-study`, or `theorized-only` |
+| `grounding.pattern` | `theorized-then-observed` (the Firth pattern), `observed-then-theorized`, `observed-only`, or `theorized-only` (awaiting an apparatus, often an LLM experiment) |
+| `operationalization` | What to measure in the system or its toy model |
+| `provenance.informed_design`, `provenance.blind` | Whether the entry shaped the axioms; whether it was added by an agent that never saw the formalism |
+| `assessments[]` | One per formalism: `verdict`, `derivation` (claim and theorem IDs), `premises`, `extra_assumptions`, `derivation_status`, `tier`, `assessed_by` |
+
+**Verdicts:**
+
+| Verdict | Meaning | Credit |
+|---|---|---|
+| `emergent` | Follows from core premises (GM A1–A14 plus verified claims), with no premise specific to this phenomenon | 1 × derivation-status factor |
+| `parametric` | Emergent within a parameter regime that is motivated independently of this phenomenon | 0.5 × factor |
+| `postulated` | The phenomenon *is* an axiom (P-011, P-013: A11 was taken from Henrich and Tomasello). Consistent, but no credit | 0 |
+| `bolted-on` | Needs an assumption added for this phenomenon, listed in `extra_assumptions` (P-014: conformist and prestige biases are filed under drift, not derived) | 0 |
+| `silent` | No prediction (P-005 Zipf; P-015 content biases) | 0 |
+| `contradicted` | Predicts the opposite | −1, and a falsification flag |
+| `excluded` / `generated` | Negative controls only: the formalism rules the behavior out (good), or produces it (a false positive) | Specificity |
+
+The derivation-status factor is 1.0 for `proved`, 0.7 for `sketch`, 0.4 for `claimed` and 0.2 for `none`. So unproved derivations earn partial credit, and the score rises as proofs land.
+
+#### 5.5.2 How a verdict is checked, not just asserted
+
+1. **Premise audit (mechanical; in `validate.py`).**
+   - Every premise of a derivation must be a core axiom or a known claim.
+   - An `emergent` or `parametric` verdict may not carry `extra_assumptions`; anything extra makes it `bolted-on`.
+   - Later, as tiers land, the premises must also be verified claims at V3 or above.
+2. **Postulate detection.** An auditor compares the phenomenon with each axiom. If the phenomenon is equivalent to an axiom, or to an axiom's motivating citation, the verdict becomes `postulated`. P-001's note records the near miss: A14 is motivated by reference, not by Firth's claim about meaning, so it keeps its credit only if that holds up under review.
+3. **Emergence demonstration** (needed for every `must_emerge` item before it counts above V0):
+   - Either a derivation at V3 or above;
+   - or a toy-model run in which the behavior appears *without being coded in*. A reviewer audits the code for phenomenon-specific rules.
+
+   Examples: creative misprision should appear in the T3 selection simulation once test power passes λ\*. Regression to schema (P-010) should appear in a closed transmission chain.
+4. **Contrast pairs.** P-030 and P-031 must come from *one* mechanism, with only a declared frame parameter varied: the distortion measure or value function the reader applies. Two mechanisms for the pair make both verdicts `bolted-on`.
+5. **Negative controls.** A formalism flexible enough to generate anything would score well on emergence alone. The `N-*` entries are behaviors the literatures report do *not* occur. Examples:
+   - closed-loop retelling steadily improving accuracy (N-001);
+   - model agreement always implying agreement with the world (N-002);
+   - literary and genre texts losing the same amount under paraphrase (N-004).
+
+   Each must be `excluded`. Specificity is the share excluded.
+6. **Rivals.** The same menu, scored under the same rules, for the declared rival formalisms (noisy copying, Bayesian iterated learning, cultural attraction, dual inheritance). A rival advocate argues each one. The spine's score is meaningful only *relative* to them. A phenomenon counts as *distinctive* evidence only when it emerges in the spine and is silent or bolted-on in every rival.
+
+#### 5.5.3 Anti-gaming rules
+
+- **Blind construction (Q-21).** The menu builder never sees `spine.md`, GM or `claims.json`. Entries that shaped the axioms (`informed_design`) count at 0.25 weight, since they test consistency, not prediction.
+- **Field balance and hostility.** At least 10 phenomena and 2 negative controls per field. Each field must include phenomena that look unfavorable to the program, for example poverty of the stimulus and content biases.
+- **Frozen statements, logged verdicts.** Phenomena are not reworded after assessment. Changing a verdict needs a log entry and a changed derivation, not a reinterpretation of the behavior.
+- **Separation of roles.** The agent that proposes a verdict is not the one that audits it, and the auditors follow the independence rules of §5.3 item 4.
+- **Checked strength.** `robust` and `replicated` need a `checked` review or meta-analysis in the bibliography.
+
+#### 5.5.4 The score
+
+`tools/phenomena.py` reports a **vector**, not one number:
+
+- the emergence score: credit-weighted, by strength and provenance;
+- the bolt-on index: bolted-on ÷ (emergent + parametric + bolted-on);
+- the postulated share;
+- the proved share of derivations;
+- specificity;
+- contradictions and must-emerge failures;
+- coverage by field;
+- the theorized-only list.
+
+Weights are initial: strength weights 1.0 / 0.8 / 0.5 / 0.4 / 0.6, and 0.25 for informed design. Recalibrate them once rivals are scored.
+
+**Seed state (2026-11-22, unreviewed, V0):**
+
+- 43 entries: 38 phenomena and 5 negative controls, in 10 of the 12 declared fields. Science of science and social epistemology have none yet, and six fields have fewer than 5.
+- Spine v0.1: 22 emergent, 9 parametric, 2 postulated, 1 bolted-on, 2 silent and 2 untested; 0 contradicted.
+- Emergence score 0.416, mostly limited by unproved derivations.
+- Bolt-on index 0.03; specificity 1.0; no must-emerge failures.
+- 9 entries informed the design and 0 were built blind, and no rival has been assessed. **The number is not interpretable yet**; Q-21 to Q-23 make it so.
+
+#### 5.5.5 What it feeds
+
+- **Regression testing of formalisms.** Changing an axiom or a definition reruns the assessments whose premises or derivations mention it. `phenomena.py --strict` runs inside `verify_all.py`. A new contradiction, a new must-emerge failure, or a drop in the score blocks the change until it is reviewed.
+- **Fitness for definition tournaments.** When the co-scientist tournament compares candidate definitions (of 𝒢, of collapse, of literariness), the judge scores each one by its change in the menu score, not by its elegance.
+- **A gate for correspondence claims.** A bridge claim can reach V3 only if its field's must-emerge items pass, none of its field's `robust` phenomena are contradicted, and the human gate approves.
+- **Predictions.** `theorized-only` entries are claims a field has made without an apparatus to test them: Brooks on paraphrase, Bloom on misreading, Jauss on reception. They become experiment candidates in `experiments.json` and `debates.json`, which is the Firth pattern run forward.
+- **A research agenda.** `silent` and `bolted-on` entries show where the formalism lacks a mechanism. Zipf's law and content biases are the current ones.
 
 ## 6. Proposed `verification` object in `claims.json`
 
@@ -276,20 +391,24 @@ The tier is a separate axis from `status`. `status` says whether a result is kno
 | `experiments/cyclic_world/` template with exact 𝒢 and unit tests from S4 and S18 | Build | Medium |
 | open-coscientist with a `claude -p` LiteLLM provider and a domain YAML | Build | Small–medium |
 | OpenEvolve for counterexample search | Build when needed | Medium |
+| Phenomena menu, verdict rules, `phenomena.py` scoreboard, validator premise audit | Exists (seed: 43 entries, V0) | — |
+| Blind menu build to ≥10 per field (Q-21); rival assessments (Q-22); verdict audit and emergence demonstrations (Q-23) | Build | Medium–large; Q-21 is mostly Librarian work |
 | Lean toolchain plus `formal-conjectures`-style statements | Build when hosts are allowed | Medium–large |
 
 **Recommended order:**
 
 1. Conventions and gates.
 2. The calibration suite. Without it, V3 means nothing.
-3. Apply the pilot's findings to `claims.json` through the human gate.
-4. The cyclic-world template.
-5. The co-scientist tournament for variants and falsifiers.
-6. Lean.
+3. Q-21, the blind phenomena menu, which can run in parallel with item 2. Without it and Q-22, the emergence score means nothing.
+4. Apply the pilot's findings to `claims.json` through the human gate.
+5. The cyclic-world template. It doubles as the toy model for emergence demonstrations (Q-23).
+6. The co-scientist tournament for variants and falsifiers, with the menu as fitness.
+7. Lean.
 
 ## 9. Limits, stated plainly
 
 - **PSITIP is incomplete** beyond Shannon-type inequalities and doesn't handle rates, limits or strict inequalities. Those stay with exact computation, search and review.
 - **Review raises confidence; it doesn't prove.** Calibration measures how much it raises it, and only on the kinds of errors in the suite.
 - **The harness cannot decide whether a formalization is a faithful *reading*** of Jauss, Quine or Firth. It can only make the correspondence explicit and testable, then hand it to a person.
+- **The emergence verifier measures fit to recorded behavior, not truth.** It is exposed to retrodiction (axioms written with the phenomena in view), to selection bias in the menu, and to judgment in the verdicts. Blind construction, negative controls, rivals and down-weighting limit these risks but do not remove them. A low score can also mean immature derivations rather than a wrong formalism, which is why the derivation status is reported separately.
 - **Cost:** blind re-derivation and diverse reviewers multiply model calls. Spend them where claims carry weight: the master relations and anything that goes into a bridge.

@@ -17,6 +17,7 @@ EXTERNAL = [
     (re.compile(r"^OUT-S([0-9]+)$"), 1, 31),
     (re.compile(r"^OUT-X([0-9]+)$"), 1, 14),
     (re.compile(r"^OUT-O([0-9]+)$"), 1, 7),
+    (re.compile(r"^GM-A([0-9]+)$"), 1, 14),
 ]
 EXTERNAL_LITERALS = {"OSL-UCL"}
 LAYERS = {f"L{i}" for i in range(9)}
@@ -48,6 +49,8 @@ def main():
     debates = load("debates.json")["debates"]
     exps = load("experiments.json")["experiments"]
     tasks = load("tasks.json")["tasks"]
+    phen_doc = load("phenomena.json")
+    phen = phen_doc["phenomena"]
 
     def uniq(items, label):
         ids = [x["id"] if "id" in x else x["key"] for x in items]
@@ -121,6 +124,59 @@ def main():
             if not (r in bib_keys or claim_ok(r) or r in exp_ids):
                 errors.append(f"experiment {x['id']}: unknown related {r}")
 
+    # phenomena menu (emergence verifier, harness.md §5.5)
+    pmeta = phen_doc["meta"]
+    phen_ids = uniq(phen, "phenomenon")
+    formalism_ids = {f["id"] for f in pmeta["formalisms"]}
+    core = set(next(f for f in pmeta["formalisms"] if f["id"] == "spine-v0.1")["core_premises"])
+    for p in phen:
+        pid = p["id"]
+        for k, legend in (("kind", "kind_legend"), ):
+            if p[k] not in pmeta[legend]:
+                errors.append(f"phenomenon {pid}: bad {k} {p[k]}")
+        if p["field"] not in pmeta["fields"]:
+            errors.append(f"phenomenon {pid}: bad field {p['field']}")
+        for l in p["layers"]:
+            if l not in LAYERS:
+                errors.append(f"phenomenon {pid}: bad layer {l}")
+        g = p["grounding"]
+        if g["strength"] not in pmeta["strength_legend"] or g["pattern"] not in pmeta["pattern_legend"]:
+            errors.append(f"phenomenon {pid}: bad strength/pattern")
+        for b in g["theorized"] + g["observed"]:
+            if b not in bib_keys:
+                errors.append(f"phenomenon {pid}: unknown bib key {b}")
+        if not (g["theorized"] or g["observed"] or g["source_hints"]) and p["kind"] != "non-phenomenon":
+            errors.append(f"phenomenon {pid}: no grounding source")
+        if p.get("contrast_with") and p["contrast_with"] not in phen_ids:
+            errors.append(f"phenomenon {pid}: unknown contrast {p['contrast_with']}")
+        for d in p.get("debates", []):
+            if d not in debate_ids:
+                errors.append(f"phenomenon {pid}: unknown debate {d}")
+        for a in p["assessments"]:
+            v = a["verdict"]
+            if a["formalism"] not in formalism_ids:
+                errors.append(f"phenomenon {pid}: unknown formalism {a['formalism']}")
+            if v not in pmeta["verdict_legend"]:
+                errors.append(f"phenomenon {pid}: bad verdict {v}")
+            neg_only = v in ("excluded", "generated")
+            if neg_only != (p["kind"] == "non-phenomenon") and v != "untested":
+                errors.append(f"phenomenon {pid}: verdict {v} does not fit kind {p['kind']}")
+            if a["derivation_status"] not in pmeta["derivation_status_legend"]:
+                errors.append(f"phenomenon {pid}: bad derivation_status")
+            for d in a["derivation"]:
+                if not claim_ok(d):
+                    errors.append(f"phenomenon {pid}: unknown derivation id {d}")
+            if a["formalism"] == "spine-v0.1":
+                if v == "bolted-on" and not a["extra_assumptions"]:
+                    errors.append(f"phenomenon {pid}: bolted-on needs extra_assumptions")
+                if v in ("emergent", "parametric") and a["extra_assumptions"]:
+                    errors.append(f"phenomenon {pid}: {v} cannot carry extra_assumptions (that is bolted-on)")
+                for pr in a["premises"]:
+                    if pr not in core and not claim_ok(pr):
+                        errors.append(f"phenomenon {pid}: premise {pr} is neither core nor a known claim")
+                if v in ("emergent", "parametric") and not a["derivation"]:
+                    errors.append(f"phenomenon {pid}: {v} needs a derivation")
+
     # dependency cycles among K-claims
     graph = {c["id"]: [d for d in c.get("depends_on", []) if d in claim_ids] for c in claims}
     state = {}
@@ -161,7 +217,7 @@ def main():
         print("ERROR", e)
     print(f"{len(bib)} bib, {len(concept_ids)} concepts, {len(concepts['edges'])} edges, "
           f"{len(claim_ids)} claims, {len(debate_ids)} debates, {len(exp_ids)} experiments, "
-          f"{len(tasks)} tasks; {len(errors)} errors")
+          f"{len(tasks)} tasks, {len(phen)} phenomena; {len(errors)} errors")
     sys.exit(1 if errors else 0)
 
 

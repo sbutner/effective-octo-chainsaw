@@ -17,6 +17,8 @@ This directory is the umbrella for the project. It reframes the earlier work in 
 | [`data/bibliography.json`](data/bibliography.json) | Annotated bibliography, 196 entries. Each has a verification status, layers, concepts, and the claims it supports or challenges | Canonical |
 | [`data/debates.json`](data/debates.json) | 21 long-standing debates, with LLM-era evidence, verdicts and next tests | Canonical |
 | [`data/experiments.json`](data/experiments.json) | 12 new experiments (E-*), linked to claims | Canonical |
+| [`data/phenomena.json`](data/phenomena.json) | Menu of literature-grounded behaviors and negative controls, with emergence verdicts per formalism (seed, unreviewed) | Canonical |
+| [`phenomena.md`](phenomena.md) | Emergence scoreboard and menu view | Generated (`tools/phenomena.py`) |
 | [`data/tasks.json`](data/tasks.json) | 20 agent-ready tasks (Q-*), with inputs, outputs and acceptance criteria | Canonical |
 | [`data/graph.json`](data/graph.json) | All of the above merged into one node-link graph | Generated |
 | [`bibliography.md`](bibliography.md) | The bibliography, readable by layer | Generated |

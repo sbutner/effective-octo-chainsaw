@@ -1,0 +1,2056 @@
+{
+ "meta": {
+  "version": "0.1",
+  "updated": "2026-11-22",
+  "purpose": "Menu of literature-grounded behaviors used by the emergence verifier (program/harness.md §5.5). A formalism earns credit for behaviors that emerge from its core premises, not for ones written into it.",
+  "kind_legend": {
+   "law": "Quantitative regularity",
+   "regularity": "Qualitative stylized fact",
+   "case": "A specific historical case",
+   "non-phenomenon": "Negative control: a behavior the literature reports does NOT occur. The system should exclude it"
+  },
+  "verdict_legend": {
+   "emergent": "Derivable from core premises with no premise specific to this phenomenon",
+   "parametric": "Emergent within a parameter regime that is motivated independently of this phenomenon (state it in notes)",
+   "postulated": "The phenomenon is, or is equivalent to, a core premise. Consistent, but earns no emergence credit",
+   "bolted-on": "Needs an assumption added for this phenomenon (listed in extra_assumptions)",
+   "silent": "The formalism makes no prediction",
+   "contradicted": "The formalism predicts the opposite: a falsification flag",
+   "excluded": "For non-phenomena only: the formalism rules the behavior out (the desired outcome)",
+   "generated": "For non-phenomena only: the formalism produces the behavior (a false positive)",
+   "untested": "Not yet assessed"
+  },
+  "derivation_status_legend": {
+   "proved": "Derivation at verification tier V4 or above, or a published theorem",
+   "sketch": "Partial proof; key steps open",
+   "claimed": "Derivation asserted, not written",
+   "none": "No derivation"
+  },
+  "strength_legend": {
+   "robust": "Many independent replications or a textbook law",
+   "replicated": "Replicated at least once",
+   "contested": "Actively disputed",
+   "single-study": "One study",
+   "theorized-only": "Theorized in its field, not yet observed empirically: a prediction target"
+  },
+  "pattern_legend": {
+   "theorized-then-observed": "The Firth pattern: theory preceded the empirical confirmation",
+   "observed-then-theorized": "Data first",
+   "observed-only": "No theory in its field",
+   "theorized-only": "Awaiting observation; LLMs may supply the apparatus (debates.json)"
+  },
+  "fields": [
+   "linguistics",
+   "cultural-evolution",
+   "evolutionary-anthropology",
+   "media-history",
+   "literary-theory",
+   "literary-history",
+   "philosophy",
+   "cognitive-science",
+   "psychiatry",
+   "ml",
+   "science-of-science",
+   "social-epistemology"
+  ],
+  "formalisms": [
+   {
+    "id": "spine-v0.1",
+    "description": "This program: GM primitives A1–A14, spine L0–L8, outline v1. Core premises are GM-A1..GM-A14.",
+    "core_premises": [
+     "GM-A1",
+     "GM-A2",
+     "GM-A3",
+     "GM-A4",
+     "GM-A5",
+     "GM-A6",
+     "GM-A7",
+     "GM-A8",
+     "GM-A9",
+     "GM-A10",
+     "GM-A11",
+     "GM-A12",
+     "GM-A13",
+     "GM-A14"
+    ]
+   },
+   {
+    "id": "rival:noisy-copy",
+    "description": "Transmission as noisy replication (memetics; Shannon channel without selection or context)."
+   },
+   {
+    "id": "rival:bayesian-iterated-learning",
+    "description": "Griffiths & Kalish: chains of Bayesian learners converge to the prior.",
+    "sources": [
+     "griffiths2007",
+     "kalish2007"
+    ]
+   },
+   {
+    "id": "rival:cultural-attraction",
+    "description": "Sperber: reconstructive transmission toward cognitive attractors."
+   },
+   {
+    "id": "rival:dual-inheritance",
+    "description": "Boyd & Richerson / Cavalli-Sforza: population-genetic models of cultural evolution with biases.",
+    "sources": [
+     "boyd1985",
+     "cavallisforza1981"
+    ]
+   }
+  ],
+  "scoring": "See program/tools/phenomena.py and harness.md §5.5. Weights are initial and should be recalibrated."
+ },
+ "phenomena": [
+  {
+   "id": "P-001",
+   "field": "linguistics",
+   "layers": [
+    "L3"
+   ],
+   "kind": "law",
+   "behavior": "Words that occur in similar contexts have similar meanings: distributional similarity tracks semantic similarity.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [
+     "harris1954",
+     "firth1957"
+    ],
+    "observed": [
+     "levy2014",
+     "karkada2026",
+     "storan2026"
+    ],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "In the cyclic world, embeddings fit to co-occurrence recover the orbit geometry of the world states they refer to.",
+   "debates": [
+    "D1"
+   ],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T8",
+      "OUT-S1",
+      "OUT-S5",
+      "K5"
+     ],
+     "premises": [
+      "GM-A1",
+      "GM-A14"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Close to postulated: A14 says reference induces co-occurrence. Credit depends on A14 being motivated independently of Firth (it is: by reference, not by meaning). The geometry step (S5) is published."
+    }
+   ]
+  },
+  {
+   "id": "P-002",
+   "field": "linguistics",
+   "layers": [
+    "L3"
+   ],
+   "kind": "regularity",
+   "behavior": "Representations of cyclic or spatial word families (months, colors, places, sky positions) reproduce the world's geometry.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "karkada2026",
+     "storan2026",
+     "gurnee2024",
+     "abdou2021"
+    ],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Fourier/irrep structure of family Gram matrices; per-irrep radii.",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "OUT-S1",
+      "OUT-S5"
+     ],
+     "premises": [
+      "GM-A1",
+      "GM-A14"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "S5 is a published theorem (Storan; Karkada) once S1's invariance holds."
+    }
+   ]
+  },
+  {
+   "id": "P-003",
+   "field": "linguistics",
+   "layers": [
+    "L3",
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Law of conformity: frequent words change meaning more slowly.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [
+     "Hamilton, Leskovec & Jurafsky (2016), Diachronic word embeddings reveal statistical laws of semantic change, ACL — not in bibliography; verify"
+    ],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Per-word drift rate across generations versus family-relevant token mass n_eff.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "OUT-S11",
+      "OUT-S22",
+      "K31"
+     ],
+     "premises": [
+      "GM-A10",
+      "GM-A11",
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Candidate mechanism: estimation error and drift scale with 1/n_eff. Same mechanism as P-004; one mechanism for two phenomena is a good sign if it holds."
+    }
+   ]
+  },
+  {
+   "id": "P-004",
+   "field": "linguistics",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Irregular verbs regularize, and rare ones regularize faster (rate roughly inverse square root of frequency).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [
+     "Lieberman, Michel, Jackson, Tang & Nowak (2007), Quantifying the evolutionary dynamics of language, Nature — not in bibliography; verify"
+    ],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Irregular forms as low-mass exceptions (world-type B-perp) under the generational map; survival time versus frequency.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "OUT-S22",
+      "OUT-S27",
+      "GM-T9"
+     ],
+     "premises": [
+      "GM-A11",
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "The exponent is a sharp target: the system must produce a frequency^-1/2 law without tuning, or this is bolted-on."
+    }
+   ]
+  },
+  {
+   "id": "P-005",
+   "field": "linguistics",
+   "layers": [
+    "L3"
+   ],
+   "kind": "regularity",
+   "behavior": "Word frequencies follow Zipf's law.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [
+     "Zipf (1949); Piantadosi (2014), Zipf's word frequency law in natural language: a critical review, Psychonomic Bulletin & Review — verify"
+    ],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Rank-frequency distribution of tokens generated by agents in the system.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "silent",
+     "derivation": [],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "none",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Nothing in the spine generates frequency distributions. Recorded to expose the gap."
+    }
+   ]
+  },
+  {
+   "id": "P-006",
+   "field": "linguistics",
+   "layers": [
+    "L3",
+    "L8"
+   ],
+   "kind": "regularity",
+   "behavior": "Languages change, yet texts remain translatable across languages and eras.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "quine1960"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Family geometries across languages align up to a gauge; world symmetry breaking pins the gauge (OUT-X13).",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "OUT-S9",
+      "OUT-S27",
+      "K3"
+     ],
+     "premises": [
+      "GM-A1",
+      "GM-A14"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "A GM test case, so it informed the design."
+    }
+   ]
+  },
+  {
+   "id": "P-007",
+   "field": "linguistics",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Under iterated learning, languages become more structured and easier to learn.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "griffiths2007"
+    ],
+    "observed": [
+     "kirby2008"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "Chains of Bayesian learners in the toy world: compressibility of the transmitted code across generations.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K32"
+     ],
+     "premises": [
+      "GM-A10",
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "K32 imports the Griffiths–Kalish result. Under the 'prior replaces evidence' mechanism, structure emerges toward the learners' prior."
+    }
+   ]
+  },
+  {
+   "id": "P-010",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Serial reproduction regresses toward the transmitters' cultural schemas.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "kalish2007",
+     "griffiths2007"
+    ],
+    "source_hints": [
+     "Bartlett (1932), Remembering — not in bibliography; verify"
+    ],
+    "strength": "robust",
+    "pattern": "observed-then-theorized"
+   },
+   "operationalization": "Closed transmission chain without independent evidence: the distribution of readings converges to the reader prior.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K32",
+      "GM-T3"
+     ],
+     "premises": [
+      "GM-A4",
+      "GM-A10"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "The drift term of T3 is exactly this. The convergence result is published (Griffiths & Kalish)."
+    }
+   ]
+  },
+  {
+   "id": "P-011",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Smaller or isolated populations lose cultural complexity (the Tasmanian case).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "henrich2004"
+    ],
+    "source_hints": [],
+    "strength": "contested",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Fidelity threshold versus effective population of sources.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "postulated",
+     "derivation": [
+      "GM-T6"
+     ],
+     "premises": [
+      "GM-A11"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "A11 is taken from Henrich, so this earns no emergence credit. Contested by vaesen2016."
+    }
+   ]
+  },
+  {
+   "id": "P-012",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Pure social learning does not raise mean fitness in a changing environment (Rogers' paradox); critical or individual learning resolves it.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [
+     "rogers1988"
+    ],
+    "observed": [
+     "enquist2007"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "Population with copiers and testers under a drifting world; mean grounded information.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T2",
+      "GM-T4",
+      "K33"
+     ],
+     "premises": [
+      "GM-A2",
+      "GM-A10"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Info-theoretic core proved in proofs/psitip (T2; T4.2 corrected): a closed loop cannot gain. The threshold v* (K33) is still a conjecture."
+    }
+   ]
+  },
+  {
+   "id": "P-013",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Cumulative culture (the ratchet) requires high-fidelity transmission.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "tomasello1999"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "postulated",
+     "derivation": [
+      "GM-T6"
+     ],
+     "premises": [
+      "GM-A11"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "This is axiom A11."
+    }
+   ]
+  },
+  {
+   "id": "P-014",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5",
+    "L6"
+   ],
+   "kind": "regularity",
+   "behavior": "Conformist and prestige biases shape which variants spread.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "boyd1985",
+     "cavallisforza1981"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "bolted-on",
+     "derivation": [
+      "GM-T3"
+     ],
+     "premises": [
+      "GM-A10"
+     ],
+     "extra_assumptions": [
+      "drift is defined as retention 'for reasons unrelated to the world', which lists these biases"
+     ],
+     "derivation_status": "none",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "The spine sorts these biases into the drift term but does not predict their form or strength. Accommodated, not derived."
+    }
+   ]
+  },
+  {
+   "id": "P-015",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Content biases: negative, threat-related and social information survives transmission chains better.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [
+     "Mesoudi, Whiten & Dunbar (2006), British Journal of Psychology; Bebbington et al. (2017) — verify"
+    ],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "silent",
+     "derivation": [],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "none",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "No mechanism ties the content of a reading to its retention probability. A candidate extension is relevance weights w(kappa), as in S17."
+    }
+   ]
+  },
+  {
+   "id": "P-016",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Transmission is reconstructive: variants converge to attractors rather than replicating faithfully (cultural attraction).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "sperber1986"
+    ],
+    "observed": [],
+    "source_hints": [
+     "Sperber (1996), Explaining Culture — verify"
+    ],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Fixed points of the generational map under reader priors.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "K32",
+      "OUT-S21"
+     ],
+     "premises": [
+      "GM-A4",
+      "GM-A10"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Attractors are the modes of the prior. Parametric because which attractors appear depends on the prior."
+    }
+   ]
+  },
+  {
+   "id": "P-017",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Social influence breaks the wisdom of crowds: it raises inequality and unpredictability of success.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "ladha1992",
+     "condorcet1785"
+    ],
+    "observed": [
+     "salganik2006"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "Aggregation accuracy versus effective number of independent sources A_eff.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "OUT-S13",
+      "K27",
+      "K26"
+     ],
+     "premises": [
+      "GM-A2"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Correlated evidence lowers A_eff. That gives accuracy loss, but the inequality of success needs the attachment dynamics of K28."
+    }
+   ]
+  },
+  {
+   "id": "P-018",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Information cascades: agents rationally ignore private signals and herd.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "bikhchandani1992"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K37"
+     ],
+     "premises": [
+      "GM-A2",
+      "GM-A5"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "K37 is a known result, re-applied."
+    }
+   ]
+  },
+  {
+   "id": "P-020",
+   "field": "evolutionary-anthropology",
+   "layers": [
+    "L4"
+   ],
+   "kind": "regularity",
+   "behavior": "Oral traditions transmit through formulas and themes rather than verbatim text.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "ong1982"
+    ],
+    "observed": [
+     "lord1960"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Under copy noise, codes with redundant, formulaic units survive longer: the redundancy term in T6.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "GM-T6",
+      "K21"
+     ],
+     "premises": [
+      "GM-A11",
+      "GM-A12"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "A12 postulates the oral/literate split. The formula-as-error-correction step is what would earn the credit."
+    }
+   ]
+  },
+  {
+   "id": "P-021",
+   "field": "media-history",
+   "layers": [
+    "L4"
+   ],
+   "kind": "regularity",
+   "behavior": "Print increases textual fixity and standardization.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "eisenstein1979"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "contested",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "K21"
+     ],
+     "premises": [
+      "GM-A12"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Media regimes are points in (c, phi, n). Fixity follows from higher copy fidelity phi."
+    }
+   ]
+  },
+  {
+   "id": "P-030",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Literary frame: a canonical work cannot be paraphrased without loss (the heresy of paraphrase); fidelity norms approach strict equality.",
+   "frame": "literary",
+   "contrast_with": "P-031",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [
+     "Brooks (1947), The Well Wrought Urn — not in bibliography; verify"
+    ],
+    "strength": "theorized-only",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "Paraphrase loss versus K(work | reader model); context-truncation degradation (GM C18, C19).",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T1",
+      "GM-C18",
+      "K45"
+     ],
+     "premises": [
+      "GM-A3",
+      "GM-A4"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Must come out of the same mechanism as P-031 with only the frame varied. Two mechanisms would count as a bolt-on."
+    }
+   ]
+  },
+  {
+   "id": "P-031",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Pulp/genre frame: texts tolerate heavy compression, skimming, abridgment and dropped passages with little loss of what readers value.",
+   "frame": "pulp",
+   "contrast_with": "P-030",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [
+     "propp1928"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "Information concentrated in the genre prior: reading still succeeds with ablated attention or dropped packets (GM C19).",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-C19",
+      "K45",
+      "K46"
+     ],
+     "premises": [
+      "GM-A3",
+      "GM-A4"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "The contrast pair is the test: one compressibility-relative-to-prior mechanism, with the frame setting the distortion measure."
+    }
+   ]
+  },
+  {
+   "id": "P-032",
+   "field": "literary-theory",
+   "layers": [
+    "L2",
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Creative misprision: strong misreadings of predecessors drive literary innovation.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [
+     "bloom1973"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "In the selection simulation, some misreadings raise grounded information or value under testing (pool + select > drift).",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T1",
+      "GM-T3"
+     ],
+     "premises": [
+      "GM-A3",
+      "GM-A4",
+      "GM-A10"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "T1 (misprision is unavoidable) is the easy part. The creative branch needs T3's threshold, which is a conjecture. If it fails to emerge, the formalism is wrong (per program design)."
+    }
+   ]
+  },
+  {
+   "id": "P-033",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Reception is historical: a work's meaning and value shift with the readers' horizon of expectations.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "jauss1970",
+     "gadamer1960",
+     "iser1976"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K47",
+      "GM-T7"
+     ],
+     "premises": [
+      "GM-A4",
+      "GM-A6"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "A6 (re-reading in changed contexts) is close to the phenomenon itself, so this risks being postulated."
+    }
+   ]
+  },
+  {
+   "id": "P-034",
+   "field": "literary-history",
+   "layers": [
+    "L4"
+   ],
+   "kind": "regularity",
+   "behavior": "Most works are lost; survival of medieval literature is heavily skewed and incomplete.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "kestemont2022",
+     "moretti2000"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Unseen-species estimate of loss in the archive model versus copy rate.",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K23",
+      "K20"
+     ],
+     "premises": [
+      "GM-A11",
+      "GM-A12"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "P-035",
+   "field": "literary-history",
+   "layers": [
+    "L4"
+   ],
+   "kind": "regularity",
+   "behavior": "Sleeping beauties: some works are neglected for a long time, then suddenly recognized.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "jauss1970"
+    ],
+    "observed": [
+     "ke2015"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "K25",
+      "K24"
+     ],
+     "premises": [
+      "GM-A6"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "P-036",
+   "field": "literary-history",
+   "layers": [
+    "L4"
+   ],
+   "kind": "regularity",
+   "behavior": "Cumulative advantage: attention, citations and canonical status concentrate (the Matthew effect).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "merton1968"
+    ],
+    "observed": [
+     "price1976",
+     "barabasi1999"
+    ],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "untested",
+     "derivation": [
+      "K24",
+      "K28"
+     ],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "none",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Unclear whether preferential attachment is derived or assumed in the canon-network layer. Assess."
+    }
+   ]
+  },
+  {
+   "id": "P-037",
+   "field": "literary-history",
+   "layers": [
+    "L4",
+    "L7"
+   ],
+   "kind": "case",
+   "behavior": "Some works are reread for millennia without being exhausted (Homer is still read).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [
+     "A Homeric reception history covering the commentary tradition from the Alexandrian scholia to the present — source to be chosen and verified"
+    ],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T7",
+      "K13",
+      "K45"
+     ],
+     "premises": [
+      "GM-A6",
+      "GM-A9"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "A GM test case."
+    }
+   ]
+  },
+  {
+   "id": "P-038",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Interpretive communities: commentary splits into camps that read the same text differently.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "fish1980"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": true,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "OUT-S20",
+      "GM-C21"
+     ],
+     "premises": [
+      "GM-A4"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "P-039",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Defamiliarization: art works by making the familiar strange; novelty followed by resonance marks influential texts.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "shklovsky1917"
+    ],
+    "observed": [
+     "barron2018"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "theorized-then-observed"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "K52",
+      "K49"
+     ],
+     "premises": [
+      "GM-A4"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "P-040",
+   "field": "philosophy",
+   "layers": [
+    "L3"
+   ],
+   "kind": "regularity",
+   "behavior": "Indeterminacy of translation: evidence underdetermines reference.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "quine1960"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K3",
+      "OUT-O6"
+     ],
+     "premises": [
+      "GM-A14"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "It is an identifiability class: geometry is fixed up to a gauge (Roeder; Marconato)."
+    }
+   ]
+  },
+  {
+   "id": "P-041",
+   "field": "philosophy",
+   "layers": [
+    "L2",
+    "L3"
+   ],
+   "kind": "regularity",
+   "behavior": "Form alone cannot ground meaning (the symbol-grounding problem; the octopus test).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "harnad1990",
+     "searle1980",
+     "bender2020"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "contested",
+    "pattern": "theorized-only"
+   },
+   "operationalization": "Meaning from form is possible as a state (a snapshot) and impossible as a process (no refresh without independent evidence).",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T2",
+      "GM-T4",
+      "GM-T8"
+     ],
+     "premises": [
+      "GM-A13",
+      "GM-A14"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "The 'impossible as process' half is proved in proofs/psitip. The 'possible as state' half rests on T8 / S1."
+    }
+   ]
+  },
+  {
+   "id": "P-042",
+   "field": "philosophy",
+   "layers": [
+    "L2",
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Testimony transmits knowledge, but only under vigilance; vigilance fails against coherent consensus error.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "coady1992",
+     "lackey2008",
+     "sperber2010",
+     "mercier2020"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K34"
+     ],
+     "premises": [
+      "GM-A5"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "The first half is postulated by A5. The emergent part is K34's claim that vigilance checks the prior, not the world."
+    }
+   ]
+  },
+  {
+   "id": "P-050",
+   "field": "cognitive-science",
+   "layers": [
+    "L6"
+   ],
+   "kind": "regularity",
+   "behavior": "Illusion of explanatory depth: people believe they understand mechanisms far better than they do.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "sloman2017"
+    ],
+    "observed": [
+     "rozenblit2002"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "untested",
+     "derivation": [
+      "K11"
+     ],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "none",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Possible link: explicit content (what can be run) versus held but unrun instructions. Not assessed."
+    }
+   ]
+  },
+  {
+   "id": "P-051",
+   "field": "psychiatry",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Psychosis as aberrant precision weighting of prediction errors.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [
+     "sterzer2018"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "contested",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "K54"
+     ],
+     "premises": [
+      "GM-A5"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "P-060",
+   "field": "ml",
+   "layers": [
+    "L5",
+    "L8"
+   ],
+   "kind": "regularity",
+   "behavior": "Model collapse: recursive training on generated data loses distribution tails first.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "shumailov2024",
+     "dohmatob2024tails"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "Per-irrep radii and B-perp_world across self-training generations (OUT-X7, X14).",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T9",
+      "OUT-S22",
+      "GM-T2"
+     ],
+     "premises": [
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "'No gain' is proved (T2). 'Tails first' rests on the S22 shrinkage mechanism, a conjecture."
+    }
+   ]
+  },
+  {
+   "id": "P-061",
+   "field": "ml",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "Accumulating real data alongside synthetic data prevents collapse; replacing it does not.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "gerstgrasser2024"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "GM-T4",
+      "OUT-S22"
+     ],
+     "premises": [
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "T4 says accumulation stops the loss but cannot produce gain."
+    }
+   ]
+  },
+  {
+   "id": "P-062",
+   "field": "ml",
+   "layers": [
+    "L3",
+    "L8"
+   ],
+   "kind": "regularity",
+   "behavior": "Representations of different models converge as scale grows (the Platonic Representation Hypothesis).",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "huh2024"
+    ],
+    "source_hints": [],
+    "strength": "contested",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "OUT-S9",
+      "OUT-S10",
+      "OUT-S15"
+     ],
+     "premises": [
+      "GM-A1",
+      "GM-A14"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Emergent on symmetric families. The program also predicts that convergence is not grounding (S25, S26; S26 is proved)."
+    }
+   ]
+  },
+  {
+   "id": "P-063",
+   "field": "ml",
+   "layers": [
+    "L5"
+   ],
+   "kind": "regularity",
+   "behavior": "LLM outputs are homogeneous across models and users (an 'artificial hivemind'); AI assistance reduces collective diversity.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "jiang2025hivemind",
+     "wu2024monoculture",
+     "doshi2024",
+     "padmakumar2024"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "emergent",
+     "derivation": [
+      "K35",
+      "K30"
+     ],
+     "premises": [
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "P-064",
+   "field": "ml",
+   "layers": [
+    "L7"
+   ],
+   "kind": "regularity",
+   "behavior": "Sycophancy: models trained on human approval tell users what they want to hear.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "sharma2024"
+    ],
+    "source_hints": [],
+    "strength": "replicated",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "parametric",
+     "derivation": [
+      "K56"
+     ],
+     "premises": [
+      "GM-A5"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "N-001",
+   "field": "cultural-evolution",
+   "layers": [
+    "L5"
+   ],
+   "kind": "non-phenomenon",
+   "behavior": "NON-PHENOMENON: closed-loop retelling chains steadily increase accuracy about the world.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "kalish2007"
+    ],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "excluded",
+     "derivation": [
+      "GM-T2"
+     ],
+     "premises": [
+      "GM-A13"
+     ],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Excluded by T2 (proofs/psitip row 1)."
+    }
+   ]
+  },
+  {
+   "id": "N-002",
+   "field": "ml",
+   "layers": [
+    "L3"
+   ],
+   "kind": "non-phenomenon",
+   "behavior": "NON-PHENOMENON: agreement between models always implies agreement with the world.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "excluded",
+     "derivation": [
+      "OUT-S26"
+     ],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Excluded with a counterexample: proofs/psitip row 9 (shared data)."
+    }
+   ]
+  },
+  {
+   "id": "N-003",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "non-phenomenon",
+   "behavior": "NON-PHENOMENON: every misreading is degradation; there is no creative branch.",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [
+     "bloom1973"
+    ],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "excluded",
+     "derivation": [
+      "GM-T3"
+     ],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "sketch",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": "Excluded if T3's select term is positive. Depends on the λ* conjecture."
+    }
+   ]
+  },
+  {
+   "id": "N-004",
+   "field": "literary-theory",
+   "layers": [
+    "L7"
+   ],
+   "kind": "non-phenomenon",
+   "behavior": "NON-PHENOMENON: literary and genre texts lose the same amount under paraphrase or compression.",
+   "contrast_with": "P-030",
+   "must_emerge": true,
+   "grounding": {
+    "theorized": [],
+    "observed": [],
+    "source_hints": [],
+    "strength": "theorized-only",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "excluded",
+     "derivation": [
+      "GM-C18",
+      "GM-C19"
+     ],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "claimed",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "N-005",
+   "field": "linguistics",
+   "layers": [
+    "L3"
+   ],
+   "kind": "non-phenomenon",
+   "behavior": "NON-PHENOMENON: embedding geometry is arbitrary and unrelated to the structure of the referents.",
+   "must_emerge": false,
+   "grounding": {
+    "theorized": [],
+    "observed": [
+     "karkada2026",
+     "storan2026"
+    ],
+    "source_hints": [],
+    "strength": "robust",
+    "pattern": "observed-only"
+   },
+   "operationalization": "",
+   "debates": [],
+   "provenance": {
+    "informed_design": false,
+    "added_by": "seed",
+    "blind": false
+   },
+   "assessments": [
+    {
+     "formalism": "spine-v0.1",
+     "verdict": "excluded",
+     "derivation": [
+      "OUT-S1",
+      "OUT-S5"
+     ],
+     "premises": [],
+     "extra_assumptions": [],
+     "derivation_status": "proved",
+     "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
+     "tier": "V0",
+     "notes": ""
+    }
+   ]
+  }
+ ]
+}

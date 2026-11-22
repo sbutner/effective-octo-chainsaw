@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+"""Emergence verifier: score formalisms against the literature-grounded phenomena menu.
+
+Reads program/data/phenomena.json and writes program/phenomena.md, a generated view
+with a scoreboard per formalism, must-emerge failures, coverage and the full menu.
+
+Usage:
+    python3 program/tools/phenomena.py            # print the scoreboard, write phenomena.md
+    python3 program/tools/phenomena.py --strict   # exit 1 if a must-emerge item fails or anything is contradicted
+
+The score is a measurement aid, not a proof. Read harness.md §5.5 before quoting a number.
+"""
+import json
+import sys
+from collections import Counter, defaultdict
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "data"
+
+# Initial weights. Recalibrate them; see harness.md §5.5.
+STRENGTH_W = {"robust": 1.0, "replicated": 0.8, "contested": 0.5, "single-study": 0.4, "theorized-only": 0.6}
+INFORMED_W = 0.25    # phenomena that shaped the axioms test consistency, not prediction
+STATUS_F = {"proved": 1.0, "sketch": 0.7, "claimed": 0.4, "none": 0.2}
+CREDIT = {"emergent": 1.0, "parametric": 0.5, "postulated": 0.0, "bolted-on": 0.0, "silent": 0.0, "contradicted": -1.0}
+MIN_PER_FIELD = 5
+
+
+def weight(p):
+    return STRENGTH_W[p["grounding"]["strength"]] * (INFORMED_W if p["provenance"]["informed_design"] else 1.0)
+
+
+def score(phenomena, formalism):
+    pos, neg = [], []
+    for p in phenomena:
+        a = next((x for x in p["assessments"] if x["formalism"] == formalism), None)
+        if a is None or a["verdict"] == "untested":
+            continue
+        (neg if p["kind"] == "non-phenomenon" else pos).append((p, a))
+    num = sum(weight(p) * CREDIT[a["verdict"]] * (STATUS_F[a["derivation_status"]] if CREDIT[a["verdict"]] > 0 else 1.0)
+              for p, a in pos)
+    den = sum(weight(p) for p, _ in pos)
+    v = Counter(a["verdict"] for _, a in pos)
+    derived = v["emergent"] + v["parametric"] + v["bolted-on"]
+    return {
+        "assessed": len(pos),
+        "emergence_score": round(num / den, 3) if den else None,
+        "verdicts": dict(v),
+        "bolt_on_index": round(v["bolted-on"] / derived, 3) if derived else None,
+        "postulated_share": round(v["postulated"] / len(pos), 3) if pos else None,
+        "contradicted": [p["id"] for p, a in pos if a["verdict"] == "contradicted"],
+        "specificity": (round(sum(a["verdict"] == "excluded" for _, a in neg) / len(neg), 3) if neg else None),
+        "false_positives": [p["id"] for p, a in neg if a["verdict"] == "generated"],
+        "proved_share": round(sum(a["derivation_status"] == "proved" for _, a in pos if a["verdict"] in ("emergent", "parametric"))
+                              / max(1, v["emergent"] + v["parametric"]), 3),
+    }
+
+
+def must_failures(phenomena, formalism):
+    bad = []
+    for p in phenomena:
+        if not p.get("must_emerge"):
+            continue
+        a = next((x for x in p["assessments"] if x["formalism"] == formalism), None)
+        verdict = a["verdict"] if a else "untested"
+        ok = verdict == "excluded" if p["kind"] == "non-phenomenon" else verdict in ("emergent", "parametric")
+        if not ok:
+            bad.append((p["id"], verdict))
+    return bad
+
+
+def main():
+    doc = json.loads((DATA / "phenomena.json").read_text(encoding="utf-8"))
+    ph = doc["phenomena"]
+    formalisms = [f["id"] for f in doc["meta"]["formalisms"]]
+    fields = Counter(p["field"] for p in ph if p["kind"] != "non-phenomenon")
+    informed = sum(p["provenance"]["informed_design"] for p in ph)
+    blind = sum(p["provenance"].get("blind", False) for p in ph)
+    lines = ["# Phenomena menu and emergence scoreboard", "",
+             "*Generated from `data/phenomena.json` by `tools/phenomena.py`. Edit the JSON, not this file. "
+             "Method: [`harness.md` §5.5](harness.md). All seed verdicts are unreviewed (tier V0).*", "",
+             "## Scoreboard", "",
+             "| Formalism | Assessed | Emergence score | Bolt-on index | Postulated share | Proved share of derivations | Specificity (negative controls) | Contradicted | Must-emerge failures |",
+             "|---|---|---|---|---|---|---|---|---|"]
+    strict_fail = False
+    for f in formalisms:
+        s = score(ph, f)
+        mf = must_failures(ph, f)
+        if f == "spine-v0.1" and (mf or s["contradicted"] or s["false_positives"]):
+            strict_fail = True
+        if s["assessed"] == 0 and s["specificity"] is None:
+            lines.append(f"| `{f}` | 0 | not assessed | | | | | | |")
+            print(f"{f:34s} not assessed")
+            continue
+        lines.append(f"| `{f}` | {s['assessed']} | {s['emergence_score']} | {s['bolt_on_index']} | {s['postulated_share']} | "
+                     f"{s['proved_share'] if s['assessed'] else None} | {s['specificity']} | {', '.join(s['contradicted']) or '—'} | "
+                     f"{', '.join(f'{i} ({v})' for i, v in mf) or '—'} |")
+        print(f"{f:34s} assessed={s['assessed']:3d} score={s['emergence_score']} bolt-on={s['bolt_on_index']} "
+              f"specificity={s['specificity']} verdicts={s['verdicts']} must-fail={len(mf)}")
+    lines += ["", "Rival formalisms are listed but not yet assessed, so their rows are empty. The score means something only relative to them.", "",
+              "## Coverage", "",
+              f"- {len(ph)} entries: {sum(p['kind'] != 'non-phenomenon' for p in ph)} phenomena and "
+              f"{sum(p['kind'] == 'non-phenomenon' for p in ph)} negative controls.",
+              f"- Informed the design: {informed}. Added blind to the formalism: {blind}. "
+              "The score is only as good as the blind, held-out share.",
+              "- Per field (phenomena only): " + ", ".join(f"{k} {v}" for k, v in sorted(fields.items())) + ".",
+              f"- Fields below {MIN_PER_FIELD}: " + (", ".join(sorted(k for k in doc['meta']['fields'] if fields.get(k, 0) < MIN_PER_FIELD)) or "none") + ".",
+              "- Theorized but not yet observed (prediction targets, the Firth pattern still open): "
+              + ", ".join(p["id"] for p in ph if p["grounding"]["pattern"] == "theorized-only" and p["kind"] != "non-phenomenon") + ".",
+              ""]
+    by_field = defaultdict(list)
+    for p in ph:
+        by_field[p["field"]].append(p)
+    lines += ["## Menu", ""]
+    for fld in sorted(by_field):
+        lines += [f"### {fld}", "", "| ID | Behavior | Strength / pattern | Grounding | spine-v0.1 verdict | Derivation | Notes |", "|---|---|---|---|---|---|---|"]
+        for p in by_field[fld]:
+            a = next((x for x in p["assessments"] if x["formalism"] == "spine-v0.1"), {})
+            g = p["grounding"]
+            src = ", ".join(f"`{k}`" for k in g["theorized"] + g["observed"]) or ("hint only" if g["source_hints"] else "—")
+            flags = (" **must**" if p.get("must_emerge") else "") + (" *(informed design)*" if p["provenance"]["informed_design"] else "")
+            beh = p["behavior"].replace("|", "/") + (f" [frame: {p['frame']}; contrast {p['contrast_with']}]" if p.get("frame") else "")
+            lines.append(f"| {p['id']}{flags} | {beh} | {g['strength']} / {g['pattern']} | {src} | {a.get('verdict')} ({a.get('derivation_status')}) | "
+                         f"{', '.join(a.get('derivation', [])) or '—'} | {(a.get('notes') or '').replace('|', '/')} |")
+        lines.append("")
+    (ROOT / "phenomena.md").write_text("\n".join(lines), encoding="utf-8")
+    mf = must_failures(ph, "spine-v0.1")
+    if mf:
+        print("must-emerge not yet met for spine-v0.1:", ", ".join(f"{i}={v}" for i, v in mf))
+    if "--strict" in sys.argv and strict_fail:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
