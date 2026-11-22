@@ -9,6 +9,8 @@ This directory is the umbrella for the project. It reframes the earlier work in 
 | [`spine.md`](spine.md) | The theory: design principles, nine layers L0–L8, the state vector and master relations, and a mapping of every earlier idea onto the spine | By hand |
 | [`program.md`](program.md) | The exploratory program: workstreams, proof queue, experiments, bridges, phases, decisions, risks | By hand |
 | [`tooling.md`](tooling.md) | Review of AI Scientist, co-scientist, co-mathematician and AlphaGeometry, and the recommended tool stack | By hand |
+| [`harness.md`](harness.md) | Operating spec for the research harness: roles, workstream loop, verifier routing, verification tiers, verifying theory without solvers | By hand |
+| [`proofs/psitip/`](proofs/psitip/RESULTS.md) | PSITIP pilot: mechanical checks of GM T2/T4, S26 and MR1, with ablations and counterexamples | Script + results |
 | [`AGENTS.md`](AGENTS.md) | Conventions for agents: IDs, citation verification, claim protocol, workflow | By hand |
 | [`data/claims.json`](data/claims.json) | 46 spine claims (K-*) and 5 master relations (MR-*), with status, difficulty, proof route, falsifier, dependencies and evidence | Canonical |
 | [`data/concepts.json`](data/concepts.json) | Concept map: 131 nodes, each with a layer, fields and a definition; 129 typed, directed edges | Canonical |
@@ -42,4 +44,4 @@ python3 program/tools/render.py                # regenerate the .md views and gr
 ## Verification status (v0.1)
 - 18 bibliography entries were checked in this session and 11 in earlier sessions.
 - 165 are from memory and 2 are unverified. Clearing these is tasks Q-01 and Q-02.
-- No proofs have been written and no experiments have been run.
+- No experiments have been run. The first mechanical proofs, the PSITIP pilot, are in `proofs/psitip/`; their claim-status changes await review.

@@ -1,6 +1,6 @@
 # Tooling: what to take from AI Scientist, co-scientist, co-mathematician and AlphaGeometry
 
-*2026-11-22. Each repository below was cloned and read this session. The co-mathematician paper (arXiv:2605.06651) was read in full. PSITIP was cloned but **not run**: the sandbox blocked running downloaded code.*
+*2026-11-22. Each repository below was cloned and read this session. The co-mathematician paper (arXiv:2605.06651) was read in full. PSITIP was then run with approval; see [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md). The operating spec is [`harness.md`](harness.md).*
 
 ## 1. Bottom line
 
@@ -99,7 +99,7 @@ The LLM's role is the auxiliary construction, as in AlphaGeometry: choose the au
 
 PSITIP is GPL-3.0. Using it is fine; vendoring or redistributing it would make derived code GPL.
 
-*Not tested yet.* A first run should check S26, GM T4.2 (both versions) and MR1 in PSITIP, then compare the results with the hand analysis in HANDOFF §4.
+*Tested 2026-11-22:* PSITIP proved GM T2, corrected T4.2, S26 and MR1, and rejected T4.2 as written; the XOR counterexample was confirmed independently. See [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md).
 
 The harmonic-analysis results (S4, S10, S18, S25, S30) aren't information inequalities. For those, the "symbolic engine" is exact computation over ℤ_N in sympy or numpy, plus Lean on `ZMod 12` (outline §8).
 
@@ -159,7 +159,7 @@ It needs a Lean toolchain and a Mathlib cache. Neither is installed. Fetching th
 ## 6. Suggested order
 
 1. **L0 conventions.** Add `refuted`, `failures.md` and the reviewer gate to `AGENTS.md`. Cheap, and everything else depends on it.
-2. **L2 PSITIP pilot** on S26, GM T4.2 and MR1. This is the fastest route to the first actual proofs (Q-08). It needs approval to run PSITIP's code.
+2. **L2 PSITIP pilot** on S26, GM T4.2 and MR1. *Done*; extend it to the rest of Q-08.
 3. **L3 `cyclic_world` template** with closed-form unit tests (S4's odd harmonics vanish at s=½; S18's gains 0.91/0.67/0.33/0/0.24). These unlock the X-series and Q-14.
 4. **L1 open-coscientist** with a subscription-routed LiteLLM provider, first on debates.json and E-series ranking.
 5. **L6 reviewer gate** for PaperOrchestra drafts.
@@ -173,4 +173,4 @@ It needs a Lean toolchain and a Mathlib cache. Neither is installed. Fetching th
 - Trinh et al. (2024), *Nature* (AlphaGeometry), and *Gold-medalist Performance in Solving Olympiad Geometry with AlphaGeometry2* (arXiv:2502.03544; JMLR 26). Code read at `google-deepmind/alphageometry@2026-01-05` and `google-deepmind/alphageometry2@2026-01-07`.
 - `google-deepmind/formal-conjectures@2026-11-21` (arXiv:2605.13171).
 - `algorithmicsuperintelligence/openevolve@2026-11-22`.
-- `cheuktingli/psitip@2025-06-10` (README read; not executed).
+- `cheuktingli/psitip@2025-06-10` (run in the pilot, OR-Tools GLOP solver).
