@@ -1,4 +1,4 @@
-"""F-00 notation test: parse the table in notation.md and check it.
+"""Notation test: parse the table in notation.md and check it.
 
 Run: python3 -m pytest program/formal/test_notation.py -q
 """
@@ -9,20 +9,22 @@ from pathlib import Path
 NOTATION = Path(__file__).with_name("notation.md")
 HEADER = ["Symbol", "Meaning", "Defined in", "First use", "Replaces"]
 
-# ASCII name from the F-00 task list -> the LaTeX symbol that must be a table row.
+# ASCII name -> the LaTeX symbol of a foundations.md primitive or result that must be a table row.
 REQUIRED = {
     "Omega": r"\Omega",
+    "P": r"P",
     "G": r"G",
+    "V*": r"V^*",
+    "pi": r"\pi",
     "D": r"D",
-    "theta": r"\theta",
-    "delta": r"\delta",
-    "N_e": r"N_e",
-    "v": r"v",
-    "c": r"c",
-    "phi": r"\varphi",
     "r": r"r",
-    "lambda": r"\lambda",
-    "L": r"L",
+    "Theta": r"\Theta",
+    "theta": r"\theta",
+    "f": r"f",
+    "sigma_a": r"\sigma_a",
+    "w": r"w",
+    "c": r"c",
+    "G grounded": r"\mathcal G",
 }
 
 

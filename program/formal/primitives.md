@@ -13,6 +13,8 @@
 
 The ambient category $\mathsf{Stoch}$ and the cost functor $c$ to $(\mathbb R_{\ge0},+)$ are setting, not primitives.
 
+S-01 filed P1 to P4 as definition claims K60 to K63 and the cost as K64. The §4 and §5 results are K65 to K76, and each lists the primitives it depends on in `depends_on`.
+
 A primitive moves from **Proposed** to **Used** when a checked result depends on it, and to **Load-bearing** when a probe shows the result fails without it.
 
 ## Extra terms

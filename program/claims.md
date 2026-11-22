@@ -54,6 +54,23 @@ The tier is derived from the ledger by `tools/check.py` (`tiers`), never typed i
 | K55 | L7 | new | V0 | Orwell's archive |
 | K56 | L7 | new | V0 | Sycophancy as gaslit model |
 | K57 | L7 | new | V0 | Art as seed bank |
+| K60 | L0 | definition | V0 | P1 World |
+| K61 | L0 | definition | V0 | P2 Language |
+| K62 | L0 | definition | V0 | P3 Agent, grounded agent, generative agent |
+| K63 | L0 | definition | V0 | P4 Selection |
+| K64 | L0 | definition | V0 | Single channel cost |
+| K65 | L3 | new | V0 | Firth is Yoneda |
+| K66 | L3 | new | V0 | Theorem 4.2: text fixes the world up to a gauge |
+| K67 | L3 | new | V0 | Grounding is gauge fixing |
+| K68 | L3 | new | V0 | Anchors fix a free gauge |
+| K69 | L3 | test | V0 | Few anchors align text-trained geometries |
+| K70 | L3 | new | V0 | Grounded information is gauge-invariant |
+| K71 | L3 | new | V0 | Conventions are spontaneous symmetry breaking |
+| K72 | L3 | test | V0 | Arbitrary form is symmetric; the residue is explicit breaking |
+| K73 | L8 | new | V0 | A text-only learner's world model is a function of D |
+| K74 | L8 | conjecture | V0 | A generative agent's reference comes from its readers |
+| K75 | L8 | conjecture | V0 | Error threshold for recursive training |
+| K76 | L8 | new | V0 | Text-only learners converge up to the representation gauge |
 
 ## Master relations
 

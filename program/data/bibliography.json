@@ -4590,6 +4590,231 @@
    ],
    "challenges": [],
    "annotation": "Iliad reread through combat trauma: new reader evidence renews a classic."
+  },
+  {
+   "key": "fritz2020",
+   "authors": "Fritz, T.",
+   "year": 2020,
+   "title": "A synthetic approach to Markov kernels, conditional independence and theorems on sufficient statistics",
+   "venue": "Advances in Mathematics 370",
+   "fields": [
+    "mathematics"
+   ],
+   "layers": [
+    "L0"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K60",
+    "K64"
+   ],
+   "challenges": [],
+   "annotation": "Markov categories; Stoch as the category of Markov kernels; conditional independence, sufficiency and data processing stated inside the category. Foundations §2."
+  },
+  {
+   "key": "fong2019",
+   "authors": "Fong, B.; Spivak, D. I.; Tuyéras, R.",
+   "year": 2019,
+   "title": "Backprop as Functor: a compositional perspective on supervised learning",
+   "venue": "LICS 2019",
+   "fields": [
+    "mathematics",
+    "machine-learning"
+   ],
+   "layers": [
+    "L0"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K62"
+   ],
+   "challenges": [],
+   "annotation": "The Para construction: learners as parametrized maps composed with private parameters. Foundations §3.3."
+  },
+  {
+   "key": "capucci2021",
+   "authors": "Capucci, M.; Gavranović, B.; Hedges, J.; Rischel, E. F.",
+   "year": 2021,
+   "title": "Towards foundations of categorical cybernetics",
+   "venue": "ACT 2021, EPTCS 372",
+   "fields": [
+    "mathematics"
+   ],
+   "layers": [
+    "L0"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K62"
+   ],
+   "challenges": [],
+   "annotation": "Para and optics for agents that act and learn. Foundations §3.3."
+  },
+  {
+   "key": "harper2009",
+   "authors": "Harper, M.",
+   "year": 2009,
+   "title": "The replicator equation as an inference dynamic",
+   "venue": "arXiv:0911.1763",
+   "fields": [
+    "mathematics",
+    "evolutionary-biology"
+   ],
+   "layers": [
+    "L0"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K63"
+   ],
+   "challenges": [],
+   "annotation": "Discrete replicator dynamics is Bayesian updating with fitness as likelihood. Foundations §3.4."
+  },
+  {
+   "key": "bradley2022",
+   "authors": "Bradley, T.-D.; Terilla, J.; Vlassopoulos, Y.",
+   "year": 2022,
+   "title": "An enriched category theory of language: from syntax to semantics",
+   "venue": "La Matematica 1",
+   "fields": [
+    "mathematics",
+    "linguistics"
+   ],
+   "layers": [
+    "L3"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K65"
+   ],
+   "challenges": [],
+   "annotation": "Text as a [0,1]-enriched category of strings with continuation probabilities as homs; meaning as the copresheaf of a string. Foundations §4.1."
+  },
+  {
+   "key": "conneau2018",
+   "authors": "Conneau, A.; Lample, G.; Ranzato, M.; Denoyer, L.; Jégou, H.",
+   "year": 2018,
+   "title": "Word translation without parallel data",
+   "venue": "ICLR 2018",
+   "fields": [
+    "nlp"
+   ],
+   "layers": [
+    "L3"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K69"
+   ],
+   "challenges": [],
+   "annotation": "Unsupervised bilingual lexicon induction: embedding spaces of two languages aligned by an orthogonal map. Foundations §4.3."
+  },
+  {
+   "key": "sogaard2018",
+   "authors": "Søgaard, A.; Ruder, S.; Vulić, I.",
+   "year": 2018,
+   "title": "On the limitations of unsupervised bilingual dictionary induction",
+   "venue": "ACL 2018",
+   "fields": [
+    "nlp"
+   ],
+   "layers": [
+    "L3"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K69"
+   ],
+   "challenges": [],
+   "annotation": "Unsupervised alignment fails for distant language pairs and dissimilar domains; isomorphism assumption breaks. Foundations §4.3."
+  },
+  {
+   "key": "lewis1969",
+   "authors": "Lewis, D.",
+   "year": 1969,
+   "title": "Convention: A Philosophical Study",
+   "venue": "Harvard University Press",
+   "fields": [
+    "philosophy"
+   ],
+   "layers": [
+    "L3"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K71"
+   ],
+   "challenges": [],
+   "annotation": "Signaling games; conventions as coordination equilibria, arbitrary among symmetric alternatives. Foundations §4.4."
+  },
+  {
+   "key": "frank1953",
+   "authors": "Frank, F. C.",
+   "year": 1953,
+   "title": "On spontaneous asymmetric synthesis",
+   "venue": "Biochimica et Biophysica Acta 11",
+   "fields": [
+    "chemistry"
+   ],
+   "layers": [
+    "L0"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K71"
+   ],
+   "challenges": [],
+   "annotation": "Autocatalysis with mutual antagonism makes the racemic state unstable; the homochirality pitchfork. Foundations §1, §4.4."
+  },
+  {
+   "key": "blasi2016",
+   "authors": "Blasi, D. E.; Wichmann, S.; Hammarström, H.; Stadler, P. F.; Christiansen, M. H.",
+   "year": 2016,
+   "title": "Sound-meaning association biases evidenced across thousands of languages",
+   "venue": "PNAS 113",
+   "fields": [
+    "linguistics"
+   ],
+   "layers": [
+    "L3"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K72"
+   ],
+   "challenges": [],
+   "annotation": "Non-arbitrary sound-meaning associations recur across about two-thirds of the world's lineages. Foundations §4.4."
+  },
+  {
+   "key": "rives2021",
+   "authors": "Rives, A.; Meier, J.; Sercu, T.; et al.",
+   "year": 2021,
+   "title": "Biological structure and function emerge from scaling unsupervised learning to 250 million protein sequences",
+   "venue": "PNAS 118",
+   "fields": [
+    "biology",
+    "machine-learning"
+   ],
+   "layers": [
+    "L8"
+   ],
+   "status": "from-memory",
+   "concepts": [],
+   "supports": [
+    "K73"
+   ],
+   "challenges": [],
+   "annotation": "Protein language models learn residue contacts and structure from sequence alone. Foundations §5.1."
   }
  ]
 }
