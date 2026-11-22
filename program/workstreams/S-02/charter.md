@@ -1,6 +1,6 @@
 # S-02 charter: check the gauge results on the cyclic world
 
-*Coordinator draft, 2026-11-22. Awaiting human approval.*
+*Coordinator draft, 2026-11-22. Approved by the human 2026-11-22.*
 
 ## Goal
 
