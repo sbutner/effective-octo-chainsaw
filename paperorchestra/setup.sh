@@ -22,4 +22,5 @@ fi
 
 [ -f "$HERE/.env" ] || cp "$HERE/.env.example" "$HERE/.env"
 python3 "$HERE/build_materials.py"
-echo "Setup done. Fill in $HERE/.env, then run: paperorchestra/run.sh symmetry-convergence"
+command -v claude >/dev/null || echo "WARNING: claude CLI not found. Install Claude Code and log in with your subscription (run \`claude\`, then /login)."
+echo "Setup done. Run: paperorchestra/run.sh symmetry-convergence   (optional settings in $HERE/.env)"

@@ -13,15 +13,24 @@ python3 "$HERE/build_materials.py" "$PAPER_ID"   # always rebuild from program/d
 TEMPLATE="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('template','iclr2025'))" "$MAT/paper.json")"
 
 if [ -f "$HERE/.env" ]; then set -a; . "$HERE/.env"; set +a; fi
-if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${VERTEX_AI_PROJECT:-}" ] && [ -z "${OPENAI_API_KEY:-}" ]; then
-  echo "No LLM credentials: set GEMINI_API_KEY (or VERTEX_AI_PROJECT/LOCATION, or OPENAI_API_KEY) in $HERE/.env" >&2
-  exit 1
+BACKEND="${PO_BACKEND:-claude-code}"
+if [ "$BACKEND" = "claude-code" ]; then
+  # LLM calls go through the Claude Code CLI and its login (subscription); no API keys.
+  command -v "${PO_CLAUDE_BIN:-claude}" >/dev/null || { echo "claude CLI not found; install Claude Code and log in" >&2; exit 1; }
+  ENTRY=("$HERE/po_run.py")
+else
+  if [ -z "${GEMINI_API_KEY:-}" ] && [ -z "${VERTEX_AI_PROJECT:-}" ] && [ -z "${OPENAI_API_KEY:-}" ]; then
+    echo "PO_BACKEND=$BACKEND needs GEMINI_API_KEY (or VERTEX_AI_PROJECT/LOCATION, or OPENAI_API_KEY) in $HERE/.env" >&2
+    exit 1
+  fi
+  ENTRY=(paper_writing_cli.py)
 fi
 
 OUT="$HERE/output/${PAPER_ID}_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$OUT"
 cd "$PO"   # the pipeline imports methods/ and utils/ relative to its own root
-PYTHONUNBUFFERED=1 "$HERE/.venv/bin/python" paper_writing_cli.py \
+export PO_CLAUDE_LOG_DIR="${PO_CLAUDE_LOG_DIR:-$OUT/claude_calls}"
+PYTHONUNBUFFERED=1 "$HERE/.venv/bin/python" "${ENTRY[@]}" \
   --raw_materials_dir "$MAT" \
   --latex_template_dir "$PO/templates/$TEMPLATE" \
   --output_dir "$OUT" \

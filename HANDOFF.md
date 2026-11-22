@@ -118,7 +118,7 @@ The **outline's** "from memory" references are listed as such in its bibliograph
 
 - **Network.** `arxiv.org` was added to the Default cloud environment's allowed hosts this session, so papers can be fetched directly. No other hosts were added.
 - **No Lean toolchain** is installed in the container.
-- **PaperOrchestra** (paper-writing pipeline) is set up in [`paperorchestra/`](paperorchestra/README.md): a submodule plus a generator that builds its raw materials from `program/data/`. First target: `symmetry-convergence` (Outline v1). It needs a Gemini key in `paperorchestra/.env`. `api.semanticscholar.org` was added to the Default environment's allowed hosts.
+- **PaperOrchestra** (paper-writing pipeline) is set up in [`paperorchestra/`](paperorchestra/README.md): a submodule plus a generator that builds its raw materials from `program/data/`. First target: `symmetry-convergence` (Outline v1). LLM calls go through the Claude Code CLI (`claude -p`, subscription login), so no API keys are needed; see `paperorchestra/claude_backend.py`. `api.semanticscholar.org` was added to the Default environment's allowed hosts.
 - **Git.** All work is on branch `claude/determined-davinci-3341ib`. No pull request has been opened.
 
 ## 8. Open questions for the author
