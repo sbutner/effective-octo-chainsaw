@@ -55,7 +55,7 @@ class Channel:
 
     @staticmethod
     def box_blur(N: int, w: int, **costs) -> "Channel":
-        """Observe a uniform draw from w consecutive phases, centred on omega (odd w) or starting at it (even w)."""
+        """Observe a uniform draw from w consecutive phases, from omega - w//2 to omega - w//2 + w - 1 (centred on omega for odd w)."""
         if not 1 <= w <= N:
             raise ValueError("need 1 <= w <= N")
         K = np.zeros((N, N))
