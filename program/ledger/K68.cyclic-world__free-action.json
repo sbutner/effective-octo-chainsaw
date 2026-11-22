@@ -1,0 +1,16 @@
+{
+ "check": "K68.cyclic-world/free-action",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "79b31826c6135b41",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: H_A is trivial in Z_N for every nonempty A, all subsets for N = 3..12 and all singletons for N = 13..16",
+ "subject": "K68.cyclic-world",
+ "tool": "witness"
+}

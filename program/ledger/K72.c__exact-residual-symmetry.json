@@ -1,0 +1,16 @@
+{
+ "check": "K72.c/exact-residual-symmetry",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "0864a5404a49e9c5",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact, r = 2 and 3: consensus 1 and consensus 2 have equal probability, so explicit breaking leaves Sym(F minus the cheap form)",
+ "subject": "K72.c",
+ "tool": "witness"
+}

@@ -1,0 +1,16 @@
+{
+ "check": "K72.c/sim-residual-symmetry",
+ "detail": {
+  "gap": -0.034625
+ },
+ "digest": "e6cba164aeebc801",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Simulation, r = 2 and 3: the four other forms' shares are within 0.040 of equal; fixed in gauge.md Part A",
+ "subject": "K72.c",
+ "tool": "witness"
+}

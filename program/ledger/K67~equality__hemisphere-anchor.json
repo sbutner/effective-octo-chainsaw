@@ -1,0 +1,20 @@
+{
+ "check": "K67~equality/hemisphere-anchor",
+ "detail": {
+  "gap": 0.166666666667,
+  "hypotheses": [
+   "sigma o g != sigma",
+   "the joint law of (sigma, words) is the same"
+  ]
+ },
+ "digest": "e4a8051c16ab316b",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "refutes",
+ "source": "program/checks/gauge.py",
+ "statement": "N = 12, speaking profile of period 6, one anchor at 0: the shift by 6 is outside Stab(sigma) yet leaves the joint law unchanged, so one anchor does not fix the rotation here",
+ "subject": "K67~equality",
+ "tool": "witness"
+}

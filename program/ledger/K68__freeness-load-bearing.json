@@ -1,0 +1,20 @@
+{
+ "check": "K68/freeness-load-bearing",
+ "detail": {
+  "gap": 1.0,
+  "hypotheses": [
+   "A is nonempty",
+   "D_N has a nonidentity element with a fixed point"
+  ]
+ },
+ "digest": "b4845cf1bf65e3c2",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Drop freeness: D_N acts non-freely and one anchor leaves |H_A| = 2, so 'H_A trivial' fails for N = 3..16",
+ "subject": "K68",
+ "tool": "witness"
+}

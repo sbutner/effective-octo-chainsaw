@@ -93,6 +93,18 @@ A subject is a claim id, optionally narrowed to a clause (`.clause`) or a propos
 | GM-T4.2 | R | witness GM-T4.2/xor |
 | GM-T4.2~cond-D | V4 | mechanically proved: GM-T4.2~cond-D/joint, GM-T4.2~cond-D/replacement |
 | GM-T4.2~indep-WD | V4 | mechanically proved: GM-T4.2~indep-WD/joint |
+| K66.cyclic-world | V4 | mechanically proved: K66.cyclic-world/orbit-invariance |
+| K66.geometry | V4 | mechanically proved: K66.geometry/circle-up-to-D_N |
+| K66~reference-identifiable | R | witness K66~reference-identifiable/shift-witness |
+| K67.containment | V4 | mechanically proved: K67.containment/exhaustive |
+| K67.equality-generic | V0 | no proving check |
+| K67~equality | R | witness K67~equality/hemisphere-identity, K67~equality/hemisphere-anchor |
+| K68 | V0 | no proving check |
+| K68.cyclic-world | V4 | mechanically proved: K68.cyclic-world/free-action, K68.cyclic-world/dihedral-one-anchor, K68.cyclic-world/surviving-gauge |
+| K70.cyclic-world | V4 | mechanically proved: K70.cyclic-world/exact-joint |
+| K71.ensemble | V0 | no proving check |
+| K71.small-population | V4 | mechanically proved: K71.small-population/attractors-equivariance, K71.small-population/invariant-law, K71.small-population/symmetric-transient |
+| K72.c | V4 | mechanically proved: K72.c/exact-direction-r2, K72.c/exact-direction-r3, K72.c/exact-residual-symmetry, K72.c/exact-monotone |
 | MR1 | V4 | mechanically proved: MR1/main |
 | OUT-S26 | V4 | mechanically proved: OUT-S26/first-link, OUT-S26/second-link |
 
@@ -100,6 +112,37 @@ A subject is a claim id, optionally narrowed to a clause (`.clause`) or a propos
 
 | Check | Role | Tool | Expect | Result | State | Statement |
 |---|---|---|---|---|---|---|
+| `gauge/sanity-half-action-corpus` | sanity | witness | counterexample | counterexample | ok | Moving only the speaker, not P, changes the corpus law on a generic world: the K66 test can see a non-gauge move |
+| `gauge/sanity-half-action-info` | sanity | witness | counterexample | counterexample | ok | Moving only the prior changes I(Omega; Y) on a generic world: the K70 test can see a non-gauge move |
+| `gauge/sanity-outside-stabilizer` | sanity | witness | counterexample | counterexample | ok | A bijection outside Stab(sigma) changes the joint law of (sigma, words) on a generic world: the K67 test can see it |
+| `gauge/sanity-broken-kernel` | sanity | witness | counterexample | counterexample | ok | The r = 2 naming-game kernel fails S-equivariance over the full Sym(F): the K71 test can see broken symmetry |
+| `K66.cyclic-world/orbit-invariance` | proves | witness | no-counterexample | no-counterexample | ok | Exact: D(g.(P, K)) = D(P, K) for all 120 g in Sym(5) on a generic world and all 24 g in D_12 on the default cyclic world |
+| `K66.geometry/circle-up-to-D_N` | proves | witness | no-counterexample | no-counterexample | ok | Exact: the geometry D induces on the vocabulary has automorphism group exactly D_N for N = 6 (720 perms) and N = 7 (5040), and D_12 acts by isometries |
+| `K66~reference-identifiable/shift-witness` | refutes | witness | counterexample | counterexample | ok | Z_12: all 11 nontrivial shifts give a different world (speaking kernels at positive total variation) with exactly the same corpus law, so D does not determine reference |
+| `K67.containment/exhaustive` | proves | witness | no-counterexample | no-counterexample | ok | Exact: every g with sigma o g = sigma leaves the joint law of (sigma, words) unchanged; 8 (world, sensorium) cases, Sym(6) and Sym(5), 120 + 8 + 36 + 1 + 720 + 24 + 4 + 120 stabilizer elements |
+| `K67.equality-generic/Sym6` | probe | witness | no-counterexample | no-counterexample | ok | Exact: on the default cyclic world at N = 6 the surviving gauge in Sym(6) equals Stab(sigma) for four sensoria |
+| `K67~equality/hemisphere-identity` | refutes | witness | counterexample | counterexample | ok | N = 12, speaking profile of period 6, sigma = identity: the shift by 6 is outside Stab(sigma) yet leaves the joint law unchanged, so the surviving gauge is strictly larger than the stabilizer |
+| `K67~equality/hemisphere-anchor` | refutes | witness | counterexample | counterexample | ok | N = 12, speaking profile of period 6, one anchor at 0: the shift by 6 is outside Stab(sigma) yet leaves the joint law unchanged, so one anchor does not fix the rotation here |
+| `K68.cyclic-world/free-action` | proves | witness | no-counterexample | no-counterexample | ok | Exact: H_A is trivial in Z_N for every nonempty A, all subsets for N = 3..12 and all singletons for N = 13..16 |
+| `K68.cyclic-world/dihedral-one-anchor` | proves | witness | no-counterexample | no-counterexample | ok | Exact: in D_N with one anchor a, H_A = {id, w -> 2a - w} has order 2, for every N = 3..16 (odd and even) and every a |
+| `K68.cyclic-world/surviving-gauge` | proves | witness | no-counterexample | no-counterexample | ok | Exact: on the default cyclic world at N = 12 with a one-anchor sensorium, the surviving gauge inside D_12 is {id, r_a} for each of the 12 anchors |
+| `K68/freeness-load-bearing` | probe | witness | counterexample | counterexample | ok | Drop freeness: D_N acts non-freely and one anchor leaves \|H_A\| = 2, so 'H_A trivial' fails for N = 3..16 |
+| `K68/two-anchors` | probe | witness | no-counterexample | no-counterexample | ok | Exact, N = 4..16, all anchor pairs: \|H_A\| in D_N is 2 when the anchors are antipodal (N even) and 1 otherwise |
+| `K70.cyclic-world/exact-joint` | proves | witness | no-counterexample | no-counterexample | ok | Exact joint law of (Omega, Y) is relabeled by g, and I is unchanged, for all 120 g in Sym(5) and all 24 g in D_12 (rotations and reflections) on generic worlds |
+| `K70.cyclic-world/testbed-numeric` | probe | witness | no-counterexample | no-counterexample | ok | cyclic_world.grounded_information is unchanged to 1e-9 under every g in D_12 and Sym(5): 2 priors x 3 kernels (random, box blur, noiseless) x 144 g |
+| `K71.small-population/attractors-equivariance` | proves | witness | no-counterexample | no-counterexample | ok | Exact, 3 agents and 3 forms, all 120 multiset states and all 6 permutations: the kernel is S-equivariant, and the absorbing states are the 3 consensus states, one S-orbit (K71 a) |
+| `K71.small-population/invariant-law` | proves | witness | no-counterexample | no-counterexample | ok | Exact: from the empty state the law at each step t = 0..8 is S-invariant (K71 b) |
+| `K71.small-population/symmetric-transient` | proves | witness | no-counterexample | no-counterexample | ok | Exact: absorption into a consensus has probability 1 from every state, the S-fixed states (every S-fixed multiset, including empty and full) are transient, each consensus has probability 1/3 from them (K71 c, finite form) |
+| `K72.c/exact-direction-r2` | proves | witness | no-counterexample | no-counterexample | ok | Exact, 3 agents and 3 forms, w = (2,1,1): P(consensus 0 from empty) >= 1/3 + 1/100 |
+| `K72.c/exact-direction-r3` | proves | witness | no-counterexample | no-counterexample | ok | Exact, w = (3,1,1): P(consensus 0 from empty) >= 1/3 + 2/100 |
+| `K72.c/exact-residual-symmetry` | proves | witness | no-counterexample | no-counterexample | ok | Exact, r = 2 and 3: consensus 1 and consensus 2 have equal probability, so explicit breaking leaves Sym(F minus the cheap form) |
+| `K72.c/exact-monotone` | proves | witness | no-counterexample | no-counterexample | ok | Exact: P(consensus 0) is nondecreasing across r = 1, 2, 3 |
+| `K71.ensemble/converged` | probe | witness | no-counterexample | no-counterexample | ok | Simulation, 20 agents, 5 forms, 2000 seeds per configuration, 50000 interactions: converged fraction >= 0.99 in each of r = 1, 2, 3 (K71 c); thresholds fixed in gauge.md Part A |
+| `K71.ensemble/control-symmetric` | probe | witness | no-counterexample | no-counterexample | ok | Simulation, r = 1: max over forms of \|share - 1/5\| <= 0.036 (K71 b); fixed in gauge.md Part A |
+| `K72.c/sim-cheaper-favored-r2` | probe | witness | no-counterexample | no-counterexample | ok | Simulation, r = 2: share of the cheap form >= 1/5 + 0.036; fixed in gauge.md Part A |
+| `K72.c/sim-cheaper-favored-r3` | probe | witness | no-counterexample | no-counterexample | ok | Simulation, r = 3: share of the cheap form >= 1/5 + 0.036; fixed in gauge.md Part A |
+| `K72.c/sim-monotone` | probe | witness | no-counterexample | no-counterexample | ok | Simulation: share(r = 3) - share(r = 2) >= -0.036; fixed in gauge.md Part A |
+| `K72.c/sim-residual-symmetry` | probe | witness | no-counterexample | no-counterexample | ok | Simulation, r = 2 and 3: the four other forms' shares are within 0.040 of equal; fixed in gauge.md Part A |
 | `psitip/sanity` | sanity | psitip | not-provable | not-provable | ok | Unconstrained I(W;D) <= 0 must not be provable |
 | `GM-T2/main` | proves | psitip | provable | provable | ok | W1 = F(W0, xi), xi ⊥ W \| W0  =>  I(W;W1) <= I(W;W0) |
 | `GM-T4.1.inequality/main` | proves | psitip | provable | provable | ok | C = f(D, E), E ⊥ D \| W  =>  I(W;D,C) >= I(W;D) |

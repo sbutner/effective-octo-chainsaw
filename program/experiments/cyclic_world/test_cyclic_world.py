@@ -110,3 +110,24 @@ def test_info_equivariant_under_shift():
         assert grounded_information(p2, K2) == pytest.approx(base, abs=1e-12)
         assert grounded_information(p2, np.roll(K, g, axis=0)) == pytest.approx(base, abs=1e-12)
     assert 0 < grounded_information(prior, Channel.box_blur(N, 3).K) < np.log2(N)
+
+
+def test_info_invariant_under_the_whole_dihedral_group():
+    """K70: I(Omega; X) under P equals I(Omega; X o g^-1) under g P, for every g in D_N (rotations and reflections)."""
+    rng = np.random.default_rng(4)
+    N = 12
+    prior = rng.random(N)
+    prior /= prior.sum()
+    K = rng.random((N, N))
+    K /= K.sum(1, keepdims=True)
+    base = grounded_information(prior, K)
+    for g in range(N):
+        for sign in (1, -1):
+            perm = np.array([(sign * w + g) % N for w in range(N)])  # w -> perm[w], a bijection of Z_N
+            p2 = np.empty(N)
+            p2[perm] = prior                  # (g P)(perm[w]) = P(w)
+            K2 = np.empty_like(K)
+            K2[perm] = K                      # (X o g^-1)(. | perm[w]) = X(. | w)
+            assert grounded_information(p2, K2) == pytest.approx(base, abs=1e-12)
+            if sign == -1:
+                assert not np.allclose(p2, prior)  # a reflection really moves the law

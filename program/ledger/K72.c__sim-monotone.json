@@ -1,0 +1,16 @@
+{
+ "check": "K72.c/sim-monotone",
+ "detail": {
+  "gap": -0.2135
+ },
+ "digest": "c8fbbe8cf3e4aa91",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Simulation: share(r = 3) - share(r = 2) >= -0.036; fixed in gauge.md Part A",
+ "subject": "K72.c",
+ "tool": "witness"
+}

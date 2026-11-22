@@ -1,0 +1,20 @@
+{
+ "check": "K67~equality/hemisphere-identity",
+ "detail": {
+  "gap": 1.0,
+  "hypotheses": [
+   "sigma o g != sigma",
+   "the joint law of (sigma, words) is the same"
+  ]
+ },
+ "digest": "434cf91829b53c94",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "refutes",
+ "source": "program/checks/gauge.py",
+ "statement": "N = 12, speaking profile of period 6, sigma = identity: the shift by 6 is outside Stab(sigma) yet leaves the joint law unchanged, so the surviving gauge is strictly larger than the stabilizer",
+ "subject": "K67~equality",
+ "tool": "witness"
+}

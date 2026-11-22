@@ -1,0 +1,16 @@
+{
+ "check": "K66.geometry/circle-up-to-D_N",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "a397b78b58c54ffa",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: the geometry D induces on the vocabulary has automorphism group exactly D_N for N = 6 (720 perms) and N = 7 (5040), and D_12 acts by isometries",
+ "subject": "K66.geometry",
+ "tool": "witness"
+}

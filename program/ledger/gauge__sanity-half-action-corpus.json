@@ -1,0 +1,19 @@
+{
+ "check": "gauge/sanity-half-action-corpus",
+ "detail": {
+  "gap": 0.011956670825,
+  "hypotheses": [
+   "g is a nontrivial bijection"
+  ]
+ },
+ "digest": "6fcc9cc15724032f",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "sanity",
+ "source": "program/checks/gauge.py",
+ "statement": "Moving only the speaker, not P, changes the corpus law on a generic world: the K66 test can see a non-gauge move",
+ "subject": null,
+ "tool": "witness"
+}

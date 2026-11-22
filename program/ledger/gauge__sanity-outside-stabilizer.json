@@ -1,0 +1,19 @@
+{
+ "check": "gauge/sanity-outside-stabilizer",
+ "detail": {
+  "gap": 0.02378272468,
+  "hypotheses": [
+   "sigma o g != sigma"
+  ]
+ },
+ "digest": "10d26864b0d4f6e1",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "sanity",
+ "source": "program/checks/gauge.py",
+ "statement": "A bijection outside Stab(sigma) changes the joint law of (sigma, words) on a generic world: the K67 test can see it",
+ "subject": null,
+ "tool": "witness"
+}

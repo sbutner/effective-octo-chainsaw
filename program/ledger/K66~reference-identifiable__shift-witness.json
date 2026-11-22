@@ -1,0 +1,20 @@
+{
+ "check": "K66~reference-identifiable/shift-witness",
+ "detail": {
+  "gap": 0.115,
+  "hypotheses": [
+   "corpus laws are equal, exactly, for every shift",
+   "the shifted worlds differ from the original"
+  ]
+ },
+ "digest": "cbd82d091133a8fc",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "refutes",
+ "source": "program/checks/gauge.py",
+ "statement": "Z_12: all 11 nontrivial shifts give a different world (speaking kernels at positive total variation) with exactly the same corpus law, so D does not determine reference",
+ "subject": "K66~reference-identifiable",
+ "tool": "witness"
+}

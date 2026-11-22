@@ -1,0 +1,16 @@
+{
+ "check": "K67.equality-generic/Sym6",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "094d05aab3fe6523",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: on the default cyclic world at N = 6 the surviving gauge in Sym(6) equals Stab(sigma) for four sensoria",
+ "subject": "K67.equality-generic",
+ "tool": "witness"
+}

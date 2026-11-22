@@ -1,0 +1,16 @@
+{
+ "check": "K68.cyclic-world/surviving-gauge",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "bf8637d4e7742dff",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: on the default cyclic world at N = 12 with a one-anchor sensorium, the surviving gauge inside D_12 is {id, r_a} for each of the 12 anchors",
+ "subject": "K68.cyclic-world",
+ "tool": "witness"
+}

@@ -1,0 +1,16 @@
+{
+ "check": "K71.ensemble/control-symmetric",
+ "detail": {
+  "gap": -0.0255
+ },
+ "digest": "c3536fb3cb621ad0",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Simulation, r = 1: max over forms of |share - 1/5| <= 0.036 (K71 b); fixed in gauge.md Part A",
+ "subject": "K71.ensemble",
+ "tool": "witness"
+}

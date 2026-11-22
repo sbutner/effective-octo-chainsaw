@@ -1,0 +1,16 @@
+{
+ "check": "K71.ensemble/converged",
+ "detail": {
+  "gap": -0.01
+ },
+ "digest": "cd3582d023f90306",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Simulation, 20 agents, 5 forms, 2000 seeds per configuration, 50000 interactions: converged fraction >= 0.99 in each of r = 1, 2, 3 (K71 c); thresholds fixed in gauge.md Part A",
+ "subject": "K71.ensemble",
+ "tool": "witness"
+}
