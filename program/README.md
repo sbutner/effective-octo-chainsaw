@@ -8,6 +8,7 @@ This directory is the umbrella for the project. It reframes the earlier work in 
 |---|---|---|
 | [`spine.md`](spine.md) | The theory: design principles, nine layers L0–L8, the state vector and master relations, and a mapping of every earlier idea onto the spine | By hand |
 | [`program.md`](program.md) | The exploratory program: workstreams, proof queue, experiments, bridges, phases, decisions, risks | By hand |
+| [`tooling.md`](tooling.md) | Review of AI Scientist, co-scientist, co-mathematician and AlphaGeometry, and the recommended tool stack | By hand |
 | [`AGENTS.md`](AGENTS.md) | Conventions for agents: IDs, citation verification, claim protocol, workflow | By hand |
 | [`data/claims.json`](data/claims.json) | 46 spine claims (K-*) and 5 master relations (MR-*), with status, difficulty, proof route, falsifier, dependencies and evidence | Canonical |
 | [`data/concepts.json`](data/concepts.json) | Concept map: 131 nodes, each with a layer, fields and a definition; 129 typed, directed edges | Canonical |

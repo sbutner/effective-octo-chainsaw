@@ -25,6 +25,8 @@ The project has been widened. It is now **a formal theory of knowledge productio
   - 21 debates, 12 experiments and 20 agent tasks.
 - **Tools**: `tools/validate.py` checks integrity and coverage; `tools/render.py` generates `bibliography.md`, `concept-map.md` and `graph.json`.
 
+**Tooling:** [`program/tooling.md`](program/tooling.md) reviews AI Scientist v1/v2, co-scientist, co-mathematician and AlphaGeometry 1/2 and recommends a stack. The proposed first step is a PSITIP pilot on S26, GM T4.2 and MR1 (not yet run).
+
 **Next:** follow `program/data/tasks.json`, highest priority first. In order: Q-01/Q-02 (citations), Q-04/Q-05 (notation and estimators), Q-08/Q-10 (proofs), Q-14 (experiments E-01 and E-04). Sections 1–8 below still describe the sub-programs accurately.
 
 ## 1. What this project is
