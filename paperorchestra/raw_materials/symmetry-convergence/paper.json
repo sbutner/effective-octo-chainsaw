@@ -1,0 +1,26 @@
+{
+  "paper_id": "symmetry-convergence",
+  "title_working": "Convergence Is Not Grounding: Closed-Form Representational Alignment on Symmetric Word Families",
+  "source_document": "explorations/symmetry-platonic-program.md",
+  "outline_sections": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6",
+    "10"
+  ],
+  "claim_ids": [
+    "K1",
+    "K3",
+    "K4",
+    "K5",
+    "K30"
+  ],
+  "experiment_ids": [
+    "E-01",
+    "E-04"
+  ],
+  "template": "iclr2025",
+  "paper_type": "theory"
+}
