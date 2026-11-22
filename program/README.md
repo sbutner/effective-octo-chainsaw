@@ -33,12 +33,13 @@ This directory is the umbrella for the project. It reframes the earlier work in 
 
 ## Quick start
 ```
-git config core.hooksPath .githooks                         # once per clone: validate.py gates every commit
+git config core.hooksPath .githooks                         # outside Claude Code only; its SessionStart hook does this
 program/tools/setup_verifiers.sh                            # once per container: pinned PSITIP at ~/.cache/psitip
 PSITIP=~/.cache/psitip python3 program/tools/check.py       # rerun stale or missing verdicts
 python3 program/tools/render.py                             # regenerate the views
 python3 program/tools/validate.py --coverage                # the gate, plus a list of thin spots
-python3 program/tools/test_gates.py                         # prove the gate still rejects bad states
+python3 program/tools/test_gates.py                         # prove the commit gate still rejects bad states
+python3 .claude/hooks/test_hooks.py                         # prove the Claude Code hooks still fire
 ```
 
 ## Relation to `explorations/`

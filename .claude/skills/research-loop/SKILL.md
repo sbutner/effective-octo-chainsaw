@@ -25,7 +25,7 @@ The loop turns a task in `program/data/tasks.json` into recorded verdicts. Nothi
    - `proves` checks whose conclusions together give the statement;
    - one `probe` per hypothesis, with that hypothesis removed;
    - for each `not-provable` probe, a `witness` that breaks the bound, so the hypothesis is shown to be load-bearing. A `provable` probe shows the hypothesis is unused: record that as a finding.
-4. **Run** `PSITIP=~/.cache/psitip python3 program/tools/check.py`. A `MISS` means the expectation was wrong or the encoding is. Find out which before you change either, and never edit `expect` just to turn a check green.
+4. **Run** `PSITIP=~/.cache/psitip python3 program/tools/check.py`. A `MISS` means the expectation was wrong or the encoding is. Find out which before you change either.
 5. **When a step will not close** (AlphaGeometry loop):
    - (a) search for a witness;
    - (b) if none turns up, propose an auxiliary variable or an extra hypothesis and retry;
@@ -36,8 +36,10 @@ The loop turns a task in `program/data/tasks.json` into recorded verdicts. Nothi
 
 ## Fences
 
-- Never edit `program/ledger/`, `claims.md` or any other generated view by hand.
-- Never change a claim's `status` in `claims.json`: that is the human gate. Propose the change in `checks/<topic>.md`.
-- `not-provable` is never a refutation. Only an exact witness refutes.
-- A phenomenon's wording is frozen once it is assessed (AGENTS.md phenomena protocol).
-- Do not add a kind to `check.py` without a sanity check and a case in `program/tools/test_gates.py`.
+The hooks enforce the hard fences: generated views and the ledger, JSON layouts, the human gate on claim statuses, frozen phenomena, and blind provenance (`program/AGENTS.md`, "Enforced rules"). When a hook denies a call, fix the cause it names. Do not route around it with a shell write. When it asks the person about a status change, that ask is the human gate: put the evidence in `checks/<topic>.md` first.
+
+These fences take judgment, so no hook enforces them:
+
+- A `MISS` is information. Never edit `expect` just to turn a check green.
+- `not-provable` is never a refutation. Only an exact witness refutes, and `validate.py` rejects a `refutes` check of any other kind.
+- Add a kind to `check.py` only with a sanity check and a case in `program/tools/test_gates.py`.

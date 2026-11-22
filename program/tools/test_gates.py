@@ -50,11 +50,18 @@ CASES = [
     ("check source changed", sub("checks/info_core.py", "Unconstrained I(W;D)", "Unconstrained  I(W;D)"), "verdict stale"),
     ("orphan verdict", touch("ledger/ghost.json", '{"check": "ghost"}\n'), "ledger ghost: no such check"),
     ("verdict missed", sub("ledger/GM-T2__main.json", '"ok": true', '"ok": false'), "verdict mismatch"),
+    ("JSON layout broken", sub("data/tasks.json", '{"id": "Q-02", "workstream"', '{"id": "Q-02",\n     "workstream"'),
+     "tasks record Q-02 is not on one line"),
+    ("frozen wording, against HEAD", sub("data/phenomena.json", "Words that occur in similar contexts",
+                                         "Words occurring in similar contexts"), "P-001: behavior is frozen once assessed"),
+    ("verdict changed without a new derivation", regex("data/phenomena.json", r'("verdict": )"emergent"', r'\1"parametric"'),
+     "needs a changed derivation"),
 ]
 
 
-def run(root):
-    return subprocess.run([sys.executable, str(root / "tools" / "validate.py")], capture_output=True, text=True)
+def run(root, baseline=None):
+    args = ["--baseline", str(baseline)] if baseline else []
+    return subprocess.run([sys.executable, str(root / "tools" / "validate.py"), *args], capture_output=True, text=True)
 
 
 def main():
@@ -62,14 +69,17 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         base = Path(tmp) / "base" / "program"
         shutil.copytree(PROGRAM, base, ignore=shutil.ignore_patterns("__pycache__"))
-        r = run(base)
+        baseline = Path(tmp) / "baseline"
+        baseline.mkdir()
+        shutil.copy(base / "data" / "phenomena.json", baseline / "phenomena.json")
+        r = run(base, baseline)
         if r.returncode != 0:
             sys.exit("the unmutated tree fails validate.py; fix that first:\n" + r.stdout[-2000:])
         for i, (name, mutate, expect) in enumerate(CASES):
             root = Path(tmp) / f"case{i}" / "program"
             shutil.copytree(base, root)
             mutate(root)
-            r = run(root)
+            r = run(root, baseline)
             ok = r.returncode == 1 and expect in r.stdout
             failures += not ok
             print(f"{'pass' if ok else 'FAIL'}  {name}" + ("" if ok else f"\n      expected exit 1 with {expect!r}; got {r.returncode}:\n{r.stdout[-800:]}"))

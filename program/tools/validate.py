@@ -2,13 +2,16 @@
 """The gate: schema, references, dependency cycles, the check ledger, and generated views.
 
 Usage:
-    python3 program/tools/validate.py              # exit 1 on any error
-    python3 program/tools/validate.py --coverage   # also report thin spots
+    python3 program/tools/validate.py                    # exit 1 on any error
+    python3 program/tools/validate.py --coverage         # also report thin spots
+    python3 program/tools/validate.py --baseline DIR     # also check changes against DIR/<name>.json
+                                                         # (the pre-commit hook passes HEAD's data files)
 
 Exit 0 is required before any commit (see .githooks/pre-commit). It needs no prover: it
 checks that every ledger verdict is current for its check's source, not the math itself.
 `check.py --verify` reruns the math.
 """
+import json
 import sys
 from pathlib import Path
 
@@ -16,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check  # noqa: E402
 import db  # noqa: E402
 import phenomena  # noqa: E402
+import protocol  # noqa: E402
 import render  # noqa: E402
 
 
@@ -55,8 +59,14 @@ def check_schema(name, recs, errors):
 
 def main():
     coverage = "--coverage" in sys.argv
+    baseline = Path(sys.argv[sys.argv.index("--baseline") + 1]) if "--baseline" in sys.argv else None
     errors, warnings = [], []
     docs = {n: db.load(n) for n in db.COLLECTIONS}
+    for n in db.COLLECTIONS:
+        errors += protocol.layout_errors(n, (db.DATA / f"{n}.json").read_text(encoding="utf-8"))
+    base_ph = baseline / "phenomena.json" if baseline else None
+    if base_ph and base_ph.exists():
+        errors += protocol.phenomena_violations(json.loads(base_ph.read_text(encoding="utf-8")), docs["phenomena"])
     recs = {n: check_schema(n, docs[n][key], errors) for n, (key, _) in db.COLLECTIONS.items()}
     bib_keys = {e["key"] for e in recs["bibliography"]}
     concept_ids = {n["id"] for n in recs["concepts"]}
@@ -68,7 +78,7 @@ def main():
     claim_ok = db.claim_space()
     debt_hit = {k: set() for k in db.DEBT}
 
-    def protocol(kind, rid, msg):
+    def violation(kind, rid, msg):
         """A protocol violation: a warning while the id is listed debt, an error otherwise."""
         if rid in db.DEBT[kind]:
             debt_hit[kind].add(rid)
@@ -95,7 +105,7 @@ def main():
         refs(f"claim {c['id']}", c["depends_on"] + c.get("links", []), claim_ok, "claim")
         refs(f"claim {c['id']}", c.get("evidence", []), bib_keys.__contains__, "bib key")
         if not c["falsifier"] and c["status"] not in ("known", "definition"):
-            protocol("falsifier", c["id"], f"claim {c['id']}: {c['status']} claim needs a falsifier")
+            violation("falsifier", c["id"], f"claim {c['id']}: {c['status']} claim needs a falsifier")
     for m in mrs:
         refs(f"master relation {m['id']}", m["claims"], claim_ok, "claim")
     for d in recs["debates"]:
@@ -125,7 +135,7 @@ def main():
         if g["strength"] in ("robust", "replicated"):
             checked = {e["key"] for e in recs["bibliography"] if e["status"] == "checked"}
             if not checked & set(g["theorized"] + g["observed"]):
-                protocol("unchecked-strength", pid, f"{own}: {g['strength']} needs a checked source (AGENTS.md phenomena protocol)")
+                violation("unchecked-strength", pid, f"{own}: {g['strength']} needs a checked source (AGENTS.md phenomena protocol)")
         if p.get("contrast_with") and p["contrast_with"] not in phen_ids:
             errors.append(f"{own}: unknown contrast {p['contrast_with']}")
         refs(own, p.get("debates", []), debate_ids.__contains__, "debate")

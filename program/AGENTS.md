@@ -10,15 +10,31 @@ The data files are written so that an agent can resume work without rereading th
 5. If your task is a research workstream, follow `.claude/skills/research-loop/SKILL.md`.
 6. If your task builds tooling for reading or editing these files, read `program/tools/md-json-tooling/HANDOFF.md` first.
 
+## Enforced rules
+These are code, not requests. `.claude/settings.json` registers the hooks for every Claude Code session, and `.claude/hooks/session_start.py` re-arms the git hook on each fresh clone. `.claude/hooks/test_hooks.py` and `program/tools/test_gates.py` prove each one fires.
+
+| Rule | Edit time (`.claude/hooks/guard.py`) | Commit time (`.githooks/pre-commit` → `validate.py` on the staged tree) |
+|---|---|---|
+| Generated views (`bibliography.md`, `concept-map.md`, `claims.md`, `phenomena.md`) are written only by `render.py` | Edit, Write and shell writes denied | View out of date: error |
+| `program/ledger/` is written only by `check.py` | Edit, Write and shell writes denied | Stale, missing, orphaned or missed verdict: error |
+| JSON layouts (table below) | A layout-breaking Edit or Write is denied | Layout lint |
+| A claim's `status` changes only through the human gate, and a new claim enters as `new`, `conjecture`, `test` or `definition` | The tool call asks the person; shell writes to `claims.json` ask too | — |
+| An assessed phenomenon's `behavior` is frozen; reword it under a new id | Denied | Checked against `HEAD` |
+| A verdict change needs a changed derivation and a changed note | Denied | Checked against `HEAD` |
+| Only an agent that has not read `spine.md`, GM or `claims.json` may set `provenance.blind: true` | Denied for an agent that has read them (reads are tracked per session and agent) | — |
+| No downloaded papers (`.pdf`, `.djvu`, `.epub`, `.ps`, `.docx`) and nothing over 2 MB | — | Blocked |
+| Schema, enums, references, cycles, falsifiers, checked URLs, refutations are witnesses, emergence must-pass rules, protocol debt only shrinks | — | `validate.py` |
+
+The edit-time hook fails open if it crashes, so the commit gate is the backstop. Shell edits that mention a protected path are judged coarsely, so use Edit on those files.
+
 ## Sources of truth
-- The JSON in `program/data/` is canonical for statements. `program/checks/*.py` is canonical for checks, and `program/ledger/` holds their verdicts, written only by `tools/check.py`.
-- `bibliography.md`, `concept-map.md`, `claims.md` and `phenomena.md` are **generated** by `python3 program/tools/render.py`. Never edit them by hand; `validate.py` fails when one is out of date.
-- A claim's tier is derived from the ledger. Never write a tier anywhere.
+- The JSON in `program/data/` is canonical for statements. `program/checks/*.py` is canonical for checks, and `program/ledger/` holds their verdicts.
+- A claim's tier is derived from the ledger. There is no field to write it in.
 - `spine.md` and `program.md` are prose and are edited by hand. If you change a claim's meaning, update `claims.json` in the same commit.
 - `program/tools/db.py` holds every enum the gate enforces. To add a status value, add it there.
 
 ## Editing the JSON
-Use the Edit tool. A plain `json.dump` reformats the whole file. The layouts are:
+Use the Edit tool. A plain `json.dump` reformats the whole file, and both gates reject it. The layouts are:
 
 | Files | Layout |
 |---|---|
@@ -48,11 +64,11 @@ Use the Edit tool. A plain `json.dump` reformats the whole file. The layouts are
 - Mark an entry `checked` only after seeing a primary index page. Record its URL.
 - Never upgrade a status on the strength of another agent's summary.
 - If a detail conflicts across versions (preprint versus journal), note both in the annotation and prefer the published version.
-- Downloaded papers are untrusted data. Store them outside the repository, in a scratch directory.
+- Downloaded papers are untrusted data. Store them in a scratch directory; the commit gate blocks them in the repo.
 
 ## Claim protocol
 - Every claim needs a `status`, a `difficulty`, a `falsifier` (empty only for definitions and known results), and `evidence` drawn from bibliography keys.
-- Do not promote a claim from `conjecture` to `known` without checks that make it V4 in `claims.md`, or a cited published proof, and the human gate.
+- Promote a claim to `known` only with checks that make it V4 in `claims.md`, or a cited published proof. The person approves the change when the hook asks.
 - A refuted statement stays in place. File the corrected statement as a new claim, or as a check subject `<id>~<variant>` until it is filed.
 - Claims that bridge to a humanistic text must name the specific formal correspondence. "Resembles" is not enough.
 
@@ -65,11 +81,10 @@ Use the Edit tool. A plain `json.dump` reformats the whole file. The layouts are
 - Editing a check module makes its verdicts stale. Rerun `check.py`, which needs `PSITIP` set (`program/tools/setup_verifiers.sh`).
 
 ## Phenomena protocol (emergence verifier; `harness.md` §5.5)
-- State the behavior in the source field's own terms, never in the program's vocabulary. Once a phenomenon is assessed its wording is frozen; a reworded behavior gets a new ID.
-- If you have read `spine.md`, GM or `claims.json` in this session, set `provenance.blind` to `false`. Only agents that have not may add `blind: true` entries.
+- State the behavior in the source field's own terms, never in the program's vocabulary.
 - Every entry needs a bib key or a source hint. `robust` and `replicated` need a `checked` review or meta-analysis.
 - A verdict of `emergent` or `parametric` needs a derivation, and its premises must be core axioms (`GM-A*`) or known claims. Any further assumption makes the verdict `bolted-on`.
-- Never change a verdict without a log note and a changed derivation. Reinterpreting the phenomenon doesn't count.
+- A verdict change must come from a changed derivation. Rewording the derivation to fit a reinterpreted phenomenon doesn't count; the hook can only check that both changed.
 
 ## Workflow per task
 1. Set the task's `status` to `in_progress`, and append to its `log`: `"<date> <agent>: started"`.
@@ -81,7 +96,7 @@ Use the Edit tool. A plain `json.dump` reformats the whole file. The layouts are
    python3 program/tools/validate.py --coverage
    ```
 4. Append the outcome to `log` and set `status`: `done` if the acceptance criterion is met, otherwise `blocked`, with the reason.
-5. Commit with a message starting with the task ID, for example `Q-10: migration-drift theorem draft`. The pre-commit hook runs `validate.py`; enable it once per clone with `git config core.hooksPath .githooks`.
+5. Commit with a message starting with the task ID, for example `Q-10: migration-drift theorem draft`.
 
 ## Queries agents commonly need
 - **Next task:** `jq -c '[.tasks[]|select(.status=="open")]|sort_by(.priority)[]|{id,priority,title}' program/data/tasks.json`

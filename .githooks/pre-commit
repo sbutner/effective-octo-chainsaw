@@ -1,3 +1,28 @@
 #!/usr/bin/env bash
-# Gate every commit on validate.py. Enable once per clone: git config core.hooksPath .githooks
-exec python3 "$(git rev-parse --show-toplevel)/program/tools/validate.py"
+# The commit gate. .claude/hooks/session_start.py sets core.hooksPath=.githooks in every
+# Claude Code session; elsewhere run `git config core.hooksPath .githooks` once per clone.
+#
+# 1. No downloaded papers or large binaries (AGENTS.md: they stay outside the repo).
+# 2. validate.py on exactly the staged tree, with HEAD's data files as the baseline for the
+#    frozen-wording and verdict-change rules.
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+fail=0
+while IFS= read -r -d '' f; do
+  case "${f,,}" in
+    *.pdf|*.djvu|*.epub|*.ps|*.docx) echo "pre-commit: $f looks like a downloaded paper; keep sources outside the repo" >&2; fail=1 ;;
+  esac
+  size="$(git cat-file -s ":$f" 2>/dev/null || echo 0)"
+  if [ "$size" -gt 2000000 ]; then echo "pre-commit: $f is $size bytes; nothing over 2 MB belongs in this repo" >&2; fail=1; fi
+done < <(git diff --cached --name-only --diff-filter=AM -z)
+[ "$fail" -eq 0 ] || exit 1
+
+git checkout-index -a --prefix="$tmp/tree/"
+mkdir -p "$tmp/base"
+for f in phenomena claims; do
+  git show "HEAD:program/data/$f.json" > "$tmp/base/$f.json" 2>/dev/null || rm -f "$tmp/base/$f.json"
+done
+python3 "$tmp/tree/program/tools/validate.py" --baseline "$tmp/base"

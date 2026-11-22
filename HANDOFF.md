@@ -18,6 +18,7 @@ Where things are:
 - **The theory and the plan.** [`program/spine.md`](program/spine.md) (layers L0–L8) and [`program/program.md`](program/program.md) (workstreams, proof queue, phases, risks).
 - **Canonical data.** `program/data/*.json`: 46 claims and 5 master relations, 131 concepts, 196 references, 21 debates, 12 experiments, 43 phenomena and 24 tasks.
 - **The harness.** [`program/harness.md`](program/harness.md) is the spec. Mechanical checks live in `program/checks/`, their verdicts in `program/ledger/`, and the derived tiers in [`program/claims.md`](program/claims.md). `program/tools/validate.py` is the gate, and the pre-commit hook runs it.
+- **Session handoffs.** `.claude/handoffs/` holds one per `/clear`, written by `.claude/hooks/handoff.py`; the newest loads into the next session. This file is the hand-written overview.
 - **The research loop.** [`.claude/skills/research-loop/SKILL.md`](.claude/skills/research-loop/SKILL.md): pick a task, write checks, run them, record failures, gate, commit.
 - **Background.** [`program/tooling.md`](program/tooling.md) reviews AI Scientist, co-scientist, co-mathematician and AlphaGeometry.
 
@@ -118,7 +119,7 @@ The **outline's** "from memory" references are listed as such in its bibliograph
 - **No Lean toolchain** is installed in the container.
 - **PaperOrchestra** was removed on 2026-11-22. It drafts papers but does nothing for the grounding loop. Its one hand-written input survives as [`explorations/paper-brief-symmetry-convergence.md`](explorations/paper-brief-symmetry-convergence.md). `api.semanticscholar.org` is still an allowed host.
 - **PSITIP** is pinned in `program/tools/check.py` and installed outside the repo by `program/tools/setup_verifiers.sh`, because it is GPL-3.0.
-- **Git.** Earlier work was on `claude/determined-davinci-3341ib`; this session works on `claude/ecstatic-albattani-urj2dx`. No pull request has been opened. Run `git config core.hooksPath .githooks` once per clone.
+- **Git.** Earlier work was on `claude/determined-davinci-3341ib`; this session works on `claude/ecstatic-albattani-urj2dx`. No pull request has been opened. The Claude Code start hook sets `core.hooksPath`; elsewhere run `git config core.hooksPath .githooks` once per clone.
 
 ## 8. Open questions for the author
 
