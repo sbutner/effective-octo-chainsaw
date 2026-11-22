@@ -3,10 +3,11 @@
   "version": "0.1",
   "updated": "2026-11-21",
   "status_legend": {
-   "checked": "Bibliographic details and core claim checked against an index, proceedings, or abstract page in the 2026-11-21 session",
-   "checked-repo": "Checked in an earlier session; see explorations/ documents",
-   "from-memory": "Standard reference cited from knowledge; details not re-checked. Verify before quoting",
-   "unverified": "Cited by an author-supplied draft; not checked by Claude"
+   "checked": "Seen on a primary index, proceedings, publisher or arXiv page in some session; the URL is recorded",
+   "checked-repo": "Checked against the full text in an earlier session; see the explorations/ documents",
+   "from-memory": "Cited from knowledge; details not re-checked. Verify before quoting",
+   "unverified": "Cited by an author-supplied draft; not checked",
+   "not-found": "Searched for and not found on any primary index"
   },
   "annotation_style": "One to three sentences: what it shows, and what it does for the spine. 'supports'/'challenges' list claim IDs from claims.json or the GM/outline ID spaces (GM-T*, GM-C*, OUT-S*)."
  },

@@ -1,0 +1,14 @@
+{
+ "check": "GM-T4.2~cond-D/replacement",
+ "detail": {},
+ "digest": "fd8ded47b479631e",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "Corrected, replacement clause: same hypotheses  =>  I(W;C) <= I(W;D)",
+ "subject": "GM-T4.2~cond-D",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

@@ -1,0 +1,14 @@
+{
+ "check": "psitip/sanity",
+ "detail": {},
+ "digest": "229865aa0ce80a0d",
+ "expect": "not-provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "not-provable",
+ "role": "sanity",
+ "source": "program/checks/info_core.py",
+ "statement": "Unconstrained I(W;D) <= 0 must not be provable",
+ "subject": null,
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

@@ -1,184 +1,160 @@
 #!/usr/bin/env python3
-"""Referential-integrity checks for program/data/*.json.
+"""The gate: schema, references, dependency cycles, the check ledger, and generated views.
 
 Usage:
-    python3 program/tools/validate.py            # errors only; exit 1 on error
-    python3 program/tools/validate.py --coverage # also report thin concepts/claims
+    python3 program/tools/validate.py              # exit 1 on any error
+    python3 program/tools/validate.py --coverage   # also report thin spots
+
+Exit 0 is required before any commit (see .githooks/pre-commit). It needs no prover: it
+checks that every ledger verdict is current for its check's source, not the math itself.
+`check.py --verify` reruns the math.
 """
-import json
-import re
 import sys
 from pathlib import Path
 
-DATA = Path(__file__).resolve().parent.parent / "data"
-EXTERNAL = [
-    (re.compile(r"^GM-T([0-9]+)$"), 1, 10),
-    (re.compile(r"^GM-C([0-9]+)$"), 11, 30),
-    (re.compile(r"^OUT-S([0-9]+)$"), 1, 31),
-    (re.compile(r"^OUT-X([0-9]+)$"), 1, 14),
-    (re.compile(r"^OUT-O([0-9]+)$"), 1, 7),
-    (re.compile(r"^GM-A([0-9]+)$"), 1, 14),
-]
-EXTERNAL_LITERALS = {"OSL-UCL"}
-LAYERS = {f"L{i}" for i in range(9)}
-BIB_STATUS = {"checked", "checked-repo", "from-memory", "unverified", "not-found"}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import check  # noqa: E402
+import db  # noqa: E402
+import render  # noqa: E402
 
 
-def load(name):
-    with open(DATA / name, encoding="utf-8") as f:
-        return json.load(f)
-
-
-def is_external(cid):
-    if cid in EXTERNAL_LITERALS:
-        return True
-    for rx, lo, hi in EXTERNAL:
-        m = rx.match(cid)
-        if m:
-            return lo <= int(m.group(1)) <= hi
-    return False
+def check_schema(name, recs, errors):
+    """Required fields, types and enums from db.SCHEMA. Returns the records that pass."""
+    spec, optional = db.SCHEMA.get(name, {}), db.OPTIONAL.get(name, set())
+    _, idk = db.COLLECTIONS[name]
+    good = []
+    for r in recs:
+        rid = r.get(idk, "?")
+        bad = []
+        for field, want in spec.items():
+            if field not in r:
+                if field not in optional:
+                    bad.append(f"missing {field}")
+                continue
+            v = r[field]
+            if isinstance(want, list):
+                inner = want[0]
+                ok = isinstance(v, list) and all(x in inner if isinstance(inner, set) else isinstance(x, inner) for x in v)
+            elif isinstance(want, set):
+                ok = type(v) in {type(x) for x in want} and v in want
+            else:
+                ok = isinstance(v, want) and not isinstance(v, bool)
+            if not ok:
+                bad.append(f"bad {field} {v!r}")
+        for b in bad:
+            errors.append(f"{name} {rid}: {b}")
+        if not bad:
+            good.append(r)
+    ids = [r.get(idk) for r in recs]
+    dup = sorted({i for i in ids if ids.count(i) > 1})
+    if dup:
+        errors.append(f"{name}: duplicate ids {dup}")
+    return good
 
 
 def main():
     coverage = "--coverage" in sys.argv
     errors, warnings = [], []
-    bib = load("bibliography.json")["entries"]
-    concepts = load("concepts.json")
-    claims_doc = load("claims.json")
-    claims = claims_doc["claims"]
-    debates = load("debates.json")["debates"]
-    exps = load("experiments.json")["experiments"]
-    tasks = load("tasks.json")["tasks"]
-    phen_doc = load("phenomena.json")
-    phen = phen_doc["phenomena"]
+    docs = {n: db.load(n) for n in db.COLLECTIONS}
+    recs = {n: check_schema(n, docs[n][key], errors) for n, (key, _) in db.COLLECTIONS.items()}
+    bib_keys = {e["key"] for e in recs["bibliography"]}
+    concept_ids = {n["id"] for n in recs["concepts"]}
+    claim_ids = {c["id"] for c in recs["claims"]}
+    debate_ids = {d["id"] for d in recs["debates"]}
+    exp_ids = {x["id"] for x in recs["experiments"]}
+    phen_ids = {p["id"] for p in docs["phenomena"]["phenomena"]}
+    mrs = docs["claims"]["master_relations"]
+    claim_ok = db.claim_space()
+    debt_hit = {k: set() for k in db.DEBT}
 
-    def uniq(items, label):
-        ids = [x["id"] if "id" in x else x["key"] for x in items]
-        dup = {i for i in ids if ids.count(i) > 1}
-        if dup:
-            errors.append(f"duplicate {label} ids: {sorted(dup)}")
-        return set(ids)
+    def protocol(kind, rid, msg):
+        """A protocol violation: a warning while the id is listed debt, an error otherwise."""
+        if rid in db.DEBT[kind]:
+            debt_hit[kind].add(rid)
+            warnings.append(f"debt: {msg}")
+        else:
+            errors.append(msg)
 
-    bib_keys = uniq(bib, "bibliography")
-    concept_ids = uniq(concepts["nodes"], "concept")
-    claim_ids = uniq(claims, "claim")
-    debate_ids = uniq(debates, "debate")
-    exp_ids = uniq(exps, "experiment")
-    uniq(tasks, "task")
-    mr_ids = {m["id"] for m in claims_doc.get("master_relations", [])}
+    def refs(owner, ids, ok, what):
+        for i in ids:
+            if not ok(i):
+                errors.append(f"{owner}: unknown {what} {i}")
 
-    def claim_ok(cid):
-        return cid in claim_ids or is_external(cid) or cid in mr_ids
-
-    for e in bib:
-        k = e["key"]
-        if e.get("status") not in BIB_STATUS:
-            errors.append(f"bib {k}: bad status {e.get('status')}")
-        for l in e.get("layers", []):
-            if l not in LAYERS:
-                errors.append(f"bib {k}: bad layer {l}")
-        for c in e.get("concepts", []):
-            if c not in concept_ids:
-                errors.append(f"bib {k}: unknown concept {c}")
-        for c in e.get("supports", []) + e.get("challenges", []):
-            if not claim_ok(c):
-                errors.append(f"bib {k}: unknown claim {c}")
-        if not e.get("annotation"):
-            warnings.append(f"bib {k}: no annotation")
-
-    for n in concepts["nodes"]:
-        if n["layer"] not in LAYERS:
-            errors.append(f"concept {n['id']}: bad layer")
-    for ed in concepts["edges"]:
-        for side in ("source", "target"):
-            if ed[side] not in concept_ids:
-                errors.append(f"edge {ed}: unknown {side}")
-
-    for c in claims:
-        if c["layer"] not in LAYERS:
-            errors.append(f"claim {c['id']}: bad layer")
-        for d in c.get("depends_on", []) + c.get("links", []):
-            if not claim_ok(d):
-                errors.append(f"claim {c['id']}: unknown dependency/link {d}")
-        for b in c.get("evidence", []):
-            if b not in bib_keys:
-                errors.append(f"claim {c['id']}: unknown bib key {b}")
-    for m in claims_doc.get("master_relations", []):
-        for c in m["claims"]:
-            if not claim_ok(c):
-                errors.append(f"master relation {m['id']}: unknown claim {c}")
-
-    for d in debates:
-        for b in d.get("llm_evidence", []):
-            if b not in bib_keys:
-                errors.append(f"debate {d['id']}: unknown bib key {b}")
-        for c in d.get("claims", []):
-            if not claim_ok(c):
-                errors.append(f"debate {d['id']}: unknown claim {c}")
-
-    for x in exps:
-        for c in x.get("tests", []):
-            if not (claim_ok(c) or c in debate_ids):
-                errors.append(f"experiment {x['id']}: unknown claim {c}")
-        for r in x.get("related", []):
-            if not (r in bib_keys or claim_ok(r) or r in exp_ids):
-                errors.append(f"experiment {x['id']}: unknown related {r}")
+    for e in recs["bibliography"]:
+        refs(f"bibliography {e['key']}", e.get("concepts", []), concept_ids.__contains__, "concept")
+        refs(f"bibliography {e['key']}", e.get("supports", []) + e.get("challenges", []), claim_ok, "claim")
+        if e["status"] == "checked" and not e.get("url"):
+            errors.append(f"bibliography {e['key']}: checked without a url")
+    for ed in docs["concepts"]["edges"]:
+        if ed["relation"] not in docs["concepts"]["meta"]["relations"]:
+            warnings.append(f"concept edge {ed['source']}->{ed['target']}: relation {ed['relation']} not in meta.relations")
+        refs(f"concept edge {ed['source']}->{ed['target']}", [ed["source"], ed["target"]], concept_ids.__contains__, "concept")
+    for c in recs["claims"]:
+        refs(f"claim {c['id']}", c["depends_on"] + c.get("links", []), claim_ok, "claim")
+        refs(f"claim {c['id']}", c.get("evidence", []), bib_keys.__contains__, "bib key")
+        if not c["falsifier"] and c["status"] not in ("known", "definition"):
+            protocol("falsifier", c["id"], f"claim {c['id']}: {c['status']} claim needs a falsifier")
+    for m in mrs:
+        refs(f"master relation {m['id']}", m["claims"], claim_ok, "claim")
+    for d in recs["debates"]:
+        refs(f"debate {d['id']}", d["llm_evidence"], bib_keys.__contains__, "bib key")
+        refs(f"debate {d['id']}", d["claims"], claim_ok, "claim")
+    for x in recs["experiments"]:
+        refs(f"experiment {x['id']}", x["tests"], lambda i: claim_ok(i) or i in debate_ids, "claim or debate")
+        refs(f"experiment {x['id']}", x.get("related", []), lambda i: i in bib_keys or claim_ok(i) or i in exp_ids, "reference")
 
     # phenomena menu (emergence verifier, harness.md §5.5)
-    pmeta = phen_doc["meta"]
-    phen_ids = uniq(phen, "phenomenon")
-    formalism_ids = {f["id"] for f in pmeta["formalisms"]}
-    core = set(next(f for f in pmeta["formalisms"] if f["id"] == "spine-v0.1")["core_premises"])
-    for p in phen:
-        pid = p["id"]
-        for k, legend in (("kind", "kind_legend"), ):
-            if p[k] not in pmeta[legend]:
-                errors.append(f"phenomenon {pid}: bad {k} {p[k]}")
+    pmeta = docs["phenomena"]["meta"]
+    formalisms = {f["id"]: f for f in pmeta["formalisms"]}
+    core = set(formalisms["spine-v0.1"]["core_premises"])
+    for p in docs["phenomena"]["phenomena"]:
+        pid, g, own = p["id"], p["grounding"], f"phenomenon {p['id']}"
+        for field, legend in (("kind", "kind_legend"),):
+            if p[field] not in pmeta[legend]:
+                errors.append(f"{own}: bad {field} {p[field]}")
         if p["field"] not in pmeta["fields"]:
-            errors.append(f"phenomenon {pid}: bad field {p['field']}")
-        for l in p["layers"]:
-            if l not in LAYERS:
-                errors.append(f"phenomenon {pid}: bad layer {l}")
-        g = p["grounding"]
+            errors.append(f"{own}: bad field {p['field']}")
+        refs(own, p["layers"], db.LAYERS.__contains__, "layer")
         if g["strength"] not in pmeta["strength_legend"] or g["pattern"] not in pmeta["pattern_legend"]:
-            errors.append(f"phenomenon {pid}: bad strength/pattern")
-        for b in g["theorized"] + g["observed"]:
-            if b not in bib_keys:
-                errors.append(f"phenomenon {pid}: unknown bib key {b}")
+            errors.append(f"{own}: bad strength/pattern")
+        refs(own, g["theorized"] + g["observed"], bib_keys.__contains__, "bib key")
         if not (g["theorized"] or g["observed"] or g["source_hints"]) and p["kind"] != "non-phenomenon":
-            errors.append(f"phenomenon {pid}: no grounding source")
+            errors.append(f"{own}: no grounding source")
+        if g["strength"] in ("robust", "replicated"):
+            checked = {e["key"] for e in recs["bibliography"] if e["status"] == "checked"}
+            if not checked & set(g["theorized"] + g["observed"]):
+                protocol("unchecked-strength", pid, f"{own}: {g['strength']} needs a checked source (AGENTS.md phenomena protocol)")
         if p.get("contrast_with") and p["contrast_with"] not in phen_ids:
-            errors.append(f"phenomenon {pid}: unknown contrast {p['contrast_with']}")
-        for d in p.get("debates", []):
-            if d not in debate_ids:
-                errors.append(f"phenomenon {pid}: unknown debate {d}")
+            errors.append(f"{own}: unknown contrast {p['contrast_with']}")
+        refs(own, p.get("debates", []), debate_ids.__contains__, "debate")
         for a in p["assessments"]:
             v = a["verdict"]
-            if a["formalism"] not in formalism_ids:
-                errors.append(f"phenomenon {pid}: unknown formalism {a['formalism']}")
+            if a["formalism"] not in formalisms:
+                errors.append(f"{own}: unknown formalism {a['formalism']}")
             if v not in pmeta["verdict_legend"]:
-                errors.append(f"phenomenon {pid}: bad verdict {v}")
-            neg_only = v in ("excluded", "generated")
-            if neg_only != (p["kind"] == "non-phenomenon") and v != "untested":
-                errors.append(f"phenomenon {pid}: verdict {v} does not fit kind {p['kind']}")
+                errors.append(f"{own}: bad verdict {v}")
+            if (v in ("excluded", "generated")) != (p["kind"] == "non-phenomenon") and v != "untested":
+                errors.append(f"{own}: verdict {v} does not fit kind {p['kind']}")
             if a["derivation_status"] not in pmeta["derivation_status_legend"]:
-                errors.append(f"phenomenon {pid}: bad derivation_status")
-            for d in a["derivation"]:
-                if not claim_ok(d):
-                    errors.append(f"phenomenon {pid}: unknown derivation id {d}")
-            if a["formalism"] == "spine-v0.1":
-                if v == "bolted-on" and not a["extra_assumptions"]:
-                    errors.append(f"phenomenon {pid}: bolted-on needs extra_assumptions")
-                if v in ("emergent", "parametric") and a["extra_assumptions"]:
-                    errors.append(f"phenomenon {pid}: {v} cannot carry extra_assumptions (that is bolted-on)")
-                for pr in a["premises"]:
-                    if pr not in core and not claim_ok(pr):
-                        errors.append(f"phenomenon {pid}: premise {pr} is neither core nor a known claim")
-                if v in ("emergent", "parametric") and not a["derivation"]:
-                    errors.append(f"phenomenon {pid}: {v} needs a derivation")
+                errors.append(f"{own}: bad derivation_status {a['derivation_status']}")
+            refs(own, a["derivation"], claim_ok, "derivation id")
+            if a["formalism"] != "spine-v0.1":
+                continue
+            if v == "bolted-on" and not a["extra_assumptions"]:
+                errors.append(f"{own}: bolted-on needs extra_assumptions")
+            if v in ("emergent", "parametric"):
+                if a["extra_assumptions"]:
+                    errors.append(f"{own}: {v} cannot carry extra_assumptions (that is bolted-on)")
+                if not a["derivation"]:
+                    errors.append(f"{own}: {v} needs a derivation")
+            refs(own, a["premises"], lambda i: i in core or claim_ok(i), "premise (neither core nor a claim)")
+
+    for kind, listed in db.DEBT.items():
+        for rid in sorted(listed - debt_hit[kind]):
+            errors.append(f"debt {kind}: {rid} is fixed; remove it from db.DEBT")
 
     # dependency cycles among K-claims
-    graph = {c["id"]: [d for d in c.get("depends_on", []) if d in claim_ids] for c in claims}
+    graph = {c["id"]: [d for d in c["depends_on"] if d in claim_ids] for c in recs["claims"]}
     state = {}
 
     def visit(u, stack):
@@ -194,20 +170,49 @@ def main():
         if not state.get(u):
             visit(u, [])
 
+    # checks and ledger (harness.md §5)
+    checks = check.load_checks()
+    ledger = check.read_ledger()
+    seen = set()
+    for c, src, digest in checks:
+        own = f"check {c.id} ({src})"
+        if c.id in seen:
+            errors.append(f"{own}: duplicate id")
+        seen.add(c.id)
+        if c.role not in check.ROLES:
+            errors.append(f"{own}: bad role {c.role}")
+        if c.kind not in check.EXPECT or c.expect not in check.EXPECT.get(c.kind, ()):
+            errors.append(f"{own}: bad kind/expect {c.kind}/{c.expect}")
+        if (c.subject is None) != (c.role == "sanity"):
+            errors.append(f"{own}: sanity checks have no subject; every other check needs one")
+        if c.subject and not claim_ok(db.subject_base(c.subject)):
+            errors.append(f"{own}: subject {c.subject} names no known claim")
+        if c.role == "refutes" and (c.kind, c.expect) != ("witness", "counterexample"):
+            errors.append(f"{own}: a refutation must be a witness expecting a counterexample")
+        st = check.entry_state(c, digest, ledger.get(c.id))
+        if st != "ok":
+            errors.append(f"{own}: verdict {st}; run python3 program/tools/check.py")
+    for orphan in sorted(set(ledger) - seen):
+        errors.append(f"ledger {orphan}: no such check; delete {check.ledger_path(orphan).relative_to(db.REPO)}")
+    for s, (tier, why) in check.tiers(checks, ledger).items():
+        if "encoding is wrong" in why:
+            errors.append(f"subject {s}: {why}")
+
+    for p in render.stale():
+        errors.append(f"generated view out of date: {p.relative_to(db.REPO)}; run python3 program/tools/render.py")
+
     if coverage:
         cnt = {c: 0 for c in concept_ids}
-        for e in bib:
+        for e in recs["bibliography"]:
             for c in e.get("concepts", []):
-                cnt[c] += 1
+                cnt[c] = cnt.get(c, 0) + 1
         thin = sorted(c for c, n in cnt.items() if n < 2)
         warnings.append(f"concepts with <2 bib entries ({len(thin)}): {', '.join(thin)}")
-        noevid = sorted(c["id"] for c in claims if not c.get("evidence"))
-        warnings.append(f"claims without evidence: {', '.join(noevid) or 'none'}")
-        cited = {c for e in bib for c in e.get("supports", []) + e.get("challenges", [])}
-        uncited = sorted(c for c in claim_ids if c not in cited)
-        warnings.append(f"claims no bib entry supports/challenges: {', '.join(uncited) or 'none'}")
+        warnings.append("claims without evidence: " + (", ".join(sorted(c["id"] for c in recs["claims"] if not c.get("evidence"))) or "none"))
+        cited = {c for e in recs["bibliography"] for c in e.get("supports", []) + e.get("challenges", [])}
+        warnings.append("claims no bib entry supports/challenges: " + (", ".join(sorted(claim_ids - cited)) or "none"))
         st = {}
-        for e in bib:
+        for e in recs["bibliography"]:
             st[e["status"]] = st.get(e["status"], 0) + 1
         warnings.append(f"bibliography status counts: {st}")
 
@@ -215,9 +220,9 @@ def main():
         print("WARN ", w)
     for e in errors:
         print("ERROR", e)
-    print(f"{len(bib)} bib, {len(concept_ids)} concepts, {len(concepts['edges'])} edges, "
-          f"{len(claim_ids)} claims, {len(debate_ids)} debates, {len(exp_ids)} experiments, "
-          f"{len(tasks)} tasks, {len(phen)} phenomena; {len(errors)} errors")
+    print(f"{len(bib_keys)} bib, {len(concept_ids)} concepts, {len(docs['concepts']['edges'])} edges, "
+          f"{len(claim_ids)} claims, {len(mrs)} master relations, {len(debate_ids)} debates, {len(exp_ids)} experiments, "
+          f"{len(recs['tasks'])} tasks, {len(phen_ids)} phenomena, {len(checks)} checks; {len(errors)} errors")
     sys.exit(1 if errors else 0)
 
 

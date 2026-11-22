@@ -1,0 +1,14 @@
+{
+ "check": "MR1/main",
+ "detail": {},
+ "digest": "cfdf0b16102bf8d9",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "W ⊥ T | (D,E)  =>  I(W;T) <= I(W;D) + I(W;E|D)",
+ "subject": "MR1",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

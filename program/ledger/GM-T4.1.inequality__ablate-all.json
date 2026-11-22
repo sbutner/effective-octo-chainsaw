@@ -1,0 +1,14 @@
+{
+ "check": "GM-T4.1.inequality/ablate-all",
+ "detail": {},
+ "digest": "7c375db2ef31af60",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "probe",
+ "source": "program/checks/info_core.py",
+ "statement": "No hypotheses  =>  I(W;D,C) >= I(W;D): the hypotheses are unused",
+ "subject": "GM-T4.1.inequality",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

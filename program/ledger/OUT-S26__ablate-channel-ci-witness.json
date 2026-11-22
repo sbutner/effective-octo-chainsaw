@@ -1,0 +1,20 @@
+{
+ "check": "OUT-S26/ablate-channel-ci-witness",
+ "detail": {
+  "gap": 1.0,
+  "hypotheses": [
+   "Xa ⊥ (W,Db,Xb) | Da",
+   "Xb ⊥ (W,Da) | Db"
+  ]
+ },
+ "digest": "101ce557ee6bec25",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "probe",
+ "source": "program/checks/info_core.py",
+ "statement": "Shared bit: Da = Db = Xa = Xb = B ⊥ W breaks the ablated bound, so Da ⊥ Db | W is load-bearing",
+ "subject": "OUT-S26",
+ "tool": "witness"
+}

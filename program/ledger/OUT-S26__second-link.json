@@ -1,0 +1,14 @@
+{
+ "check": "OUT-S26/second-link",
+ "detail": {},
+ "digest": "507da5ff735d1b0e",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "Same hypotheses  =>  I(Da;Db) <= I(W;Da)",
+ "subject": "OUT-S26",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

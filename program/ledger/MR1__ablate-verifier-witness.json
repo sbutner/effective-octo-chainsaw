@@ -1,0 +1,19 @@
+{
+ "check": "MR1/ablate-verifier-witness",
+ "detail": {
+  "gap": 1.0,
+  "hypotheses": [
+   "W ⊥ T | (D,E)"
+  ]
+ },
+ "digest": "08a280e6bc01c429",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "probe",
+ "source": "program/checks/info_core.py",
+ "statement": "D constant, T = E = W breaks the bound without the verifier term, so the term is load-bearing",
+ "subject": "MR1",
+ "tool": "witness"
+}

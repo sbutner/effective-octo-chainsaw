@@ -1,0 +1,14 @@
+{
+ "check": "GM-T4.2~cond-D/joint",
+ "detail": {},
+ "digest": "e0e2ba6a49e8927a",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "Corrected: C = f(D, xi), xi ⊥ W | D  =>  I(W;D,C) <= I(W;D)",
+ "subject": "GM-T4.2~cond-D",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

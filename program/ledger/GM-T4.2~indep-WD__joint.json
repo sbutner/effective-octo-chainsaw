@@ -1,0 +1,14 @@
+{
+ "check": "GM-T4.2~indep-WD/joint",
+ "detail": {},
+ "digest": "3aa38a3ab8b3f382",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "Fully independent noise: C = f(D, xi), xi ⊥ (W,D)  =>  I(W;D,C) <= I(W;D)",
+ "subject": "GM-T4.2~indep-WD",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

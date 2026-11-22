@@ -1,0 +1,14 @@
+{
+ "check": "GM-T2/main",
+ "detail": {},
+ "digest": "0e6461efe7e85fb4",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "W1 = F(W0, xi), xi ⊥ W | W0  =>  I(W;W1) <= I(W;W0)",
+ "subject": "GM-T2",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

@@ -1,0 +1,14 @@
+{
+ "check": "OUT-S26/first-link",
+ "detail": {},
+ "digest": "e9c02f9ce131ce56",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "Da ⊥ Db | W; Xa ⊥ (W,Db,Xb) | Da; Xb ⊥ (W,Da) | Db  =>  I(Xa;Xb) <= I(Da;Db)",
+ "subject": "OUT-S26",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

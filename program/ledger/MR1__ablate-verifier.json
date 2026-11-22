@@ -1,0 +1,14 @@
+{
+ "check": "MR1/ablate-verifier",
+ "detail": {},
+ "digest": "cdcdcfa469ee653e",
+ "expect": "not-provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "not-provable",
+ "role": "probe",
+ "source": "program/checks/info_core.py",
+ "statement": "Same hypothesis  =>  I(W;T) <= I(W;D), without the verifier term",
+ "subject": "MR1",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

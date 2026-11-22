@@ -1,0 +1,14 @@
+{
+ "check": "GM-T4.2/psitip",
+ "detail": {},
+ "digest": "080476932befa50e",
+ "expect": "not-provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "not-provable",
+ "role": "probe",
+ "source": "program/checks/info_core.py",
+ "statement": "As written: C = f(D, xi), xi ⊥ W  =>  I(W;D,C) <= I(W;D)",
+ "subject": "GM-T4.2",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

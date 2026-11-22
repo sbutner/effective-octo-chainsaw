@@ -565,7 +565,7 @@
      "derivation_status": "sketch",
      "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
      "tier": "V0",
-     "notes": "Info-theoretic core proved in proofs/psitip (T2; T4.2 corrected): a closed loop cannot gain. The threshold v* (K33) is still a conjecture."
+     "notes": "Info-theoretic core proved by checks GM-T2/main and GM-T4.2~cond-D/joint: a closed loop cannot gain. The threshold v* (K33) is still a conjecture."
     }
    ]
   },
@@ -1480,7 +1480,7 @@
      "derivation_status": "sketch",
      "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
      "tier": "V0",
-     "notes": "The 'impossible as process' half is proved in proofs/psitip. The 'possible as state' half rests on T8 / S1."
+     "notes": "The 'impossible as process' half is proved by checks GM-T2/main and GM-T4.2~cond-D/joint. The 'possible as state' half rests on T8 / S1."
     }
    ]
   },
@@ -1884,7 +1884,7 @@
      "derivation_status": "proved",
      "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
      "tier": "V0",
-     "notes": "Excluded by T2 (proofs/psitip row 1)."
+     "notes": "Excluded by T2 (check GM-T2/main)."
     }
    ]
   },
@@ -1923,7 +1923,7 @@
      "derivation_status": "proved",
      "assessed_by": "seed: Claude, 2026-11-22, unreviewed",
      "tier": "V0",
-     "notes": "Excluded with a counterexample: proofs/psitip row 9 (shared data)."
+     "notes": "Excluded with a counterexample: check OUT-S26/ablate-channel-ci-witness (shared data)."
     }
    ]
   },

@@ -1,0 +1,14 @@
+{
+ "check": "GM-T4.1.inequality/main",
+ "detail": {},
+ "digest": "8242c0985ace1e51",
+ "expect": "provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "provable",
+ "role": "proves",
+ "source": "program/checks/info_core.py",
+ "statement": "C = f(D, E), E ⊥ D | W  =>  I(W;D,C) >= I(W;D)",
+ "subject": "GM-T4.1.inequality",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}

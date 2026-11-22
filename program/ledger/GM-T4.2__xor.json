@@ -1,0 +1,20 @@
+{
+ "check": "GM-T4.2/xor",
+ "detail": {
+  "gap": 1.0,
+  "hypotheses": [
+   "C = f(D, xi)",
+   "xi ⊥ W"
+  ]
+ },
+ "digest": "db8ea8bc58973851",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "refutes",
+ "source": "program/checks/info_core.py",
+ "statement": "XOR: W, D fair bits, xi = W xor D, C = W satisfies the hypotheses with I(W;D,C) - I(W;D) = 1",
+ "subject": "GM-T4.2",
+ "tool": "witness"
+}

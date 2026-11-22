@@ -1,0 +1,14 @@
+{
+ "check": "OUT-S26/ablate-channel-ci",
+ "detail": {},
+ "digest": "d2cdd75bf8579aa9",
+ "expect": "not-provable",
+ "kind": "psitip",
+ "ok": true,
+ "result": "not-provable",
+ "role": "probe",
+ "source": "program/checks/info_core.py",
+ "statement": "Without Da ⊥ Db | W  =>  I(Xa;Xb) <= I(W;Da)",
+ "subject": "OUT-S26",
+ "tool": "psitip@6caf8ea8c03c/ortools.GLOP"
+}
