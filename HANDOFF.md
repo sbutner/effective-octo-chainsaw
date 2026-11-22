@@ -27,6 +27,8 @@ The project has been widened. It is now **a formal theory of knowledge productio
 
 **Tooling:** [`program/tooling.md`](program/tooling.md) reviews AI Scientist v1/v2, co-scientist, co-mathematician and AlphaGeometry 1/2 and recommends a stack. [`program/harness.md`](program/harness.md) specifies how the harness runs and verifies. The PSITIP pilot ([`program/proofs/psitip/RESULTS.md`](program/proofs/psitip/RESULTS.md)) proved GM T2, corrected T4.2, S26 and MR1. It refuted T4.2 as written, and found that T4.1's inequality needs none of its hypotheses and that MR1's `condition` field states the wrong condition. Proposed claim updates await review. The **emergence verifier** (`harness.md` §5.5) scores a formalism by how many literature-recorded behaviors emerge from its core premises rather than being bolted on. Its menu is in `program/data/phenomena.json` (43 seed entries, unreviewed), with the scoreboard in `program/phenomena.md`. The next tasks are Q-21 (build the menu blind), Q-22 (score the rivals) and Q-23 (audit the verdicts and demonstrate emergence).
 
+**Agent tooling:** before you build a helper for reading or editing the md and JSON files, read [`program/tools/md-json-tooling/HANDOFF.md`](program/tools/md-json-tooling/HANDOFF.md). It records where agents spend tokens here, a reviewed and rejected CLI proposal, and the smaller plan that replaced it.
+
 **Next:** follow `program/data/tasks.json`, highest priority first. In order: Q-01/Q-02 (citations), Q-04/Q-05 (notation and estimators), Q-08/Q-10 (proofs), Q-14 (experiments E-01 and E-04). Sections 1–8 below still describe the sub-programs accurately.
 
 ## 1. What this project is

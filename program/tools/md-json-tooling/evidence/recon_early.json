@@ -1,0 +1,85 @@
+{
+ "fetched": [
+  "...list_events-1795333501049-d92o31.txt (18:58Z-19:38Z)",
+  "...1795333507571-h8b60e.txt (17:27Z-18:58Z)",
+  "...1795333512790-pwua2o.txt (17:03Z-17:27Z, session start)"
+ ],
+ "events": 104,
+ "tool_calls": 32,
+ "md_json_calls": [
+  {
+   "tool": "Write",
+   "ft": "md",
+   "inl": 33331,
+   "outl": 159,
+   "err": false,
+   "t": "2026-11-21T17:14:39.944210Z"
+  },
+  {
+   "tool": "Bash",
+   "ft": "md",
+   "inl": 440,
+   "outl": 244,
+   "err": false,
+   "t": "2026-11-21T17:14:45.504774Z"
+  },
+  {
+   "tool": "Write",
+   "ft": "md",
+   "inl": 38400,
+   "outl": 169,
+   "err": false,
+   "t": "2026-11-21T17:38:41.456383Z"
+  },
+  {
+   "tool": "Bash",
+   "ft": "md",
+   "inl": 678,
+   "outl": 190,
+   "err": false,
+   "t": "2026-11-21T17:38:48.416359Z"
+  },
+  {
+   "tool": "Bash",
+   "ft": "md",
+   "inl": 847,
+   "outl": 369,
+   "err": false,
+   "t": "2026-11-21T18:59:06.474017Z"
+  },
+  {
+   "tool": "Write",
+   "ft": "md",
+   "inl": 2245,
+   "outl": 153,
+   "err": false,
+   "t": "2026-11-21T18:59:16.666468Z"
+  },
+  {
+   "tool": "Write",
+   "ft": "md",
+   "inl": 7967,
+   "outl": 141,
+   "err": false,
+   "t": "2026-11-21T18:59:43.723603Z"
+  },
+  {
+   "tool": "Edit",
+   "ft": "md",
+   "inl": 565,
+   "outl": 116,
+   "err": false,
+   "t": "2026-11-21T18:59:45.723886Z"
+  },
+  {
+   "tool": "Bash",
+   "ft": "md",
+   "inl": 609,
+   "outl": 422,
+   "err": false,
+   "t": "2026-11-21T18:59:51.430455Z"
+  }
+ ],
+ "json_calls": 0,
+ "failed_edits": 0
+}

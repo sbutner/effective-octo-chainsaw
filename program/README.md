@@ -25,6 +25,7 @@ This directory is the umbrella for the project. It reframes the earlier work in 
 | [`concept-map.md`](concept-map.md) | Mermaid diagrams per layer, plus a claim index | Generated |
 | [`tools/validate.py`](tools/validate.py) | Referential integrity, cycle detection, coverage report | — |
 | [`tools/render.py`](tools/render.py) | Regenerates the generated views | — |
+| [`tools/md-json-tooling/HANDOFF.md`](tools/md-json-tooling/HANDOFF.md) | Handoff for token-efficient md and JSON tooling: evidence, a rejected proposal, and the plan | By hand |
 
 ## Quick start
 ```

@@ -7,6 +7,7 @@ The data files are written so that an agent can resume work without rereading th
 2. `program/spine.md`: the theory, its layers and the mapping onto existing documents.
 3. `program/data/tasks.json`: what to do next.
 4. Only what your task needs: claims, concepts, bibliography, `explorations/*`.
+5. If your task builds tooling for reading or editing these files, read `program/tools/md-json-tooling/HANDOFF.md` first.
 
 ## Sources of truth
 - The JSON in `program/data/` is canonical.
