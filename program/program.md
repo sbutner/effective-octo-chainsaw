@@ -139,7 +139,7 @@ Firth passes all four. Plato's mimesis passes 2–4 only under a stated formaliz
 ## 6. How agents should use this program
 
 See `AGENTS.md`. In short:
-1. Pick the highest-priority open task in `data/tasks.json` whose `depends_on` tasks are all done. Formalization comes first (`formalization.md`).
+1. Pick the highest-priority open task in `data/tasks.json` whose `depends_on` tasks are all done. The foundations come first (`foundations.md`).
 2. Work it.
 3. Update the JSON. Never edit the generated `.md` views.
 4. Run `tools/validate.py`, then `tools/render.py`.

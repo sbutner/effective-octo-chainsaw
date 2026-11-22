@@ -1,6 +1,6 @@
 # Foundations: the world, language and the generative agent
 
-*Draft v0.1 · 2026-11-22 · Proposed replacement for spine §1–L3 and for the rung ladder in `formalization.md`. Nothing in `data/` changes until the human approves.*
+*v0.1 · 2026-11-22 · Approved by the human 2026-11-22. Replaces spine §1–L3 and the rung ladder in `formalization.md`. The claims are filed by task S-01.*
 
 ## 0. Why start again
 
@@ -184,7 +184,7 @@ To be checked before any claim built on them leaves `new`: fritz2020 (Markov cat
 4. **Which structure on $V^*$ to add first.** Composition will be needed for any sentence-level result. The candidates are a pregroup grammar functor (DisCoCat) or the enriched-category continuation structure alone.
 5. **Information versus reference needs a measure.** §4.3 separates them in words. A number for reference, such as the size of the surviving gauge group or its entropy under a prior, is the first new definition the theory needs.
 
-## 10. Proposed task changes (not applied)
+## 10. Task changes (applied 2026-11-22)
 
 - Supersede F-01 to F-07 with **S-01**, which files §3–§5 as `definition` and `new` claims, and **S-02**, which runs checks 1 to 4 on the cyclic world.
 - Add **S-03**, a citation check for §8, limited to the sources a filed claim depends on.

@@ -1,40 +1,32 @@
 # Primitive ledger
 
-*Opened by F-00, 2026-11-22. The budget: each rung adds at most one primitive. A rung that needs two stops the ladder for a redesign (`formalization.md`, "What changes", item 4).*
+*Opened by F-00, 2026-11-22. Rewritten the same day for [`foundations.md`](../foundations.md). The budget rule: a result that needs anything beyond P1 to P4 records the extra term here, and two results that each need a new term stop the work for a redesign.*
 
-## The four proposed primitives
+## The four primitives
 
-| # | Primitive | Formal type | Added by | Instantiated in the testbed | Status |
+| # | Primitive | Formal type | Replaces | In the testbed | Status |
 |---|---|---|---|---|---|
-| 1 | World process $\omega_t$ | Stateful stochastic process on $\Omega$, with a symmetry group $G$ acting on it. $\Omega$ consists of interactions. Agents' internal models are hidden and are not part of $\Omega$. | R0 (inherited from spine L0) | `experiments/cyclic_world`: $\Omega=\mathbb Z_N\times$ seasons, $G=\mathbb Z_N$ | Proposed |
-| 2 | Channel | Markov kernel $K:X\to\Delta(Y)$ with a single cost $c$ per use | R0 (inherited from spine L0, cost new) | `Channel` in `experiments/cyclic_world` | Proposed |
-| 3 | Agent | A bounded-capacity predictor fitted online to its own joint stream of episodes | R1 | R0 holds only the stream; the predictor is F-01's | Proposed |
-| 4 | Goal | A preference over world states. A signal is scored by the change in $\omega$ it brings about through the receiver's action. | R2 | Not yet | Proposed |
+| P1 | World | An object $\Omega$ of interactions in $\mathsf{Stoch}$, with a state $P$ and a group $G$ of automorphisms preserving $P$. Internal models are not part of $\Omega$. | Spine L0 world and symmetry | `experiments/cyclic_world`: $\Omega=\mathbb Z_N\times$ seasons, $G=\mathbb Z_N$ | Proposed |
+| P2 | Language | The free monoid $V^*$ on a finite vocabulary $V$. Speaking is a kernel $\pi:\Omega\to V^*$, and reading is a kernel $r$ out of $V^*$. | Spine L0 channels for speech and reading | Not yet | Proposed |
+| P3 | Agent | A parametrized kernel $(\Theta,f)$, $f:\Theta\otimes X\to Y$, with the parameter hidden ($\mathrm{Para}$) | Spine L0 agent tuple; the plan's episode | `Agent` holds only a sensorium; no parameter yet | Proposed |
+| P4 | Selection | Conditioning a state on a fitness $w$, $P\mapsto wP/\langle w,P\rangle$ | GM's $\mathcal F_{\text{test}}$; the plan's goal | Not yet | Proposed |
 
-A primitive moves from **Proposed** to **Used** when a rung's toy run depends on it, and to **Load-bearing** when a check shows a target behavior fails without it.
+The ambient category $\mathsf{Stoch}$ and the cost functor $c$ to $(\mathbb R_{\ge0},+)$ are setting, not primitives.
 
-## Per rung
+A primitive moves from **Proposed** to **Used** when a checked result depends on it, and to **Load-bearing** when a probe shows the result fails without it.
 
-Each rung fills its row when it closes. "Extra term" records anything the toy run needed beyond the primitives listed, such as a processing-speed parameter or an information term in the payoff. A non-empty extra term on a rung that also adds a primitive breaks the budget.
+## Extra terms
 
-| Rung | Task | Adds | Extra term needed | Closed |
-|---|---|---|---|---|
-| R0 Groundwork | F-00 | none (1 and 2 inherited) | | |
-| R1 Grounded agent | F-01 | 3 Agent | | |
-| R2 Communication game | F-02 | 4 Goal | | |
-| R3 Sentence and composition | F-03 | none | | |
-| R4 Divergence and alignment | F-04 | none | | |
-| R5 Narrative | F-05 | none | | |
-| R6 Writing | F-06 | none, if writing is a channel parameter change | | |
-| R7 Genre and corpus | F-07 | none | | |
+Each result records here anything its proof or toy run needed beyond P1 to P4.
 
-## Candidate extra terms already named in the plan
-
-These come from `formalization.md`, "Open questions". None is admitted yet.
-
-| Candidate | Rung that tests it | Where it would go |
+| Result | Extra term needed | Recorded by |
 |---|---|---|
-| Timescale parameter for nouns of things that change ("river") | R3 | Noun as a slowly varying state |
-| Processing-speed parameter for the 200 ms turn gap | R2 | The channel cost $c$ |
-| Separate information or relationship term in the payoff | R2, R4 | The goal primitive's score |
-| Computable afferent cost | R3 | Entropy rate of the sensorium $\sigma_a$ over the episode |
+| | | |
+
+## Candidates already named
+
+| Candidate | Where it came from | Where it would go |
+|---|---|---|
+| Structure on $V^*$ beyond concatenation (a grammar) | `foundations.md` §9.4 | A functor from a grammar category, if a sentence-level result needs one |
+| A measure of reference, distinct from $\mathcal G$ | `foundations.md` §9.5 | A definition over the surviving gauge group |
+| A timescale for nouns of things that change | `formalization.md` open question 1 | Only if a result about nouns needs it |

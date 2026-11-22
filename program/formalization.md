@@ -1,6 +1,6 @@
 # Formalization plan: from grounded speakers to corpora
 
-*v0.3 · 2026-11-22 · Status: task changes applied; F-00 is next.*
+*v0.3 · 2026-11-22 · Status: superseded by [`foundations.md`](foundations.md), approved 2026-11-22. F-00 is done. The rung tasks F-01 to F-07 are deleted, and S-01 to S-03 replace them. Kept as history.*
 
 ## Goal
 

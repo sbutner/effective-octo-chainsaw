@@ -2,6 +2,8 @@
 
 *Draft v0.1 · 2026-11-21 · branch `claude/determined-davinci-3341ib`*
 
+> **Superseded in part, 2026-11-22.** [`foundations.md`](foundations.md) replaces §1 and layers L0 to L3. Layers L4 to L8 are kept, but frozen until task S-02 closes.
+
 ## 0. The reframing
 
 The project started from three conjectures about LLMs: they learn a snapshot world model; they cannot improve its fit; collapse is inevitable when sources converge. It now has a broader object:
