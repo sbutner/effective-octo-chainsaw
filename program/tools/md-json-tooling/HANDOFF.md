@@ -1,6 +1,6 @@
 # Handoff: token-efficient tooling for the md and JSON files
 
-*Last updated 2026-11-22. Branch: `claude/ecstatic-albattani-urj2dx`. Status: explored and reviewed. No tool code exists yet.*
+*Last updated 2026-11-22. Branch: `claude/ecstatic-albattani-urj2dx`. Status: plan step 1 is done (the strict `validate.py`, with view freshness, enums and `test_gates.py`), and step 3's note is in `AGENTS.md` ("Editing the JSON"). `data/graph.json` has since been deleted, so findings 3 and 4 below are history. Step 2, a read-only `pk.py`, is not built; build it only if a transcript shows agents reading whole md files to find one id.*
 
 Read this before you build a helper for reading or editing `program/data/*.json` or the Markdown docs. It records what agents actually spend tokens on in this repo, a proposal that failed review, and the smaller plan that replaced it.
 

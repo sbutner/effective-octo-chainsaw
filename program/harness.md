@@ -1,16 +1,16 @@
 # The research harness: how it runs and how it verifies
 
-*v0.2 · 2026-11-22. This turns [`tooling.md`](tooling.md) into an operating specification. "Exists" marks a part that is already in the repo. "Build" marks a part that is proposed. The first verifier, the PSITIP pilot, has run: [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md).*
+*v0.3 · 2026-11-22. This turns [`tooling.md`](tooling.md) into an operating specification. "Exists" marks a part that is already in the repo. "Build" marks a part that is proposed. v0.3 replaces the stored `verification` object with a check ledger and derived tiers, folds the router into `tools/check.py`, and drops PaperOrchestra, which drafts papers but does nothing for the grounding loop. Current verdicts: [`claims.md`](claims.md).*
 
 ## 1. Summary
 
 The harness is a co-mathematician-style workbench running on Claude Code. Its shared state is `program/data/*.json` on a git branch.
 
 - A **coordinator** turns tasks into workstreams. Each workstream decomposes its claim into typed steps.
-- A **router** sends every step to the strongest verifier available for its type: an information-inequality prover, exact computation, finite counterexample search, a simulation template, a citation check, or Lean.
+- Each step is a **check**: a typed record in `program/checks/*.py` whose type fixes its verifier (an information-inequality prover, an exact witness, exact computation, finite counterexample search, a simulation template, a citation check, or Lean). `tools/check.py` runs it and writes one verdict file to `program/ledger/`.
 - Steps no machine can check go through a calibrated, *conditionally independent* review protocol, which ends at a human gate.
 - Whole formalisms are also checked against their literatures by the **emergence verifier** (§5.5). It counts how many behaviors that linguistics, cultural evolution, anthropology, literary studies, philosophy and ML have theorized or observed emerge from the formalism's core premises, and how many have to be bolted on by hand.
-- Nothing advances a claim except a recorded verdict. Every failure is kept.
+- Nothing advances a claim except a recorded verdict. A claim's tier is derived from the ledger, never typed in. Every failure is kept.
 
 All LLM calls, including those inside third-party tools, go through `claude -p`, so they run on the subscription.
 
@@ -20,7 +20,7 @@ flowchart TD
   CO -->|charter| WS[Workstream agent per Q-task]
   WS --> GEN[Generators: open-coscientist tournament; OpenEvolve search]
   WS --> DEC[Decompose claim into a typed step DAG]
-  DEC --> RT{Router}
+  DEC --> RT{check.py: kind fixes the runner}
   RT -->|info inequality| PS[PSITIP]
   RT -->|identity over finite group| EX[Exact algebra: sympy, enumeration over Z_N]
   RT -->|"for all small instances"| FS[Finite counterexample search]
@@ -28,12 +28,12 @@ flowchart TD
   RT -->|citation| LIB[Librarian: Semantic Scholar + arXiv]
   RT -->|stable statement| LEAN[Lean, formal-conjectures style]
   RT -->|informal step| REV[Calibrated independent review]
-  PS & EX & FS & SIM & LIB & LEAN & REV --> LED[Verdict ledger in claims.json]
-  LED --> GATE{Promotion gate}
+  PS & EX & FS & SIM & LIB & LEAN & REV --> LED[Ledger: one file per check]
+  LED --> TIER[Derived tiers: claims.md]
+  TIER --> GATE{Promotion gate}
   PH[(Phenomena menu: phenomena.json)] --> EMV[Emergence verifier: phenomena.py]
   EMV -->|scoreboard, must-emerge, contradictions| GATE
   GATE -->|needs human| H
-  GATE --> WR[PaperOrchestra drafts plus reviewer gate]
 ```
 
 ## 2. Roles
@@ -41,47 +41,51 @@ flowchart TD
 | Role | Runs as | Reads | Writes | Source of the design |
 |---|---|---|---|---|
 | **Coordinator** | The main Claude Code session | `tasks.json`, `claims.json`, workstream reports | Charters, task status, escalations to the human | Co-mathematician's project coordinator |
-| **Workstream agent** | A subagent (short tasks) or a cloud session (long ones), one per Q-task | Its charter and its claims' dependencies | `workstreams/<Q>/report.md`, `steps.json`, `failures.md`, artifacts | Co-mathematician's workstream coordinator |
+| **Workstream agent** | A subagent in its own git worktree (short tasks) or a cloud session (long ones), one per Q-task | Its charter and its claims' dependencies | `checks/<module>.py` and `.md`, `workstreams/<Q>/report.md`, `failures.md` | Co-mathematician's workstream coordinator |
 | **Generator** | open-coscientist via a LiteLLM provider that calls `claude -p`; OpenEvolve | Charter, claim, prior failures | Candidate statements, falsifiers, constructions, ranked by Elo | Co-scientist; AlphaEvolve |
-| **Router** | A deterministic script, `tools/route.py` (build) | `steps.json` | One verifier job per step | AlphaGeometry's split between symbolic engine and LM |
-| **Verifiers** | Scripts under `program/proofs/` and `program/experiments/` | One job each | A verdict plus the artifact that reproduces it | PSITIP, sympy/numpy, AI Scientist templates, Lean |
+| **Runner** | `tools/check.py` (exists): a table from check kind to verifier | `checks/*.py` | `ledger/<check id>.json` | AlphaGeometry's split between symbolic engine and LM |
+| **Verifiers** | PSITIP (exists, pinned, cloned outside the repo); `tools/witness.py` exact distributions (exists); sympy, search, simulation, Lean (build) | One check each | A verdict the runner can reproduce | PSITIP, sympy/numpy, AI Scientist templates, Lean |
 | **Reviewers** | Fresh `claude -p` processes with no shared context, from mixed models | One step or one proof, blind to the author's reasoning where possible | Step verdicts with reasons | Co-mathematician's persistent reviewers; AI Scientist `perform_review.py` |
 | **Librarian** | A script plus an agent | Bibliography entries | `status`, URL, supporting quote | Co-mathematician's citation checking; `AGENTS.md` protocol |
 | **Menu builder** | A Librarian-class agent that never sees the formalism | Field surveys, textbooks, meta-analyses | `phenomena.json` entries with `blind: true` | §5.5 |
 | **Rival advocate** | One agent per rival formalism, told to argue for it | The menu and the rival's sources | Rival assessments | §5.5 |
 | **Emergence auditor** | A reviewer that checks verdicts, not proofs | One assessment plus its derivation and premises | Verdict accepted or downgraded, with reason | §5.5 |
-| **Writer** | PaperOrchestra (exists) | Verified claims only | Drafts, which must pass the review gate | PaperOrchestra; AI Scientist reviewer |
+| **Writer** | Deferred. PaperOrchestra was removed on 2026-11-22: it writes papers and does not ground theory. Revisit once claims reach V3 | Verified claims only | Drafts, which must pass the review gate | AI Scientist reviewer |
 | **Human** | You | Review packets | Approvals, modeling decisions, steering | Every source system keeps a human gate |
 
 ## 3. State and artifacts
 
 ```
 program/
-  data/claims.json            canonical; gains a "verification" object per claim (build, §6)
-  data/tasks.json             goals; each Q-task is one workstream
-  data/phenomena.json         literature-grounded behaviors and negative controls, with assessments per formalism (exists, seed)
+  data/*.json                 canonical statements: claims, tasks, bibliography, phenomena (edited by hand)
+  checks/<module>.py          typed checks, CHECKS = [Check(...)]; one module per topic (exists: info_core.py)
+  checks/<module>.md          hand proofs and findings that a reviewer reads next to the verdicts
+  ledger/<check id>.json      one verdict per check, keyed by a source digest and the pinned tool (written by check.py)
+  claims.md, bibliography.md, concept-map.md, phenomena.md   generated by tools/render.py
   workstreams/<Q>/            build
-    charter.md                goal, claims in scope, acceptance criterion, required verification tier
-    steps.json                the claim decomposed into typed steps (schema in §5.1)
-    report.md                 working paper; each assertion carries a margin tag [K10/step-3: PSITIP ✓]
+    charter.md                goal, claims in scope, acceptance criterion, required tier
+    report.md                 working paper; each assertion carries a margin tag [K10 GM-T2/main ✓]
     failures.md               dead ends, refuted variants, reviewer rejections: append-only, never pruned
     reviews/                  raw reviewer transcripts, one file per round
-  proofs/<verifier>/          reproducible verifier inputs and outputs (exists: psitip/)
   experiments/<template>/     simulation templates and run records (build: cyclic_world/)
-  tools/validate.py           referential integrity, including phenomena premise rules (exists; extend with tier gates)
-  tools/phenomena.py          emergence scoreboard; writes phenomena.md; --strict for CI (exists)
-  tools/verify_all.py         re-runs every mechanical verifier; a red run blocks promotion (build)
+  tools/db.py                 paths, loader, schema and enums, protocol-debt ratchet
+  tools/check.py              runs checks, writes the ledger, derives tiers; --verify reruns and diffs
+  tools/validate.py           the gate: schema, references, cycles, ledger currency, view freshness
+  tools/render.py             every generated view; --check for drift
+  tools/test_gates.py         mutations the gate must reject
 ```
+
+Why one file per verdict: parallel workstreams in separate worktrees never write the same file, and a rerun with unchanged inputs rewrites nothing. Why derived tiers: a stored tier is a second copy of the verdicts and would drift from them.
 
 **Invariants**, enforced by `validate.py`:
 
 - A claim's verification tier is never higher than the lowest tier among its `depends_on` claims, unless the dependency is marked `assumed`.
-- Every verdict points to an artifact, and `verify_all.py` can reproduce it.
+- Every check has a current verdict: its ledger digest matches the check's source and the pinned tool. `check.py --verify` reproduces every verdict.
 - `refuted` is terminal for a statement. A corrected statement is a new claim version, and the refuted one stays in place with its counterexample.
 
 ## 4. One workstream, end to end
 
-This uses the real first task, **Q-08 (finite-world proofs)**. Rows 1–4 of the walk are partly done already, through the PSITIP pilot.
+This uses the real first task, **Q-08 (finite-world proofs)**. Steps 4–7 are partly done already: `checks/info_core.py` holds GM T2, T4.1–2, S26 and MR1.
 
 1. **Charter.** The coordinator writes `workstreams/Q-08/charter.md`.
    - Scope: GM T1, T2, T4.1–2, T5, C11; K10, K26.
@@ -93,39 +97,39 @@ This uses the real first task, **Q-08 (finite-world proofs)**. Rows 1–4 of the
 3. **Generate variants.** For each claim, the open-coscientist tournament produces 5–10 variants: weaker hypotheses, stronger conclusions, alternative definitions of 𝒢. These are ranked by how much they would unlock among the claims that depend on this one.
    - The originals stay in scope.
    - Variants are kept as `conjecture` entries with falsifiers.
-4. **Decompose.** Each claim becomes a step DAG in `steps.json`, with every step typed (§5.1). Example for GM T4.2:
+4. **Decompose.** Each claim becomes typed checks in `checks/<module>.py` (§5.1). Example for GM T4.2:
    - step 1: chain rule (identity);
    - step 2: "a function of (D, ξ) carries no more information than (D, ξ)" (info inequality);
    - step 3: the hypothesis ξ ⊥ Ω | D (assumption);
    - conclusion (info inequality).
-5. **Route and run.** Steps 1, 2 and the conclusion go to PSITIP. The pilot returned *True* for the corrected statement and *False* for the original, and the XOR counterexample confirmed the refutation numerically.
+5. **Run.** `check.py` sends steps 1, 2 and the conclusion to PSITIP. It returned `provable` for the corrected statement (`GM-T4.2~cond-D/joint`) and `not-provable` for the original, and the exact XOR witness (`GM-T4.2/xor`) refuted the original.
 6. **Run the AlphaGeometry loop** when a step won't close:
    - (a) search finite distributions for a counterexample (§5.2.3);
    - (b) if none is found, the generator proposes auxiliary variables or an extra hypothesis, and the step is retried;
    - (c) failed attempts go to `failures.md`.
 7. **Ablate hypotheses.** For every proved claim, re-run with each hypothesis removed.
-   - A hypothesis that can be dropped is flagged as unused. The pilot found that GM T4.1's inequality needs none of its hypotheses.
+   - A hypothesis that can be dropped is flagged as unused. `GM-T4.1.inequality/ablate-all` shows that T4.1's inequality needs none of its hypotheses.
    - A hypothesis whose removal gives a counterexample is recorded as load-bearing, with the counterexample: S26's conditional independence; MR1's verifier term.
 8. **Review the residue.** Steps no machine checked (here, T4.1's strictness clause and T5) go to the review protocol (§5.3).
-9. **Gate and record.** Verdicts are written to `claims.json` `verification`. `verify_all.py` and `validate.py` must both pass. Promotions that need a human produce a review packet (§5.3.7). Commit as `Q-08: …`.
+9. **Gate and record.** `check.py` writes the ledger, `render.py` updates `claims.md`, and `validate.py` must pass (the pre-commit hook enforces it). Promotions that need a human produce a review packet (§5.3.7). Commit as `Q-08: …`.
 10. **Escalate.** If review stalls for 3 rounds on any step, the coordinator stops the workstream, marks it `blocked` with the reason, and asks the human. Silent retries are not allowed.
 
 ## 5. Verification
 
 ### 5.1 Step types and their verifiers
 
-Every step in `steps.json` has a `type`, and the type fixes the verifier:
+Every check has a `kind`, and the kind fixes the verifier. A check names its `subject` (a claim id, optionally narrowed to a clause, `GM-T4.1.inequality`, or a proposed restatement, `GM-T4.2~cond-D`) and its `role`: `proves`, `refutes`, `probe` or `sanity`.
 
-```json
-{"id": "T4.2/s2", "claim": "GM-T4", "type": "info_inequality",
- "statement": "I(W;C|D) <= I(W;xi|D) given H(C|D,xi)=0",
- "verifier": "psitip", "artifact": "proofs/psitip/pilot.py#row4", "verdict": "pass",
- "depends": ["T4.2/s1"], "checked": "2026-11-22"}
+```python
+Check("GM-T4.2~cond-D/joint", "GM-T4.2~cond-D", "proves", "psitip", "provable",
+      "Corrected: C = f(D, xi), xi ⊥ W | D  =>  I(W;D,C) <= I(W;D)", t42_corrected("joint"))
 ```
+
+The kinds below are the plan. `psitip` and `witness` runners exist; each other row becomes a runner in `check.py` when a workstream first needs it.
 
 | Type | Verifier | What a pass means | Repo examples |
 |---|---|---|---|
-| `info_inequality` | PSITIP (LP, Shannon-type) | Proved (sound). A fail means only "not Shannon-provable" | GM T2/T4, K10, S26, MR1 (all done in the pilot) |
+| `info_inequality` | PSITIP (LP, Shannon-type) | Proved (sound). A fail means only "not Shannon-provable" | GM T2/T4, S26, MR1 (`checks/info_core.py`) |
 | `finite_identity` | sympy, exact over ℤ_N, D₁₂ and similar | Proved for the stated N; symbolic in N where sympy can do it | S1 for small groups; S4's odd harmonics vanish at s=½; S18's gains |
 | `spectral_formula` | exact rational or algebraic computation, plus random instances | Proved for checked instances; general case needs review | S10 Plancherel CKA; S25 lower bound; S30 closure |
 | `universal_small` ("for all small models…") | exhaustive enumeration up to a size bound, then randomized and adversarial search | No counterexample within the stated budget (evidence, **not** proof) | S22 low-pass ordering; S28 thresholds; K33 Rogers threshold |
@@ -142,12 +146,12 @@ Every step in `steps.json` has a `type`, and the type fixes the verifier:
 
 1. **Fidelity of the encoding.** A solver checks the encoding, not the English. Every machine-checked step carries:
    - a back-translation by a second agent;
-   - a sanity check (a known-false variant must fail; row 0 of the pilot);
+   - a sanity check (a known-false variant must fail; `psitip/sanity`, which gates every PSITIP verdict);
    - an ablation (§4 step 7).
 
    This addresses the misformalization risk that `formal-conjectures` raises about its own statements.
-2. **Reproducibility.** Every verdict is a script plus its pinned inputs. `verify_all.py` re-runs them all, which is co-mathematician's "continuous testing pipeline". A verdict that can't be reproduced is withdrawn automatically.
-3. **Refutations need witnesses.** "Not provable" never sets `refuted`. Only a concrete counterexample does: a distribution, a group action, or a parameter setting, re-checked by code independent of the tool that found it. The pilot's XOR check deliberately uses no PSITIP code.
+2. **Reproducibility.** Every verdict is a check plus its pinned tool. `check.py --verify` reruns them all, which is co-mathematician's "continuous testing pipeline". A verdict whose check changed is stale, and `validate.py` fails until it is rerun.
+3. **Refutations need witnesses.** "Not provable" never sets `refuted`. Only a concrete counterexample does: a distribution, a group action, or a parameter setting, re-checked by code independent of the tool that found it. Witnesses run in `tools/witness.py`, which uses exact rational arithmetic and no PSITIP code.
 4. **Search budgets are part of the verdict.** "No counterexample" is recorded with its search space and budget, for example "all joint distributions on binary alphabets, grid of 21⁴ points, plus 10⁵ random draws on ternary alphabets". A reviewer can then judge whether the search was adequate.
 5. **Simulations follow AI Scientist discipline,** with one addition: the prediction, the metric and the pass threshold are written in `experiments.json` *before* the run, and the code may not change after the result. This is the guard against the forking paths that end-to-end AI Scientist runs suffer from.
 
@@ -238,11 +242,7 @@ The tier is a separate axis from `status`. `status` says whether a result is kno
 - A claim can be promoted from `conjecture` to `known` only at V4, together with the human gate.
 - A formalism (a set of axioms and definitions) is not tiered. It carries its emergence vector (§5.5.4), and a change to it may not reduce that vector without review.
 
-**Pilot outcomes, as candidate tiers pending review:**
-
-- GM T2, T4.2 (corrected), S26 and MR1 (both under the Markov condition): V4 candidates, because PSITIP proved them end to end.
-- GM T4.2 as written: R.
-- GM T4.1: inequality at V4, but needing restatement, since its strictness clause is still V0.
+**What `check.py` derives today.** V4 when every `proves` check of a subject is ok, the PSITIP sanity check is ok, and every `depends_on` claim is V4. R when a `refutes` witness holds. V0 otherwise. V1–V3 need the notation registry, recorded search budgets and calibrated review, which do not exist yet, so nothing is derived at those tiers. Current tiers: [`claims.md`](claims.md). GM T2, the T4.1 inequality, corrected T4.2, S26 and MR1 are V4; GM T4.2 as written is R. Tier is not status: moving a claim's `status` still needs the human gate.
 
 ### 5.5 The emergence verifier: grounding a formalism in its literatures
 
@@ -344,63 +344,61 @@ Weights are initial: strength weights 1.0 / 0.8 / 0.5 / 0.4 / 0.6, and 0.25 for 
 
 #### 5.5.5 What it feeds
 
-- **Regression testing of formalisms.** Changing an axiom or a definition reruns the assessments whose premises or derivations mention it. `phenomena.py --strict` runs inside `verify_all.py`. A new contradiction, a new must-emerge failure, or a drop in the score blocks the change until it is reviewed.
+- **Regression testing of formalisms.** Changing an axiom or a definition reruns the assessments whose premises or derivations mention it. `validate.py` applies the `phenomena.py --strict` condition on every commit. A new contradiction, a new must-emerge failure, or a drop in the score blocks the change until it is reviewed.
 - **Fitness for definition tournaments.** When the co-scientist tournament compares candidate definitions (of 𝒢, of collapse, of literariness), the judge scores each one by its change in the menu score, not by its elegance.
 - **A gate for correspondence claims.** A bridge claim can reach V3 only if its field's must-emerge items pass, none of its field's `robust` phenomena are contradicted, and the human gate approves.
 - **Predictions.** `theorized-only` entries are claims a field has made without an apparatus to test them: Brooks on paraphrase, Bloom on misreading, Jauss on reception. They become experiment candidates in `experiments.json` and `debates.json`, which is the Firth pattern run forward.
 - **A research agenda.** `silent` and `bolted-on` entries show where the formalism lacks a mechanism. Zipf's law and content biases are the current ones.
 
-## 6. Proposed `verification` object in `claims.json`
+## 6. A ledger entry
+
+`check.py` writes one file per check. It rewrites the file only when the content changes, through a temp file and a rename, so reruns and crashes converge.
 
 ```json
-"verification": {
-  "tier": "V4",
-  "verdicts": [
-    {"step": "MR1/main", "verifier": "psitip", "verdict": "pass",
-     "artifact": "proofs/psitip/pilot.py#row10", "date": "2026-11-22"},
-    {"step": "MR1/ablate-verifier-term", "verifier": "psitip+numeric", "verdict": "load-bearing",
-     "artifact": "proofs/psitip/RESULTS.md#counterexamples"}
-  ],
-  "informal_residue": [],
-  "reviews": [],
-  "human_gate": "pending",
-  "notes": "Holds under Omega-(D,E)-(Theta,Y); claims.json 'condition' field states the T4.2 condition instead; reconcile"
-}
+{"check": "GM-T4.2/xor", "subject": "GM-T4.2", "role": "refutes", "kind": "witness",
+ "statement": "XOR: W, D fair bits, xi = W xor D, C = W satisfies the hypotheses with I(W;D,C) - I(W;D) = 1",
+ "source": "program/checks/info_core.py", "digest": "db8ea8bc58973851", "tool": "witness",
+ "expect": "counterexample", "result": "counterexample", "ok": true,
+ "detail": {"gap": 1.0, "hypotheses": ["C = f(D, xi)", "xi ⊥ W"]}}
 ```
+
+The digest covers the check's module source (and `witness.py` for witnesses). The tool names the pinned PSITIP commit. A change to either makes the verdict stale.
 
 ## 7. How it runs, mechanically
 
 - **Inference.** Every model call is a Claude Code call on your subscription:
   - the coordinator and workstreams are Claude Code sessions;
-  - third-party tools call `claude -p` through shims: `paperorchestra/claude_backend.py` (exists); a LiteLLM `CustomLLM` provider for open-coscientist (build); a wrapper for `ai_scientist/llm.py` (build).
+  - third-party tools call `claude -p` through shims: a LiteLLM `CustomLLM` provider for open-coscientist (build); a wrapper for `ai_scientist/llm.py` (build).
   - Reviewers are separate `claude -p` processes with no MCP servers, no project settings, a replaced system prompt and an explicit `--model`. That gives the clean, independent contexts that §5.3 item 4 needs.
 - **Parallelism.** Up to about 3 concurrent `claude -p` processes by default (`PO_CLAUDE_CONCURRENCY`). Long workstreams run as separate cloud sessions so they don't block the coordinator.
-- **Enforcement.** Gates are code, not prompts: `validate.py` and `verify_all.py` must exit 0 before a commit that changes a tier. A Claude Code hook can block such commits otherwise (`/update-config`).
+- **Enforcement.** Gates are code, not prompts. `.githooks/pre-commit` runs `validate.py` (enable it with `git config core.hooksPath .githooks`). `test_gates.py` proves the gate rejects known-bad states. Protocol violations that predate the gate are listed in `db.DEBT`, which may only shrink.
 - **Network.** Semantic Scholar and arXiv are allowed; WebSearch runs on Anthropic's side. PSITIP, sympy and simulations run locally. Lean and the Mathlib cache need hosts that are not yet allowed; ask before adding them.
 
 ## 8. What is built and what to build
 
 | Piece | State | Effort |
 |---|---|---|
-| PaperOrchestra plus Claude Code backend | Exists | — |
-| PSITIP verifier; pilot on 11 claims, 4 ablations, 3 counterexamples | Exists (`proofs/psitip/`) | — |
-| `workstreams/` conventions, `steps.json` schema, `refuted` status, `verification` object, `validate.py` gate checks | Build | Small |
-| `verify_all.py` (re-runs `proofs/` and `experiments/`) | Build | Small |
-| Review protocol: blind re-derivation, refuter role, diverse reviewer configurations, review-packet generator | Build | Medium |
-| Seeded-error calibration suite (from repo history plus mutations) | Build | Medium; do this before trusting any V3 |
+| Check records, ledger, derived tiers, `check.py --verify` | Exists | — |
+| PSITIP runner (pinned, `tools/setup_verifiers.sh`) and exact witness runner; 16 checks in `checks/info_core.py` | Exists | — |
+| Strict gate: schema and enums, ledger currency, view freshness, debt ratchet, `test_gates.py`, pre-commit hook | Exists | — |
+| Phenomena menu, verdict rules, scoreboard, premise audit | Exists (seed: 43 entries, V0) | — |
+| Research-loop skill (`.claude/skills/research-loop/`); `workstreams/` start with Q-08 | Exists (skill) | — |
+| Runners for `finite_identity` (sympy) and `universal_small` (search with a recorded budget) | Build | Small each |
+| Review protocol: blind re-derivation, refuter role, diverse `claude -p` reviewers writing `review` verdicts to the ledger | Build | Medium |
+| Seeded-error calibration suite, as checks with known answers run against reviewer configurations | Build | Medium; do this before trusting any V3 |
 | `experiments/cyclic_world/` template with exact 𝒢 and unit tests from S4 and S18 | Build | Medium |
 | open-coscientist with a `claude -p` LiteLLM provider and a domain YAML | Build | Small–medium |
 | OpenEvolve for counterexample search | Build when needed | Medium |
-| Phenomena menu, verdict rules, `phenomena.py` scoreboard, validator premise audit | Exists (seed: 43 entries, V0) | — |
-| Blind menu build to ≥10 per field (Q-21); rival assessments (Q-22); verdict audit and emergence demonstrations (Q-23) | Build | Medium–large; Q-21 is mostly Librarian work |
+| Blind menu build to ≥10 per field (Q-21); rival assessments (Q-22); verdict audit and emergence demonstrations (Q-23) | Build | Medium–large |
 | Lean toolchain plus `formal-conjectures`-style statements | Build when hosts are allowed | Medium–large |
+| A writer for bridge essays and papers | Deferred until claims reach V3 | — |
 
 **Recommended order:**
 
-1. Conventions and gates.
+1. Conventions and gates. *Done.*
 2. The calibration suite. Without it, V3 means nothing.
 3. Q-21, the blind phenomena menu, which can run in parallel with item 2. Without it and Q-22, the emergence score means nothing.
-4. Apply the pilot's findings to `claims.json` through the human gate.
+4. Apply the findings in `checks/info_core.md` to `claims.json` through the human gate.
 5. The cyclic-world template. It doubles as the toy model for emergence demonstrations (Q-23).
 6. The co-scientist tournament for variants and falsifiers, with the menu as fitness.
 7. Lean.

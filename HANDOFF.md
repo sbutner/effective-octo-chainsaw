@@ -1,10 +1,10 @@
 # Handoff
 
-*Last updated 2026-11-21. Branch: `claude/determined-davinci-3341ib`.*
+*Last updated 2026-11-22. Branch: `claude/ecstatic-albattani-urj2dx`.*
 
-## 0. Reframing (latest session): start at [`program/`](program/README.md)
+## 0. Current state: start at [`program/`](program/README.md)
 
-The project has been widened. It is now **a formal theory of knowledge production and transmission**, running from information-theoretic first principles through archives and literary canons to LLM ecosystems. LLMs serve as an apparatus for retrospectively verifying long-standing claims in other fields; Firth's distributional hypothesis is the model case. The documents below are now components of that spine:
+The project is **a formal theory of knowledge production and transmission**, running from information-theoretic first principles through archives and literary canons to LLM ecosystems. LLMs serve as an apparatus for retrospectively verifying long-standing claims in other fields; Firth's distributional hypothesis is the model case. The documents in `explorations/` are components of that spine:
 
 | Document | Role in the spine |
 |---|---|
@@ -13,23 +13,17 @@ The project has been widened. It is now **a formal theory of knowledge productio
 | *One Selection Law* | Behavior stage |
 | Lean drafts | Lattice skeleton |
 
-**New in `program/`:**
+Where things are:
 
-- **`spine.md`**: nine layers, L0 to L8.
-- **`program.md`**: the program of workstreams, proof queue, experiments, bridges, phases and risks.
-- **`AGENTS.md`**: conventions for agents.
-- **Canonical JSON in `data/`**:
-  - 46 claims (K-*) and 5 master relations;
-  - 131 concepts linked by 129 typed edges;
-  - a 196-entry annotated bibliography with a verification status for each entry;
-  - 21 debates, 12 experiments and 20 agent tasks.
-- **Tools**: `tools/validate.py` checks integrity and coverage; `tools/render.py` generates `bibliography.md`, `concept-map.md` and `graph.json`.
+- **The theory and the plan.** [`program/spine.md`](program/spine.md) (layers L0–L8) and [`program/program.md`](program/program.md) (workstreams, proof queue, phases, risks).
+- **Canonical data.** `program/data/*.json`: 46 claims and 5 master relations, 131 concepts, 196 references, 21 debates, 12 experiments, 43 phenomena and 24 tasks.
+- **The harness.** [`program/harness.md`](program/harness.md) is the spec. Mechanical checks live in `program/checks/`, their verdicts in `program/ledger/`, and the derived tiers in [`program/claims.md`](program/claims.md). `program/tools/validate.py` is the gate, and the pre-commit hook runs it.
+- **The research loop.** [`.claude/skills/research-loop/SKILL.md`](.claude/skills/research-loop/SKILL.md): pick a task, write checks, run them, record failures, gate, commit.
+- **Background.** [`program/tooling.md`](program/tooling.md) reviews AI Scientist, co-scientist, co-mathematician and AlphaGeometry.
 
-**Tooling:** [`program/tooling.md`](program/tooling.md) reviews AI Scientist v1/v2, co-scientist, co-mathematician and AlphaGeometry 1/2 and recommends a stack. [`program/harness.md`](program/harness.md) specifies how the harness runs and verifies. The PSITIP pilot ([`program/proofs/psitip/RESULTS.md`](program/proofs/psitip/RESULTS.md)) proved GM T2, corrected T4.2, S26 and MR1. It refuted T4.2 as written, and found that T4.1's inequality needs none of its hypotheses and that MR1's `condition` field states the wrong condition. Proposed claim updates await review. The **emergence verifier** (`harness.md` §5.5) scores a formalism by how many literature-recorded behaviors emerge from its core premises rather than being bolted on. Its menu is in `program/data/phenomena.json` (43 seed entries, unreviewed), with the scoreboard in `program/phenomena.md`. The next tasks are Q-21 (build the menu blind), Q-22 (score the rivals) and Q-23 (audit the verdicts and demonstrate emergence).
+**What is established.** PSITIP and exact witnesses (`program/checks/info_core.py`) prove GM T2, the T4.1 inequality, corrected GM T4.2, OUT-S26 and MR1, and refute GM T4.2 as written. T4.1's hypotheses are unused, and MR1's verifier term and S26's channel independence are load-bearing. The matching status changes in `claims.json` await review (findings: [`program/checks/info_core.md`](program/checks/info_core.md)).
 
-**Agent tooling:** before you build a helper for reading or editing the md and JSON files, read [`program/tools/md-json-tooling/HANDOFF.md`](program/tools/md-json-tooling/HANDOFF.md). It records where agents spend tokens here, a reviewed and rejected CLI proposal, and the smaller plan that replaced it.
-
-**Next:** follow `program/data/tasks.json`, highest priority first. In order: Q-01/Q-02 (citations), Q-04/Q-05 (notation and estimators), Q-08/Q-10 (proofs), Q-14 (experiments E-01 and E-04). Sections 1–8 below still describe the sub-programs accurately.
+**Next:** follow `program/data/tasks.json`, highest priority first. Q-08 (finite-world proofs) is the first full run of the research loop. Q-24 clears the protocol debt the strict gate found. Sections 1–8 below still describe the sub-programs.
 
 ## 1. What this project is
 
@@ -58,7 +52,7 @@ There are now three linked documents in [`explorations/`](explorations/README.md
 | GM program | Author draft, unchanged. Proposal only; no proofs |
 | One Selection Law | Author-supplied. Added unchanged. Its citations have **not** been checked in this session (see §5) |
 | Lean files | Two core-only drafts. **Not compiled in this session**: there is no Lean toolchain in this container. Both claim zero `sorry`s |
-| Proofs | None written yet. Everything beyond the cited theorems is a target |
+| Proofs | GM T2, T4.1 (inequality), T4.2 (refuted as written; corrected version proved), OUT-S26 and MR1 are mechanically checked; see `program/claims.md`. Everything else beyond the cited theorems is a target |
 | Experiments | None run |
 
 ## 3. The core claims, and where they live
@@ -122,8 +116,9 @@ The **outline's** "from memory" references are listed as such in its bibliograph
 
 - **Network.** `arxiv.org` was added to the Default cloud environment's allowed hosts this session, so papers can be fetched directly. No other hosts were added.
 - **No Lean toolchain** is installed in the container.
-- **PaperOrchestra** (paper-writing pipeline) is set up in [`paperorchestra/`](paperorchestra/README.md): a submodule plus a generator that builds its raw materials from `program/data/`. First target: `symmetry-convergence` (Outline v1). LLM calls go through the Claude Code CLI (`claude -p`, subscription login), so no API keys are needed; see `paperorchestra/claude_backend.py`. `api.semanticscholar.org` was added to the Default environment's allowed hosts.
-- **Git.** All work is on branch `claude/determined-davinci-3341ib`. No pull request has been opened.
+- **PaperOrchestra** was removed on 2026-11-22. It drafts papers but does nothing for the grounding loop. Its one hand-written input survives as [`explorations/paper-brief-symmetry-convergence.md`](explorations/paper-brief-symmetry-convergence.md). `api.semanticscholar.org` is still an allowed host.
+- **PSITIP** is pinned in `program/tools/check.py` and installed outside the repo by `program/tools/setup_verifiers.sh`, because it is GPL-3.0.
+- **Git.** Earlier work was on `claude/determined-davinci-3341ib`; this session works on `claude/ecstatic-albattani-urj2dx`. No pull request has been opened. Run `git config core.hooksPath .githooks` once per clone.
 
 ## 8. Open questions for the author
 

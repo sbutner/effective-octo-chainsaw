@@ -1,6 +1,6 @@
 # Tooling: what to take from AI Scientist, co-scientist, co-mathematician and AlphaGeometry
 
-*2026-11-22. Each repository below was cloned and read this session. The co-mathematician paper (arXiv:2605.06651) was read in full. PSITIP was then run with approval; see [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md). The operating spec is [`harness.md`](harness.md).*
+*2026-11-22. Each repository below was cloned and read this session. The co-mathematician paper (arXiv:2605.06651) was read in full. PSITIP was then run with approval; its verdicts are now checks in [`checks/info_core.py`](checks/info_core.py). PaperOrchestra, mentioned below, was removed on 2026-11-22 because it drafts papers and does not ground theory. The operating spec is [`harness.md`](harness.md).*
 
 ## 1. Bottom line
 
@@ -12,7 +12,7 @@ The four systems fall into two groups: workbenches for empirical ML papers, and 
 | Conjectures, falsifiers and debate verdicts | **Co-scientist**, via `jataware/open-coscientist` | Generate → review → Elo tournament → evolve → deduplicate, aimed at claims and debates rather than biology |
 | Mechanical proof of the information-theoretic core | **AlphaGeometry's pattern** (symbolic closure plus an LLM that proposes auxiliary constructions), with **PSITIP** in the symbolic role | Shannon-type inequalities under Markov and conditional-independence constraints, plus counterexample search |
 | Simulations: the cyclic world and E-series | **AI Scientist v1 template mode**; **v2 tree search** later | A fixed `experiment.py` and `plot.py` template that the agent edits; v2's staged best-first tree search for open-ended runs |
-| Review of drafts | **AI Scientist v1 `perform_review.py`** plus co-mathematician-style persistent reviewers | Review-form ensemble as a gate before any PaperOrchestra draft leaves the repo |
+| Review of drafts | **AI Scientist v1 `perform_review.py`** plus co-mathematician-style persistent reviewers | Review-form ensemble as a gate before any draft leaves the repo |
 | Formal statements | DeepMind **`formal-conjectures`** (Lean 4 + Mathlib) conventions | State K-claims as Lean theorems with `sorry`, each tagged with a status attribute |
 
 ## 2. What is actually open
@@ -39,7 +39,7 @@ Two adjacent open projects are referenced by these systems:
 | FORMALIZE (Q-04–06) | Making definitions agree across GM, the outline and the spine | Co-scientist tournament over candidate definitions: each candidate is scored by how many claims it lets you state without patches |
 | PROVE (Q-08, Q-10–13; S10, S25) | No proofs written yet | **The AlphaGeometry pattern with PSITIP** for the information-theoretic core: GM T1/T2/T4, K10, K26, S26, MR1. Sympy/numpy checks for the harmonic-analysis results (S4, S10, S18, S25). Lean via `formal-conjectures` style once paper proofs stabilize |
 | EXTEND (Q-14; E-01, E-04, E-05, E-12; X1–X14) | No experiments run | AI Scientist v1 **template** for the cyclic world (CPU, deterministic, exact 𝒢); v2 tree search for E-01/E-04, which need many model samples |
-| CONNECT (Q-15–17 bridges) | Writing for specialists without overclaiming | PaperOrchestra (already set up), gated by the v1 reviewer ensemble and the claim-status check |
+| CONNECT (Q-15–17 bridges) | Writing for specialists without overclaiming | A writer (deferred until claims reach V3), gated by the v1 reviewer ensemble and the claim-tier check |
 | Debate audit (21 debates) | Turning each debate into a verdict | Co-scientist's scientific-debate tournament fits this almost literally: hypotheses = verdicts, the judge must cite `checked` sources only |
 
 ## 4. The recommended stack, layer by layer
@@ -73,7 +73,7 @@ Additions needed:
 - **Adapt it:**
   - Write a domain YAML (its "Domain Customization") whose literature MCP is Semantic Scholar plus arXiv instead of PubMed.
   - Add prompt guidance that enforces the claim protocol: status, falsifier, checked evidence.
-- **Subscription inference:** it calls models through LiteLLM. A small LiteLLM `CustomLLM` provider that shells out to `claude -p` works the same way as `paperorchestra/claude_backend.py`.
+- **Subscription inference:** it calls models through LiteLLM. A small LiteLLM `CustomLLM` provider that shells out to `claude -p` works the same way as the removed PaperOrchestra backend (git history, `paperorchestra/claude_backend.py`).
 - **Output** goes into `claims.json` and `debates.json` as `conjecture` entries with a falsifier, never as `known`.
 
 ### L2. Symbolic core: the AlphaGeometry pattern for information theory
@@ -94,12 +94,12 @@ The theorems in this program's core are mostly linear information inequalities u
 The LLM's role is the auxiliary construction, as in AlphaGeometry: choose the auxiliary random variables, the conditioning sets and the factorization that make an inequality Shannon-provable. Concretely:
 
 1. **Translate each target into PSITIP form.** For example, HANDOFF correction 1 (GM T4.2) becomes "`C=f(D,ξ)` and `ξ⊥Ω` ⊬ `I(Ω;D,C)≤I(Ω;D)`, but `ξ⊥Ω|D` ⊢ it". PSITIP should return the XOR counterexample for the first and a proof for the second.
-2. **Prove or refute,** and store each proof or counterexample under `program/proofs/` (the claim protocol already expects proof files there).
+2. **Prove or refute,** and record each as a check in `program/checks/`, with its verdict in `program/ledger/`.
 3. **When the LP fails,** have the LLM propose auxiliary variables and retry. That is AlphaGeometry's loop.
 
 PSITIP is GPL-3.0. Using it is fine; vendoring or redistributing it would make derived code GPL.
 
-*Tested 2026-11-22:* PSITIP proved GM T2, corrected T4.2, S26 and MR1, and rejected T4.2 as written; the XOR counterexample was confirmed independently. See [`proofs/psitip/RESULTS.md`](proofs/psitip/RESULTS.md).
+*Tested 2026-11-22:* PSITIP proved GM T2, corrected T4.2, S26 and MR1, and rejected T4.2 as written; the XOR counterexample was confirmed independently. See [`checks/info_core.md`](checks/info_core.md).
 
 The harmonic-analysis results (S4, S10, S18, S25, S30) aren't information inequalities. For those, the "symbolic engine" is exact computation over ℤ_N in sympy or numpy, plus Lean on `ZMod 12` (outline §8).
 
@@ -115,7 +115,7 @@ The harmonic-analysis results (S4, S10, S18, S25, S30) aren't information inequa
   Run it with Claude Code as the coding agent instead of Aider. Reuse v1's `generate_ideas.py` novelty check (Semantic Scholar) and its `perform_review.py`.
 - **Later: v2's best-first tree search** for E-01 and E-04. These need many model samples and real training runs, so they're open-ended and need a GPU.
   - Reuse `treesearch/` (journal, parallel agents, staged search).
-  - Replace the 2024 default models and route `ai_scientist/llm.py` through `claude -p`, as with PaperOrchestra.
+  - Replace the 2024 default models and route `ai_scientist/llm.py` through `claude -p`, as the removed PaperOrchestra backend did.
   - Expect GPU and environment work. v2 assumes CUDA.
 - **License duty:** anything written with either version needs the AI disclosure in its abstract or methods section (§3.2(e)).
 
@@ -142,7 +142,7 @@ It needs a Lean toolchain and a Mathlib cache. Neither is installed. Fetching th
 
 ### L6. Writing and review
 
-- PaperOrchestra, already wired in `paperorchestra/`, with a reviewer gate:
+- A writer, deferred: PaperOrchestra was tried and removed. Whatever replaces it needs a reviewer gate:
   - the v1 `perform_review.py` ensemble (NeurIPS form, reflection, meta-review);
   - a claim-status checker that fails a draft if a `new` or `conjecture` claim is stated as proved, or if it cites a `from-memory` entry.
 - Co-mathematician's rules on write-ups apply too:
@@ -159,10 +159,10 @@ It needs a Lean toolchain and a Mathlib cache. Neither is installed. Fetching th
 ## 6. Suggested order
 
 1. **L0 conventions.** Add `refuted`, `failures.md` and the reviewer gate to `AGENTS.md`. Cheap, and everything else depends on it.
-2. **L2 PSITIP pilot** on S26, GM T4.2 and MR1. *Done*; extend it to the rest of Q-08.
+2. **L2 PSITIP checks** on S26, GM T4.2 and MR1. *Done* (`checks/info_core.py`); extend them to the rest of Q-08.
 3. **L3 `cyclic_world` template** with closed-form unit tests (S4's odd harmonics vanish at s=½; S18's gains 0.91/0.67/0.33/0/0.24). These unlock the X-series and Q-14.
 4. **L1 open-coscientist** with a subscription-routed LiteLLM provider, first on debates.json and E-series ranking.
-5. **L6 reviewer gate** for PaperOrchestra drafts.
+5. **L6 reviewer gate** for drafts, once a writer is chosen.
 6. **L5, L4 and v2 tree search** as Lean, search problems and GPUs become relevant.
 
 ## Sources

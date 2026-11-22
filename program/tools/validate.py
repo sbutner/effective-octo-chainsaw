@@ -15,6 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check  # noqa: E402
 import db  # noqa: E402
+import phenomena  # noqa: E402
 import render  # noqa: E402
 
 
@@ -152,6 +153,13 @@ def main():
     for kind, listed in db.DEBT.items():
         for rid in sorted(listed - debt_hit[kind]):
             errors.append(f"debt {kind}: {rid} is fixed; remove it from db.DEBT")
+
+    ph = docs["phenomena"]["phenomena"]
+    sc, mf = phenomena.score(ph, phenomena.SPINE), phenomena.must_failures(ph, phenomena.SPINE)
+    for pid, v in mf:
+        errors.append(f"phenomenon {pid}: must-emerge item is {v} for {phenomena.SPINE}")
+    for pid in sc["contradicted"] + sc["false_positives"]:
+        errors.append(f"phenomenon {pid}: {phenomena.SPINE} contradicts it or generates a negative control")
 
     # dependency cycles among K-claims
     graph = {c["id"]: [d for d in c["depends_on"] if d in claim_ids] for c in recs["claims"]}

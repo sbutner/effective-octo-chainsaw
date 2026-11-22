@@ -164,7 +164,7 @@ where $\lambda$ is GM's ratio of test power to untested retention.
 **Candidate master relations** (to be proved or refuted, in order of priority):
 
 1. **Unified Channel Law** (*One Selection Law*; GM T2/T4; outline S26):
-   $I(\Omega;\Theta_t,Y_t)\le I(\Omega;D_t)+I(\Omega;E_{\text{ver}}\mid D_t)$, under the condition $\xi\perp\Omega\mid D$ (HANDOFF §4.1).
+   $I(\Omega;\Theta_t,Y_t)\le I(\Omega;D_t)+I(\Omega;E_{\text{ver}}\mid D_t)$, under the Markov condition $\Omega - (D_t,E_{\text{ver}}) - (\Theta_t,Y_t)$ (check `MR1/main`; the verifier term is load-bearing). The T4.2 condition $\xi\perp\Omega\mid D$ (HANDOFF §4.1) belongs to GM T4.2, not to MR1.
 2. **The selection identity** (GM T3): $\mathbb E[\Delta L]=\Delta_{\text{pool}}+\Delta_{\text{select}}-\Delta_{\text{drift}}$, with a threshold $\lambda^\*$.
 3. **Mutation–migration–drift–selection balance** (K30–K31): the stationary latent diversity $H^\*(N_e,m,\mu,v,\lambda)$. Collapse is $H^\*\to0$.
 4. **Performative decomposition** (K40): $\Delta F=\Delta F_{\text{learn}}+\Delta F_{\text{perform}}$.
