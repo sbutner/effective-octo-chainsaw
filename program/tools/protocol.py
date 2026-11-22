@@ -19,7 +19,7 @@ LAYOUT = {
 ENTRY_STATUSES = {"new", "conjecture", "test", "definition"}
 
 # Files whose reading makes an agent non-blind to the formalism (AGENTS.md phenomena protocol).
-FORMALISM_FILES = ("program/spine.md", "explorations/grounded-misprision-program.md", "program/data/claims.json")
+FORMALISM_FILES = ("program/spine.md", "program/formalization.md", "explorations/grounded-misprision-program.md", "program/data/claims.json")
 
 
 def layout_errors(name, text):
