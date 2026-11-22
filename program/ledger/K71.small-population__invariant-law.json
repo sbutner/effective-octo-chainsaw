@@ -1,0 +1,16 @@
+{
+ "check": "K71.small-population/invariant-law",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "43ddab2901ab81a9",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: from the empty state the law at each step t = 0..8 is S-invariant (K71 b)",
+ "subject": "K71.small-population",
+ "tool": "witness"
+}

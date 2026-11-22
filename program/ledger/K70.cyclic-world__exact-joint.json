@@ -1,0 +1,16 @@
+{
+ "check": "K70.cyclic-world/exact-joint",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "745808209d393d37",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact joint law of (Omega, Y) is relabeled by g, and I is unchanged, for all 120 g in Sym(5) and all 24 g in D_12 (rotations and reflections) on generic worlds",
+ "subject": "K70.cyclic-world",
+ "tool": "witness"
+}

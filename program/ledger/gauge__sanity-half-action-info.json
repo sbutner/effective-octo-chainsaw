@@ -1,0 +1,19 @@
+{
+ "check": "gauge/sanity-half-action-info",
+ "detail": {
+  "gap": 0.018584040197,
+  "hypotheses": [
+   "g is a nontrivial bijection"
+  ]
+ },
+ "digest": "8135e0e72bc72939",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "sanity",
+ "source": "program/checks/gauge.py",
+ "statement": "Moving only the prior changes I(Omega; Y) on a generic world: the K70 test can see a non-gauge move",
+ "subject": null,
+ "tool": "witness"
+}

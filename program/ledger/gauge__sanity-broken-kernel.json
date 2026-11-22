@@ -1,0 +1,19 @@
+{
+ "check": "gauge/sanity-broken-kernel",
+ "detail": {
+  "gap": 0.333333333333,
+  "hypotheses": [
+   "the kernel has cheap form 0"
+  ]
+ },
+ "digest": "a49a2e4c41113d4e",
+ "expect": "counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "counterexample",
+ "role": "sanity",
+ "source": "program/checks/gauge.py",
+ "statement": "The r = 2 naming-game kernel fails S-equivariance over the full Sym(F): the K71 test can see broken symmetry",
+ "subject": null,
+ "tool": "witness"
+}

@@ -1,0 +1,16 @@
+{
+ "check": "K68/two-anchors",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "20ab42dc30363dd9",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact, N = 4..16, all anchor pairs: |H_A| in D_N is 2 when the anchors are antipodal (N even) and 1 otherwise",
+ "subject": "K68",
+ "tool": "witness"
+}

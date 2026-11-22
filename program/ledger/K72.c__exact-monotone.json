@@ -1,0 +1,16 @@
+{
+ "check": "K72.c/exact-monotone",
+ "detail": {
+  "gap": -0.114969572724
+ },
+ "digest": "5dd2df53ae3599e7",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: P(consensus 0) is nondecreasing across r = 1, 2, 3",
+ "subject": "K72.c",
+ "tool": "witness"
+}

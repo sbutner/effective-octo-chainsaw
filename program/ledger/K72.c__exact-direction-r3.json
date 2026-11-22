@@ -1,0 +1,16 @@
+{
+ "check": "K72.c/exact-direction-r3",
+ "detail": {
+  "gap": -0.298409956732
+ },
+ "digest": "cc1c2b68c2616e85",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact, w = (3,1,1): P(consensus 0 from empty) >= 1/3 + 2/100",
+ "subject": "K72.c",
+ "tool": "witness"
+}

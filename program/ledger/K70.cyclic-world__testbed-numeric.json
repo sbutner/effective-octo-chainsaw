@@ -1,0 +1,16 @@
+{
+ "check": "K70.cyclic-world/testbed-numeric",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "ca7ffc6cf6009665",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "cyclic_world.grounded_information is unchanged to 1e-9 under every g in D_12 and Sym(5): 2 priors x 3 kernels (random, box blur, noiseless) x 144 g",
+ "subject": "K70.cyclic-world",
+ "tool": "witness"
+}

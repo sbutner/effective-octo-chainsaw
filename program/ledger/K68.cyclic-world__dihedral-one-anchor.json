@@ -1,0 +1,16 @@
+{
+ "check": "K68.cyclic-world/dihedral-one-anchor",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "7c4386b082480845",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: in D_N with one anchor a, H_A = {id, w -> 2a - w} has order 2, for every N = 3..16 (odd and even) and every a",
+ "subject": "K68.cyclic-world",
+ "tool": "witness"
+}

@@ -1,0 +1,16 @@
+{
+ "check": "K71.small-population/symmetric-transient",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "530afd03b30cd884",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: absorption into a consensus has probability 1 from every state, the S-fixed states (every S-fixed multiset, including empty and full) are transient, each consensus has probability 1/3 from them (K71 c, finite form)",
+ "subject": "K71.small-population",
+ "tool": "witness"
+}

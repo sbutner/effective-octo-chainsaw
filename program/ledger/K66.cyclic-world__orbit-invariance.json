@@ -1,0 +1,16 @@
+{
+ "check": "K66.cyclic-world/orbit-invariance",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "97923739504fa774",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: D(g.(P, K)) = D(P, K) for all 120 g in Sym(5) on a generic world and all 24 g in D_12 on the default cyclic world",
+ "subject": "K66.cyclic-world",
+ "tool": "witness"
+}

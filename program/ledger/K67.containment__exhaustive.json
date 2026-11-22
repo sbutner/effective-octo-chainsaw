@@ -1,0 +1,16 @@
+{
+ "check": "K67.containment/exhaustive",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "34dcc0b1d554918c",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact: every g with sigma o g = sigma leaves the joint law of (sigma, words) unchanged; 8 (world, sensorium) cases, Sym(6) and Sym(5), 120 + 8 + 36 + 1 + 720 + 24 + 4 + 120 stabilizer elements",
+ "subject": "K67.containment",
+ "tool": "witness"
+}

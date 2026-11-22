@@ -1,0 +1,16 @@
+{
+ "check": "K72.c/sim-cheaper-favored-r3",
+ "detail": {
+  "gap": -0.689
+ },
+ "digest": "ac5f822475c30ecb",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "probe",
+ "source": "program/checks/gauge.py",
+ "statement": "Simulation, r = 3: share of the cheap form >= 1/5 + 0.036; fixed in gauge.md Part A",
+ "subject": "K72.c",
+ "tool": "witness"
+}

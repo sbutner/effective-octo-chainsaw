@@ -1,0 +1,16 @@
+{
+ "check": "K71.small-population/attractors-equivariance",
+ "detail": {
+  "gap": 0.0
+ },
+ "digest": "eea95c6d05c90554",
+ "expect": "no-counterexample",
+ "kind": "witness",
+ "ok": true,
+ "result": "no-counterexample",
+ "role": "proves",
+ "source": "program/checks/gauge.py",
+ "statement": "Exact, 3 agents and 3 forms, all 120 multiset states and all 6 permutations: the kernel is S-equivariant, and the absorbing states are the 3 consensus states, one S-orbit (K71 a)",
+ "subject": "K71.small-population",
+ "tool": "witness"
+}
