@@ -32,7 +32,7 @@
 
 ### FORMALIZE: definitions before theorems
 Settle these definitions in this order, because the later items depend on the earlier ones:
-1. **Notation** (Q-04): one symbol table across GM, outline v1 and the spine.
+1. **Notation** (F-00): one symbol table across GM, outline v1 and the spine.
 2. **The independence criterion** (GM roadmap): conditional independence given ω, relaxed to a correlation bound ρ. Every closed-loop theorem uses it.
 3. **Grounded information 𝒢 and its proxies:** a held-out log score on tasks scored against the world, not against text. Index it by target (GM) and by irrep (outline S24).
 4. **δ_latent, δ_surface and N_e as estimators** (Q-05).
@@ -139,7 +139,7 @@ Firth passes all four. Plato's mimesis passes 2–4 only under a stated formaliz
 ## 6. How agents should use this program
 
 See `AGENTS.md`. In short:
-1. Pick the highest-priority open task in `data/tasks.json` whose inputs exist.
+1. Pick the highest-priority open task in `data/tasks.json` whose `depends_on` tasks are all done. Formalization comes first (`formalization.md`).
 2. Work it.
 3. Update the JSON. Never edit the generated `.md` views.
 4. Run `tools/validate.py`, then `tools/render.py`.

@@ -46,7 +46,7 @@ SCHEMA = {
     "tasks": {"id": str, "title": str, "priority": {1, 2, 3, 4},
               "workstream": {"GROUND", "FORMALIZE", "PROVE", "EXTEND", "CONNECT", "INFRA"},
               "status": {"open", "in_progress", "done", "blocked"},
-              "inputs": [str], "outputs": [str], "acceptance": str, "log": [str]},
+              "inputs": [str], "outputs": [str], "acceptance": str, "depends_on": [str], "log": [str]},
 }
 OPTIONAL = {"bibliography": {"url", "concepts", "supports", "challenges"},
             "claims": {"links", "evidence", "proof_route"},

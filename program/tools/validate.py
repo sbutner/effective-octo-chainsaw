@@ -115,6 +115,13 @@ def main():
         refs(f"experiment {x['id']}", x["tests"], lambda i: claim_ok(i) or i in debate_ids, "claim or debate")
         refs(f"experiment {x['id']}", x.get("related", []), lambda i: i in bib_keys or claim_ok(i) or i in exp_ids, "reference")
 
+    tasks = {t["id"]: t for t in recs["tasks"]}
+    for t in recs["tasks"]:
+        refs(f"task {t['id']}", t["depends_on"], tasks.__contains__, "task")
+        for d in t["depends_on"]:
+            if d in tasks and t["priority"] < tasks[d]["priority"]:
+                errors.append(f"task {t['id']}: priority {t['priority']} outranks its dependency {d} (priority {tasks[d]['priority']})")
+
     # phenomena menu (emergence verifier, harness.md §5.5)
     pmeta = docs["phenomena"]["meta"]
     formalisms = {f["id"]: f for f in pmeta["formalisms"]}

@@ -36,7 +36,7 @@ Two adjacent open projects are referenced by these systems:
 | Workstream | Biggest bottleneck now | Best tool |
 |---|---|---|
 | GROUND (Q-01–03, Q-09, Q-20): 165 from-memory references | Verifying references against primary pages, at scale, without hallucination | Co-mathematician's "systematic citation checking" reviewer, backed by Semantic Scholar and arXiv (both allowed hosts). v2's `tools/semantic_scholar.py` is a minimal client |
-| FORMALIZE (Q-04–06) | Making definitions agree across GM, the outline and the spine | Co-scientist tournament over candidate definitions: each candidate is scored by how many claims it lets you state without patches |
+| FORMALIZE (F-00–07, Q-05–06) | Making definitions agree across GM, the outline and the spine | Co-scientist tournament over candidate definitions: each candidate is scored by how many claims it lets you state without patches |
 | PROVE (Q-08, Q-10–13; S10, S25) | No proofs written yet | **The AlphaGeometry pattern with PSITIP** for the information-theoretic core: GM T1/T2/T4, K10, K26, S26, MR1. Sympy/numpy checks for the harmonic-analysis results (S4, S10, S18, S25). Lean via `formal-conjectures` style once paper proofs stabilize |
 | EXTEND (Q-14; E-01, E-04, E-05, E-12; X1–X14) | No experiments run | AI Scientist v1 **template** for the cyclic world (CPU, deterministic, exact 𝒢); v2 tree search for E-01/E-04, which need many model samples |
 | CONNECT (Q-15–17 bridges) | Writing for specialists without overclaiming | A writer (deferred until claims reach V3), gated by the v1 reviewer ensemble and the claim-tier check |

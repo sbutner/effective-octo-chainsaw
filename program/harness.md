@@ -91,7 +91,7 @@ This uses the real first task, **Q-08 (finite-world proofs)**. Steps 4–7 are p
    - Scope: GM T1, T2, T4.1–2, T5, C11; K10, K26.
    - Acceptance: every claim reaches tier V3, or is refuted.
    - The human approves the charter, as in co-mathematician's goal approval.
-2. **Formalize statements.** The workstream agent restates each claim with explicit quantifiers and with symbols taken from the notation registry (Q-04).
+2. **Formalize statements.** The workstream agent restates each claim with explicit quantifiers and with symbols taken from the notation registry (F-00).
    - A second agent **back-translates** the formal statement into English without seeing the original.
    - A diff check flags any drift in meaning. Most real errors enter during translation.
 3. **Generate variants.** For each claim, the open-coscientist tournament produces 5–10 variants: weaker hypotheses, stronger conclusions, alternative definitions of 𝒢. These are ranked by how much they would unlock among the claims that depend on this one.

@@ -1,6 +1,6 @@
 # Formalization plan: from grounded speakers to corpora
 
-*v0.3 · 2026-11-22 · Status: plan, not started. Execution waits on the human's go.*
+*v0.3 · 2026-11-22 · Status: task changes applied; F-00 is next.*
 
 ## Goal
 
@@ -87,14 +87,14 @@ The measure. For a trace $u$ (a word, a sentence, an idiom) and a target $z$ (an
 
 A trace works when its surface cost is small and its residual cost is small for its intended receivers. Higher units are deeper pointers. A chengyu has a surface cost of four characters. For a receiver who knows the classical source, its residual cost is near zero for a whole story plus its moral. For a receiver who does not, the residual cost is the whole story. The same measure therefore predicts that allusive forms are untranslatable without a gloss, and that they mark membership in a tradition. R3 defines the measure on sentences. R5 to R7 apply it to narratives, idioms and genres.
 
-## Changes to `data/tasks.json` (applied on go)
+## Changes to `data/tasks.json` (applied 2026-11-22)
 
 | Task | Change | Why |
 |---|---|---|
 | New F-00 to F-07 | One FORMALIZE task per rung, priority 1, with `depends_on` | The rungs are the work |
 | Q-04 | Merged into F-00 | The notation table is part of the rung definitions |
 | Q-05, Q-06 | Kept, `depends_on` F-04 and F-07 | $\delta_{\text{latent}}$ and $N_e$ are defined from per-agent geometry. Compression progress needs reader state from R1. |
-| Q-08 | Split. Q-08a, the Shannon-type core, is closed by the info_core write-back. Q-08b, the cyclic-world proofs, waits on F-00. | Q-08a is done. Q-08b needs the testbed. |
+| Q-08 | Split. Q-08 keeps the Shannon-type core, closed by the info_core write-back. New Q-25 holds the cyclic-world proofs and waits on F-00. | The Shannon-type part is done. The rest needs the testbed. |
 | Q-21 | Field list extended with conversation analysis, psycholinguistics, grounded cognition, orality and literacy, genre theory. Stays priority 1, in parallel with F-00. | The rungs need a target menu that was not written to fit them |
 | Q-01, Q-02, Q-03, Q-09, Q-20 | Priority 4. Each rung opens a narrow citation check when a target behavior depends on a from-memory source. | Lazy grounding |
 | Q-10 to Q-14, Q-15 to Q-17, Q-19 | Priority 4, `depends_on` the rung each needs | Proofs and essays come after formalization |

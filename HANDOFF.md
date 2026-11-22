@@ -24,7 +24,7 @@ Where things are:
 
 **What is established.** PSITIP and exact witnesses (`program/checks/info_core.py`) prove GM T2, the T4.1 inequality, corrected GM T4.2, OUT-S26 and MR1, and refute GM T4.2 as written. T4.1's hypotheses are unused, and MR1's verifier term and S26's channel independence are load-bearing. The matching status changes in `claims.json` await review (findings: [`program/checks/info_core.md`](program/checks/info_core.md)).
 
-**Next:** follow `program/data/tasks.json`, highest priority first. Q-08 (finite-world proofs) is the first full run of the research loop. Q-24 clears the protocol debt the strict gate found. Sections 1–8 below still describe the sub-programs.
+**Next:** formalization comes first ([`program/formalization.md`](program/formalization.md)). Follow `program/data/tasks.json`, highest priority first, skipping tasks whose `depends_on` are not done. F-00 (groundwork) opens the ladder. Q-08 closes once the `info_core.md` findings pass the human gate. Q-21 builds the blind menu in parallel. Q-24 clears the protocol debt the strict gate found. Sections 1–8 below still describe the sub-programs.
 
 ## 1. What this project is
 

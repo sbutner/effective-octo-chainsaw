@@ -9,8 +9,8 @@ The loop turns a task in `program/data/tasks.json` into recorded verdicts. Nothi
 
 ## Coordinator (the main session)
 
-1. **Pick.** Choose the highest-priority open task:
-   `jq -c '[.tasks[]|select(.status=="open")]|sort_by(.priority)[]|{id,priority,title}' program/data/tasks.json`
+1. **Pick.** Choose the highest-priority open task whose dependencies are done:
+   `jq -c '(.tasks|map({(.id):.status})|add) as $s | [.tasks[]|select(.status=="open" and all(.depends_on[]; $s[.]=="done"))]|sort_by(.priority)[]|{id,priority,title}' program/data/tasks.json`
    Prefer a task whose claims have checks that can run. A PROVE task outranks a writing task of the same priority.
 2. **Charter.** Write `program/workstreams/<Q>/charter.md` with the goal, the subjects in scope, the acceptance criterion as a tier ("every subject V4 or R"), and what is out of scope. Ask the human to approve the charter once. That is the only question the loop asks before it starts.
 3. **Dispatch.** Give each workstream its own git worktree (`isolation: "worktree"`) and branch. Workstreams write different check modules and ledger files, so their branches merge without conflicts. Never let two workstreams edit the same check module.
